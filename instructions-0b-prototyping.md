@@ -20,4 +20,3 @@ Publish as follows:
 1. Click the button to `Share` your prototype in Figma... this opens a panel where you can allow "`Anyone with the link`" to view it, and copy the link.
 1. Update the `UX-DESIGN.md` document to include new section towards the top about the prototype, with a link to view the prototype online.
 1. Use `git` to `add`, `commit`, and `push` your repository to GitHub.com.
->>>>>>> be6fd0922daa371719ccda474351e2e078eb9ed0
