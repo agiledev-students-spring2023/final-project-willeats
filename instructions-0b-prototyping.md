@@ -4,7 +4,6 @@ Create a clickable/tappable mobile prototype for the Minimum Viable Product (MVP
 
 ## Software
 Use [Figma's prototyping](https://www.figma.com/prototyping/) functionality to build the prototype - pick the mobile phone prototype option of your choosing.
->>>>>>> be6fd0922daa371719ccda474351e2e078eb9ed0
 
 ## Prototype requirements
 
