@@ -1,8 +1,7 @@
-# User Experience Design
+# Link to Figma prototype
 
-This repository contains instructions and files for two assignments that together comprise the user experience design phase of a web app.
+[Link to the Figma prototype](https://www.figma.com/proto/oNL3shlU9ftAhLJhArXykj/WillEats-Rapid-Prototype?node-id=67%3A2000&scaling=scale-down&page-id=0%3A1&starting-point-node-id=67%3A2000)
 
-Replace the contents of this file with the completed assignments, as described in:
+# Figma viewer for the whole picture
 
-- [app map & wireframe instructions](instructions-0a-app-map-wireframes.md).
-- [prototype instructions](instructions-0b-prototyping.md)
+[Link to Figma viewer](https://www.figma.com/file/oNL3shlU9ftAhLJhArXykj/WillEats-Rapid-Prototype?node-id=0%3A1&t=nFUgaY08hGL8jAnW-1)
