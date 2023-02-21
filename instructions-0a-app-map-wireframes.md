@@ -14,7 +14,6 @@ Both Figma and draw.io have extensions for Visual Studio Code that, while not a 
 
 - [Figma x VS Code](https://marketplace.visualstudio.com/items?itemName=idered.figma)
 - [Draw.io VSCode Integration](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio)
->>>>>>> be6fd0922daa371719ccda474351e2e078eb9ed0
 
 ## Wireframe requirements
 

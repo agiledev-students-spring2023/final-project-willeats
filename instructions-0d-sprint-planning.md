@@ -5,7 +5,6 @@ Scrum follows a specific process by which teams plan the work that will be done 
 ## Creating the Sprint Backlog
 
 Each team will hold a [Sprint Planning session](https://knowledge.kitchen/content/courses/agile-development-and-devops/slides/scrum/#71) to decide which User Stories from the Product Backlog to include in the Sprint Backlog for the upcoming sprint. The team must follow the established procedure for holding sprint planning sessions.
->>>>>>> be6fd0922daa371719ccda474351e2e078eb9ed0
 
 View a [video overview of creating the Sprint Backlog in GitHub](https://youtu.be/-MBEnpAgmug).
 
