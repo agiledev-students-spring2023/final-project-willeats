@@ -44,7 +44,6 @@ GitHub repositories have been created for each team and are in the control of th
 Every project must have a [README.md](./README.md) that automatically renders on the project's main repository page with basic details of the project, including:
 
 - a description of project, including the [Product Vision Statement](https://knowledge.kitchen/content/courses/agile-development-and-devops/scrum/product-vision-statement/)
->>>>>>> be6fd0922daa371719ccda474351e2e078eb9ed0
 - the core team members, including links to their GitHub accounts and any other web presence they have
 - a short history of how the project came to be and information about how to contribute to the project (i.e. a link to the [CONTRIBUTING.md](./CONTRIBUTING.md) document)
 - instructions for building and testing the project (update with that information once the project reaches that stage)
