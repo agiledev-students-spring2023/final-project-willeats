@@ -71,6 +71,75 @@
 * Users can press order more to keep ordering.
 * Users can press write reviews to write reviews about the order.
 
+# My Profile Page
+
+![Profile Page](./ux-design/My-Profile.png)
+* Users can press My Orders to view their previous order
+* Users can press My Reviews to view their past reviews
+* User can press Account settings to change their account information
+* User can press the home button on the top right to go back to the home page
+
+# Account Setting Page
+
+![Account Settings](./ux-design/My-Profile-Settings.png)
+* Users can press update button to update both their Email and their password
+* Users can press the save button to save their changes and return the MY-Profile Page
+
+# Past Review Page
+
+![Past Reviews](./ux-design/My-Profile-past-reviews.png)
+* Users can press Edit button to go to a new page that edit the past Reviews
+* Users can press the delete review to delete their reviews
+
+# Edit Review
+![Edit Review](./ux-design/Edit-review.png)
+* Users can press the star button to edit the star grades for the dish
+* Users can press the Plus sign to add a photo for this review
+* Users can press the X sign to delete a photo for this review
+* Users can press the save button to save this review
+
+
+
+# Past Order Page
+
+![Past Orders](./ux-design/My-Profile-past-orders.png)
+* Users can press Write a review to write a new review
+* Users can press View my reviews to view previous reviews.
+
+# Past Order Write Review Page1
+
+![Past Order Review Page](./ux-design/My-Profile-past-orders-Write-review.png)
+* Users can use the Drop Down to select which dish they want to write review on
+* Users can press the Star to select the grades for the dish
+* Users can press the Plus sign in a square to add a new photo for review
+* Users can press the Plus sign in a circle to add a review to another dish
+* Users can press the submit button to submit the review
+* User can write reviews in the text editor
+
+# Past Order Write Review Page2
+![Past Order Review Page](./ux-design/My-Profile-past-order-Write-review-1.png)
+* Users can press the minus sign to delete the review for dish if they want to
+
+# Other people's Profile Page
+![Other people's Profile Page](./ux-design/Other_people's_profile.png)
+* Users can press the review to see other's review
+
+# Owner Client Add Menu
+![Own Client add menu](./ux-design/Owner%20Client%20-%20add%20menu.png)
+* User can press the Add Images to add image to this dish
+* User can write description about the Menu in Description
+* User can set the price in the price editor
+* User can press the Add menu to update a new item
+
+# Owner Client Edit Menu
+![Own Client add menu](./ux-design/Owner%20Client%20-%20edit%20menu.png)
+* User can press the Edit Images to edit image to this dish
+* User can change the description about the dish in Description
+* User can change the price in the price editor
+* User can press the Add menu to update a new item
+
+
+
 
 
 
