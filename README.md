@@ -1,19 +1,59 @@
-# Project Repository
 
-This repository will be used for team projects.
+# Description of Project 
 
-Several sets of instructions are included in this repository. They should each be treated as separate assignments with their own due dates and sets of requirements.
+Willeats is an online ordering platform that makes ordering easier both for the business owners and customers. For each dish on the menu, users can first see the reviews and write a review after their order. Restaurants can create and modify their menu and reply to the customers’ reviews.
 
-1. See the [App Map & Wireframes](instructions-0a-app-map-wireframes.md) and [Prototyping](./instructions-0b-prototyping.md) instructions for the requirements of the initial user experience design of the app.
 
-1. Delete the contents of this file and replace with the contents of a proper README.md, as described in the [project setup instructions](./instructions-0c-project-setup.md)
+# Product Vision Statement
 
-1. See the [Sprint Planning instructions](instructions-0d-sprint-planning.md) for the requirements of Sprint Planning for each Sprint.
 
-1. See the [Front-End Development instructions](./instructions-1-front-end.md) for the requirements of the initial Front-End Development.
+## The Minimum Viable Product will include:
 
-1. See the [Back-End Development instructions](./instructions-2-back-end.md) for the requirements of the initial Back-End Development.
+Theme: Business owners 
 
-1. See the [Database Integration instructions](./instructions-3-database.md) for the requirements of integrating a database into the back-end.
 
-1. See the [Deployment instructions](./instructions-4-deployment.md) for the requirements of deploying an app.
+
+1. Users will be able to add/delete the dishes from the menu 
+2. Users will be able to upload images for the dishes.
+3. Users will be able to change the price and orders of the dishes.
+4. Users will be able to view and reply to customers’ reviews.
+5. Users will be able to create a QR code that enables customers to view the menu.
+
+Theme : Customers
+
+
+
+1. Users will be able to view the menu.
+2. Users will be able to add dishes to the cart.
+3. Users will be able to add reviews to the dish they ordered
+4. Users will be able to view the reviews per dishes written by other customers
+5. Users will be able to access the restaurant menu through scanning the QR code
+
+
+# Core Team Members
+Jiahong Jiang - **[jhjoseph2](https://github.com/jhjoseph2)**  
+Will Chen - **[Willcky](https://github.com/Willcky)**  
+Alicia Hwang - **[a-j-hwang](https://github.com/a-j-hwang)**  
+Junrui Li - **[HYS20010113](https://github.com/HYS20010113)**
+
+
+# History of Project
+
+In reality, it is always hard for the customers to visualize the dishes from plain texts on the menu. So every time they order is like making a guess. Besides, during the time with high-volume, customers often find it hard to find a waiter for them to order or pay the check. To address these problems, the restaurant owners must hire more waiters and make the menu longer traditionally. We initialize WillEats to address such problems.
+
+
+# Contributions
+
+Please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
+
+
+# Instructions for Building and Testing the Project
+
+Will be included after we reach that step.
+
+
+# Additional Resources
+
+[Prototype Design](https://github.com/agiledev-students-spring-2023/final-project-what-s-for-dinner/blob/master/UX-DESIGN.md)
+
+[Initial Proposal](https://github.com/agiledev-students-spring-2023/project-proposal-team-potato)
