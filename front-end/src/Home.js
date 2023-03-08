@@ -10,7 +10,7 @@ import defaultProfileImg from "./image/default-profile-image.svg";
 
 function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const profileImage = isLoggedIn ? {mockProfileImg} : {defaultProfileImg};
+  const profileImage = isLoggedIn ? mockProfileImg : defaultProfileImg;
   const loginText = isLoggedIn ? "Log Out" : "Log In";
 
   const handleLoginClick = () => {
@@ -26,11 +26,10 @@ function Home() {
             <div className="logo-container">
                 <img src={logo} alt="Logo" className="logo" />
             </div>
-        {isLoggedIn && (
-            <div className="profile-container">
-            <img src={profileImage} alt="Profile" className="profile" />
-            </div>
-        )}
+        <div className="profile-container">
+        <img src={profileImage} alt="Profile" className="profile" />
+        </div>
+      
         <div className="button-container">
             <button className="button btn btn-primary btn-lg">Scan Now</button>
         </div>
