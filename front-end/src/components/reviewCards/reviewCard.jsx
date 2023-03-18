@@ -49,7 +49,7 @@ function ReviewCard(props) {
                 </div>}
             </div>
             <div className="row">
-                <div className="col-3">
+                <div className="col-3 m-1">
                     {/* image url */}
                     <img src={logo} alt = 'logo' className="rounded-circle img-fluid"/> 
                 </div>
