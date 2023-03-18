@@ -8,6 +8,7 @@ import OwnersideReviewDetails from './OwnersideReviewDetails';
 function App() {
   return (
     <OwnersideReviewDetails review={review} user={user} owner={owner} />
+    /*<ReviewDetails review={review} user={user} /> for regular reviewdetails*/
   );
 }
 
