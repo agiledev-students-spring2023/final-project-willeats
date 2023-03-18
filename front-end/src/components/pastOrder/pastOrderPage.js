@@ -32,7 +32,7 @@ function PastOrderPage(props){
             props.itemList.map((e) => (
                 params.append('item', e)
             ))
-            navigate({pathname:'/create', search: params.toString() })
+            navigate({pathname:'/usercreatereview', search: params.toString() })
         }
         return(
             <button type="button" className="btn btn-primary mb-1 mt-0" onClick={handleCreate}>Write my reviews</button>
@@ -63,6 +63,7 @@ function PastOrderPage(props){
                     </div>
                     <div className='d-flex justify-content-center mt-3'>
                         <button type="button" className="btn btn-warning btn-sm">Load More...</button>
+                        
                     </div>
                 </div>
                 <div className='col'>

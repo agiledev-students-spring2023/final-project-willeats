@@ -8,14 +8,12 @@ import PastOrderPage from './components/pastOrder/pastOrderPage';
 function App() {
   return (
       <Router>
-        {/* <Routes>
-          <Route path='/' element={<Home/>} />
-        </Routes> */}
         <Routes>
-          <Route path='/' element={<PastReviewPage/>} />
-          <Route path='/edit' element={<EditReviewPage/>}/>
-          <Route path='/create'element={<CreateReviewPage/>} />
-          <Route path='/pastOrder' element={<PastOrderPage/>} />
+          <Route path='/' element={<Home/>} />
+          <Route path='/pastreview' element={<PastReviewPage/>} />
+          <Route path='/usereditreview' element={<EditReviewPage/>}/>
+          <Route path='/usercreatereview' element={<CreateReviewPage/>} />
+          <Route path='/userpastorder' element={<PastOrderPage/>} />
         </Routes>
       </Router>
   );

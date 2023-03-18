@@ -33,7 +33,7 @@ function ReviewCard(props) {
         params.append('mainName', props.mainName)
         params.append('itemName', props.itemName)
         params.append('star', props.star)
-        navigate({pathname: '/edit', search: params.toString()})
+        navigate({pathname: '/usereditreview', search: params.toString()})
     }
     return(
         <div className="card size mx-auto mt-2">
