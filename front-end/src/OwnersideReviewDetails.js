@@ -97,9 +97,7 @@ const OwnersideReviewDetails = ({ review, user, owner }) => {
   return (
     <div className="review-details">
         < ReviewDetails review={review} user={user} />        
-        
         {submitted ? renderComment() : renderForm()}
-
     </div>
   );
 };
