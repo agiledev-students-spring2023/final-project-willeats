@@ -3,43 +3,43 @@ import '../bootstrap.css';
 import './CustomerProfile.css';
 import HomeButton from './HomeButton';
 
-const CustomerProfile = () => {
-    const [name, setName] = useState('John Josh');
-    const [email, setEmail] = useState('john.josh@example.com');
+const ManagerProfile = () => {
+    const [name, setName] = useState('Manager');
+    const [email, setEmail] = useState('manager@example.com');
     const [password, setPassword] = useState('12345');
     const [isEmailEditable, setIsEmailEditable] = useState(false);
     const [isPasswordEditable, setIsPasswordEditable] = useState(false);
     const [isNameEditable, setIsNameEditable] = useState(false);
     const [profileImage, setProfileImage] = useState('https://via.placeholder.com/150');
-
+      
     const toggleEmailEditable = () => {
       setIsEmailEditable(!isEmailEditable);
     };
   
     
-    const handleUpdatePassword = () => {
-      const currentPassword = window.prompt('Please enter your current password:');
-      if (currentPassword === password) {
-        setIsPasswordEditable(true);
-      } else {
-        window.alert('Incorrect password. Please try again.');
-      }
-    };
+      const handleUpdatePassword = () => {
+        const currentPassword = window.prompt('Please enter your current password:');
+        if (currentPassword === password) {
+          setIsPasswordEditable(true);
+        } else {
+          window.alert('Incorrect password. Please try again.');
+        }
+      };
+    
+      const handleSavePassword = () => {
+        setIsPasswordEditable(false);
+      };
   
-    const handleSavePassword = () => {
-      setIsPasswordEditable(false);
-    };
-
-    const toggleNameEditable = () => {
-      setIsNameEditable(!isNameEditable);
-    };
-  
-    const handleNameSave = () => {
-      toggleNameEditable();
-    };
+      const toggleNameEditable = () => {
+        setIsNameEditable(!isNameEditable);
+      };
+    
+      const handleNameSave = () => {
+        toggleNameEditable();
+      };
   
     const handleSave = () => {
-      window.alert('Changes Saved Successfully');
+        window.alert('Changes Saved Successfully');
     };
   
     const handleProfileImageChange = (event) => {
@@ -135,4 +135,4 @@ const CustomerProfile = () => {
   );
 };
 
-export default CustomerProfile;
+export default ManagerProfile;
