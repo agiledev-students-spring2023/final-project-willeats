@@ -5,6 +5,7 @@ import Login from './login/Login';
 import CustomerSignUp from './signUp/CustomerSignUp';
 import ManagerSignUp from './signUp/ManagerSignUp';
 import CustomerProfile from './Profile/CustomerProfile';
+import ManagerProfile from './Profile/ManagerProfile';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path='/Sign-C' element={<CustomerSignUp/>}></Route>
           <Route path='/Sign-M' element={<ManagerSignUp/>}></Route>
           <Route path='/Profile-C' element={<CustomerProfile/>}></Route>
+          <Route path='/Profile-M' element={<ManagerProfile/>}></Route>
         </Routes>
       </Router>
   );
