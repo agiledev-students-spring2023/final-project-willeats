@@ -1,0 +1,153 @@
+/* .edit-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .image-slider-container {
+    width: 500px;
+    height: 200px;
+    margin: 0 auto;
+  }
+  
+  .edit-images-btn {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    background-color: #007bff;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  
+  .highlighted-name {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    cursor: pointer;
+  }
+  
+  .name-editor {
+    width: 500px;
+  }
+  
+  .description-container {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .description-editor {
+    width: 50px;
+    margin:0 auto;
+  }
+  
+  .price-editor {
+    width: 200px;
+    height: 40px;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+  }
+  
+  .save-button {
+    background-color: #007bff;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-bottom: 2rem;
+  }
+  
+  .save-button:hover {
+    background-color: #0069d9;
+  } */
+  .edit-specified-item-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .image-slider-container {
+    width: 500px;
+    height: 200px;
+    margin: 0 auto;
+  }
+  
+  .edit-images-button {
+    position: relative;
+    bottom: 2rem;
+    right: 0.5rem;
+    float: right;
+    background-color: #41464b;
+    color: rgb(194, 192, 106);
+    /* padding: 0.5rem 1rem; */
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .name-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .highlighted-name {
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+  } 
+   
+  .name-editor {
+    width: 400px;
+  }
+  
+  .description-container {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+  }
+  
+  .description-container h2 {
+    font-size: 1.5rem;
+  }
+  
+  .description-editor {
+    width: 90%;
+    margin: 0 auto;
+  }
+  
+  .price-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+    width: 500px;
+  }
+  
+  .price-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .price-editor {
+    width: 200px;
+    height: 40px;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+  }
+  
+  .save-button-container {
+    margin-top: .1rem;
+  }
+  
+  .save-button {
+    background-color: #151516;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  
+  .save-button:hover {
+    background-color: #0069d9;
+  }
+  

@@ -1,0 +1,31 @@
+.cart-icon-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+  }
+  
+  .cart-icon-link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .cart-icon-link > svg {
+    margin-right: 10px;
+  }
+  
+  .cart-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: rgb(51, 43, 43);
+    color: white;
+    border-radius: 50%;
+    font-size: 12px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
