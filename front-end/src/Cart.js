@@ -3,6 +3,29 @@ import './bootstrap.css'
 import './cart.css'
 
 
+/*
+Structue of config 
+
+const config = {
+  cartItems: [
+    {
+      id: 1,
+      name: "Cheeseburger",
+      price: 8.99,
+      quantity: 2,
+    },
+    {
+      id: 2,
+      name: "Fries",
+      price: 3.99,
+      quantity: 1,
+    },
+  ],
+  deliveryFee: 2.99,
+  taxRate: 0.1,
+};
+*/
+
 const Cart = ({ config }) => {
   const cartItems = config.cartItems;
   const taxRate = config.taxRate;
