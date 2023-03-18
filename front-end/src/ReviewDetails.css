@@ -1,9 +1,28 @@
-  .review-details {
+.review-header {
     margin: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
   }
+
+h5{
+    font-weight: 600;
+    margin-bottom: -2px;
+  }
+
+  .date{
+    margin-bottom: 0;
+    font-size: 7px;
+    color: gray;
+  }
+  
   
   .review-content {
     margin: 10px;
+  }
+
+  .profile-image{
+    width:50px;
   }
   
   .images-container {
@@ -14,7 +33,7 @@
   }
   
   .thumbnail {
-    width: 100vw;
+    width: 100%;
     height: 100vw;
     object-fit: cover;
     cursor: pointer;

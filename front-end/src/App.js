@@ -1,11 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css';
+import defaultProfileImg from "./image/default-profile-image.svg";
+
 
 import React from 'react';
 import ReviewDetails from './ReviewDetails';
 
 const review = {
-  title: 'Great product!',
+  reviewerId: '1',
+  rating: 4,
+  date: 'March 18, 2023',
   content: 'I absolutely love this product. It exceeded my expectations and is the best thing I have ever bought. Highly recommend!',
   images: [
     {
@@ -23,10 +27,16 @@ const review = {
   ],
 };
 
+const user= {
+  id:'1',
+  name:'John Doe',
+  profileImage: defaultProfileImg
+}
+
 
 function App() {
   return (
-    <ReviewDetails review={review} />
+    <ReviewDetails review={review} user={user} />
   );
 }
 
