@@ -1,20 +1,29 @@
-import React, { useEffect, useState } from 'react'
-import {useNavigate} from "react-router-dom";
-import '../../bootstrap.css'
-
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import '../../bootstrap.css';
+import './PageBackButton.css'
 function PageBackButton() {
-    const navigate = useNavigate()
-    const handlePageBack = () => {
-        navigate(-1)
-    }
-    return(
-        <button className='btn p-0 mb-1' onClick={handlePageBack}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="40" fill="currentColor" className="bi bi-arrow-left" viewBox="5 0 16 16">
-                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
-            </svg>
-        </button>
-        
-    )
+  const navigate = useNavigate();
+
+  const handlePageBack = () => {
+    navigate(-1);
+  };
+
+  return (
+    <button className="btn home-button p-0" onClick={handlePageBack}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="60"
+        height="40"
+        viewBox="5 0 16 16"
+      >
+        <path
+          fillRule="evenodd"
+          d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"
+        />
+      </svg>
+    </button>
+  );
 }
 
-export default PageBackButton
+export default PageBackButton;
