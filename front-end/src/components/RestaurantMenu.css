@@ -1,0 +1,26 @@
+.restaurant-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .menu-items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: calc(100% - 2rem);
+    margin-top: 1rem;
+  }
+  
+  .cart-and-checkout {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: calc(100% - 2rem);
+    margin-top: 1rem;
+  }
+
+  .category{
+    margin: 0 auto;
+    font-size: small;
+  }
