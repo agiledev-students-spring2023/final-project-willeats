@@ -1,0 +1,61 @@
+  .review-details {
+    margin: 20px;
+  }
+  
+  .review-content {
+    margin: 10px;
+  }
+  
+  .images-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .thumbnail {
+    width: 100vw;
+    height: 100vw;
+    object-fit: cover;
+    cursor: pointer;
+  }
+  
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+  }
+  
+  .overlay button.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #fff;
+  }
+  
+  .overlay button.back-button svg {
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+  }
+  
+  .overlay img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    margin: 10px;
+  }
+  
