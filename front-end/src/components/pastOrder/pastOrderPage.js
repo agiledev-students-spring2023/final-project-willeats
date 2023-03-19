@@ -9,7 +9,7 @@ function PastOrderPage(props){
     const [reviewData, setReviewData] = useState([])
 
     useEffect(() => {
-        axios.get('https://my.api.mockaroo.com/userreview123123.json?key=d124d270')
+        axios.get('https://my.api.mockaroo.com/userorder123123.json?key=d124d270')
         .then((res) => {
             setReviewData(res.data)
             console.log(res)
@@ -52,7 +52,8 @@ function PastOrderPage(props){
                             key={element.id} 
                             itemList={element.itemList} 
                             date={element.date}
-                            CreateButton={CreateButton} />
+                            CreateButton={CreateButton}
+                            image={element.restImage} />
                         ))}
                     </div>
                     <div className='d-flex justify-content-center mt-3'>
