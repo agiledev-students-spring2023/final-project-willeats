@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import '../bootstrap.css';
 
-function EditName() {
-    const [name, setName] = useState('John Josh');
+function EditName(props) {
+    const [name, setName] = useState(() => props.business ? 'Lao Ma Spicy' : 'John Josh');
     const [isNameEditable, setIsNameEditable] = useState(false);
 
     const toggleNameEditable = () => {
@@ -14,7 +14,7 @@ function EditName() {
       };
 
     return (
-        <div className="d-flex flex-column align-items-center">
+      <div className="d-flex flex-column align-items-center">
         <h2>
             {isNameEditable ? (
             <input

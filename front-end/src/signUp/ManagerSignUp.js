@@ -24,7 +24,7 @@ const ManagerSignUp = () => {
         <InputEmail/>
         <InputPassword/>
       <button type="submit" className="btn btn-primary" onClick={useNavigate("Profile-M ")}>
-        Login
+        Sign Up
       </button>
     </form>
   </div>

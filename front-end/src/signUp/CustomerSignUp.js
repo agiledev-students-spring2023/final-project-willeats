@@ -1,4 +1,4 @@
-import React from 'react';
+import {React} from 'react';
 import './CustomerSignUp.css';
 import ProfileImage from './ProfileImage';
 import InputName from './InputName';
@@ -7,6 +7,7 @@ import InputPassword from './InputPassword';
 import { useNavigate } from 'react-router-dom';
 
 const CustomerSignUp = () => {
+
   const Navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -23,7 +24,7 @@ const CustomerSignUp = () => {
         <InputEmail />
         <InputPassword />
         <button type="submit" className="btn btn-primary">
-          Login
+          Sign Up
         </button>
       </form>
     </div>
