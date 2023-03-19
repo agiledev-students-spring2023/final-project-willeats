@@ -51,7 +51,7 @@ function ReviewCard(props) {
             <div className="row">
                 <div className="col-3 m-1">
                     {/* image url */}
-                    <img src={logo} alt = 'logo' className="rounded-circle img-fluid"/> 
+                    <img src={props.image} alt = 'logo' className="rounded-circle img-fluid"/> 
                 </div>
                 <div className="col">
                     <p className='fw-bold fs-3 mb-0'>{props.mainName}</p>
@@ -83,9 +83,7 @@ function ReviewCard(props) {
                 <SimpleImageSlider
                     width={dimensions.width}
                     height={200}
-                    images={["https://picsum.photos/200/300",
-                    "https://images.unsplash.com/photo-1506710507565-203b9f24669b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1536&q=80",
-                    "https://images.unsplash.com/photo-1536987333706-fc9adfb10d91?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80",]}
+                    images={[...props.reviewImage]}
                     showBullets={true}
                     showNavs={true}/>}
             </div>
