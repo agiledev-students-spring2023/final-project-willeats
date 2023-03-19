@@ -10,7 +10,7 @@ const CustomerProfile = () => {
     const [isEmailEditable, setIsEmailEditable] = useState(false);
     const [isPasswordEditable, setIsPasswordEditable] = useState(false);
     const [isNameEditable, setIsNameEditable] = useState(false);
-    const [profileImage, setProfileImage] = useState('https://via.placeholder.com/150');
+    const [profileImage, setProfileImage] = useState('https://picsum.photos/200/300');
 
     const toggleEmailEditable = () => {
       setIsEmailEditable(!isEmailEditable);
