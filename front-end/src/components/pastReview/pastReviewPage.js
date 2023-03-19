@@ -3,7 +3,7 @@ import {useNavigate, Link} from "react-router-dom";
 import ReviewCard from '../reviewCards/reviewCard.jsx'
 import axios from 'axios';
 import '../../bootstrap.css'
-
+import LoadMoreButton from '../loadMoreButton/loadMoreButton';
 function PastReviewPage() {
     // const reviewData = [{'name' : 'Lao Ma Spicy', 
     //                     'date' : '2020/1/3', 
@@ -47,7 +47,8 @@ function PastReviewPage() {
                         ))}
                     </div>
                     <div className='d-flex justify-content-center mt-3'>
-                        <button type="button" className="btn btn-warning btn-sm">Load More...</button>
+                        {/* <button type="button" className="btn btn-warning btn-sm">Load More...</button> */}
+                        <LoadMoreButton url={'https://my.api.mockaroo.com/pastreview123123.json?key=d124d270'} data={reviewData} setdata={setReviewData} />
                     </div>
                 </div>
                 <div className='col'>
