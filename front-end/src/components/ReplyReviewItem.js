@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import SimpleImageSlider from "react-simple-image-slider";
 import '../bootstrap.css'
 import StarRatings from 'react-star-ratings';
 import ReviewCard from './ReviewCard';
 import './ReplyReviewItem.css'
 
+
 function ReplyReviewItem() {
     const navigate = useNavigate();
+    const location = useLocation();
     const [images, setImages] = useState([
-        "https://picsum.photos/id/100/500/200",
-        "https://picsum.photos/id/101/500/200",
-        "https://picsum.photos/id/102/500/200",
+        "https://picsum.photos/200/300",
+        "https://picsum.photos/200/200",
+        "https://picsum.photos/400/400",
     ]);
-    const [name, setName] = useState('French Toast');
-    const [description, setDescription] = useState("A toast is a simple and versatile dish that can be eaten any time of the day. It's a dish that typically consists of toasted bread that is then topped with a variety of spreads or toppings. One of the most popular toppings for a toast is butter");
-    const [price, setPrice] = useState('$15');
-    const [rating, setRatings] = useState(4);
+    const [name, setName] = useState(new URLSearchParams(location.search).get('name'));
+    const [description, setDescription] = useState(new URLSearchParams(location.search).get('description'));
+    const [price, setPrice] = useState(new URLSearchParams(location.search).get('price'));
+    const [rating, setRatings] = useState(parseInt(new URLSearchParams(location.search).get('star')));
     const review = {mainName:'ljr',star: 4, date:'20020222',review:'I recently had the pleasure of indulging in one of the most scrumptious and satisfying breakfast dishes'}
 
     return (
@@ -65,7 +67,7 @@ function ReplyReviewItem() {
                         order={false}
                         review={review.review}
                         />
-                        <button type="button" className="Reply btn btn-secondary">Secondary</button>
+                        
                     </div>
                     <div>
                     <div className='d-flex justify-content-center mt-3'>

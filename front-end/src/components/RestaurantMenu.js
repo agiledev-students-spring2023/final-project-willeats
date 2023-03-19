@@ -4,12 +4,16 @@ import MenuItem from './MenuItem';
 import CartIcon from './CartIcon';
 import './RestaurantMenu.css'
 import '../bootstrap.css';
+import axios from 'axios';
+
 
 
 function RestaurantMenu() {
   const [cartItems, setCartItems] = useState([]);
   const [count,setCount]=useState(0);
-
+  const [menuItems, setMenuItems] = useState();
+  const [restaurantName, setRestaurantName] = useState('')
+  
   const handleAddToCart = (item) => {
     setCartItems([...cartItems, item]);
     localStorage.setItem('cartItems', JSON.stringify([...cartItems, item]));
@@ -22,54 +26,57 @@ function RestaurantMenu() {
     }
   }, []);
 
+  useEffect(() => {
+    axios
+      .get("https://my.api.mockaroo.com/menu.json?key=3c15f680")
+      .then((response) => {
+        let data = response.data
+        console.log(data)
+        data = Object.values(
+          data.reduce((acc, item) => {
+            const category = item.category;
+            if (!acc[category]) {
+              acc[category] = {
+                category: category,
+                items: [],
+              };
+            }
+            acc[category].items.push({
+              name: item.name,
+              price: item.price,
+              description: item.description,
+              imageSrc: "https://picsum.photos/200/300",
+              star: item.star,
+              id: item.id.$oid,
+            });
+            return acc;
+          }, {})
+        );
+        setMenuItems(data);
+        console.log(response.data);
+        
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("https://my.api.mockaroo.com/restaurant_name.json?key=3c15f680")
+      .then((response) => {
+        const data = response.data
+
+        setRestaurantName(data[0].name);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   
 
-  const restaurantName = "LaoMa Spicy"; // Set the name of the restaurant here
-
-  const menuItems = [
-    {
-      category: 'Lunch Specials',
-      items: [
-        {
-          name: "Cheeseburger",
-          price: "$8.99",
-          description: "Our classic cheeseburger with all the fixings",
-          imageSrc: "https://via.placeholder.com/100x100",
-          star:4,
-          id:1
-        },
-        {
-          name: "Fries",
-          price: "$3.99",
-          description: "Crispy, golden French fries",
-          imageSrc: "https://via.placeholder.com/100x100",
-          star:4,
-          id:2
-        }
-      ]
-    },
-    {
-      category: 'Dinner Specials',
-      items: [
-        {
-          name: "Grilled Salmon",
-          price: "$15.99",
-          description: "Fresh grilled salmon with a side of steamed veggies",
-          imageSrc: "https://via.placeholder.com/100x100",
-          star:4,
-          id:3
-        },
-        {
-          name: "Ribeye Steak",
-          price: "$20.99",
-          description: "A juicy ribeye steak with a side of garlic mashed potatoes",
-          imageSrc: "https://via.placeholder.com/100x100",
-          star:4,
-          id:4
-        }
-      ]
-    }
-  ];
+  // const restaurantName = "LaoMa Spicy"; // Set the name of the restaurant here
 
   return (
     <div className='row'>
@@ -79,10 +86,10 @@ function RestaurantMenu() {
       <Header
         name={restaurantName}
         rating={4}
-        logoSrc="https://via.placeholder.com/400x400"
-        backgroundSrc="https://via.placeholder.com/1500x500"
+        logoSrc="https://picsum.photos/200/200"
+        backgroundSrc="https://picsum.photos/1500/500"
       />
-      {menuItems.map((category, index) => (
+      {menuItems && menuItems.map((category, index) => (
         <div key={index}>
         <div style={{
             display: 'flex',
