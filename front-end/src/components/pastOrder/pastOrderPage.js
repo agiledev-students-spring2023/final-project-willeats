@@ -1,30 +1,24 @@
-import React from 'react'
+import {React, useState, useEffect} from 'react'
 import {useNavigate } from "react-router-dom";
 import '../../bootstrap.css'
 import ReviewCard from '../reviewCards/reviewCard';
 import './pastOrderPage.css'
+import axios from 'axios';
 function PastOrderPage(props){
     const navigate = useNavigate()
-    const reviewData = [
-        {
-            'name' : 'Lao Ma Spicy', 
-            'date' : '2020/1/3', 
-            'itemList' : ['Spicy Hot Pot', 'Grilled Chicken Sandwich', 'Taco'],
-            'id' : 1
-        },
-        {
-            'name' : 'Lao Ma Spicy', 
-            'date' : '2022/5/3', 
-            'itemList' : ['Spicy Hot Pot'],
-            'id' : 2
-        },
-        {
-            'name' : 'Subway', 
-            'date' : '2023/1/3', 
-            'itemList' : ['Spicy Hot Pot', 'Grilled Chicken Sandwich', 'Taco'],
-            'id' : 3
-        }
-    ]
+    const [reviewData, setReviewData] = useState([])
+
+    useEffect(() => {
+        axios.get('https://my.api.mockaroo.com/userreview123123.json?key=d124d270')
+        .then((res) => {
+            setReviewData(res.data)
+            console.log(res)
+        })
+        .catch((err) => (
+            console.log(err)
+        ))
+    }, []);
+
     const CreateButton = (props) => {
         const handleCreate = () => {
             const params = new URLSearchParams()
@@ -48,10 +42,10 @@ function PastOrderPage(props){
                     <div className='col'>
                         <h1 className='mx-auto'>My Orders</h1>
                         {/* change with real data */}
-                        <small className="text-muted">{reviewData.length} orders</small>
+                        {reviewData && <small className="text-muted">{ reviewData.length} orders</small>}
                     </div>
                     <div className='row-gap-3'>
-                        {reviewData.map((element) => (
+                        {reviewData != null && reviewData.map((element) => (
                             <ReviewCard 
                             order={true} 
                             mainName={element.name} 
