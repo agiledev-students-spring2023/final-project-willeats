@@ -7,11 +7,11 @@ import InputPassword from './InputPassword';
 import { useNavigate } from 'react-router-dom';
 
 const CustomerSignUp = () => {
-  const navigate = useNavigate();
+  const Navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate("/Profile-C");
+    Navigate("/Profile-C");
   };
 
   return (
