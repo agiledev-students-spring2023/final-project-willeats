@@ -11,7 +11,7 @@ const Login = () => {
     }
 
     const signUpText = (selected === 'user') ? 'Sign up' : 'Sign up for your business'
-    const naviPath = (selected === 'user') ? '/Sign-C' : 'Sign-M'
+    const naviPath = (selected === 'user') ? '/Sign-C' : '/Sign-M'
 
     const prohibitRefresh = (e) => {
         e.preventDefault() || (e.returnValue = false);
