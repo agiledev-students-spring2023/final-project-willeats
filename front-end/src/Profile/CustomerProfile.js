@@ -6,12 +6,9 @@ import ProfileImage from '../signUp/ProfileImage';
 import EditName from './EditName';
 import EditEmail from './EditEmail';
 import EditPassword from './EditPassword';
+import SaveButton from './SaveButton';
 
 const CustomerProfile = () => {
-
-    const handleSave = () => {
-      window.alert('Changes Saved Successfully');
-    };
 
   return (
     <div className="customer-profile text-center">
@@ -19,15 +16,13 @@ const CustomerProfile = () => {
 
       <ProfileImage/>
 
-      <EditName/>
+      <EditName business={false}/>
 
-      <EditEmail/>
+      <EditEmail business={false}/>
 
       <EditPassword/>
 
-      <button className="btn btn-primary button-round" onClick={handleSave}>
-        Save
-      </button>
+      <SaveButton/>
     </div>
   );
 };

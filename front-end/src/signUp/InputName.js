@@ -5,6 +5,7 @@ import "../bootstrap.css"
 function InputName(props) {
   const [name, setName] = useState('');
   const [validationMessage, setValidationMessage] = useState('');
+  const [showValidation, setShowValidation] = useState(false);
 
   const validateName = () => {
     if (name.length > 20) {
@@ -14,6 +15,7 @@ function InputName(props) {
     } else {
       setValidationMessage('');
     }
+    setShowValidation(true);
   };
 
   return (
@@ -27,13 +29,11 @@ function InputName(props) {
             type="text"
             id="name"
             className={`form-control ${
-              validationMessage
-                ? name === ''
-                  ? ''
-                  : 'is-invalid'
-                : name === ''
-                ? ''
-                : 'is-valid'
+              showValidation && validationMessage
+                ? 'is-invalid'
+                : showValidation && !validationMessage
+                ? 'is-valid'
+                : ''
             }`}
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -42,7 +42,7 @@ function InputName(props) {
             Check
           </button>
         </div>
-        {validationMessage && <div className="invalid-feedback">{validationMessage}</div>}
+        {showValidation && validationMessage && <div className="invalid-feedback">{validationMessage}</div>}
       </div>
     </div>
   );

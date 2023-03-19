@@ -6,6 +6,7 @@ function InputPassword() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [validationMessage, setValidationMessage] = useState('');
+  const [showValidation, setShowValidation] = useState(false);
 
   const validatePasswords = () => {
     if (password !== confirmPassword) {
@@ -13,6 +14,7 @@ function InputPassword() {
     } else {
       setValidationMessage('');
     }
+    setShowValidation(true);
   };
 
   return (
@@ -24,13 +26,13 @@ function InputPassword() {
             type="password"
             id="password"
             className={`form-control ${
-              validationMessage
+              showValidation && validationMessage
                 ? password === ''
                   ? ''
                   : 'is-invalid'
-                : password === ''
-                ? ''
-                : 'is-valid'
+                : showValidation && !validationMessage
+                ? 'is-valid'
+                : ''
             }`}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -44,13 +46,13 @@ function InputPassword() {
             type="password"
             id="confirm-password"
             className={`form-control ${
-              validationMessage
+              showValidation && validationMessage
                 ? confirmPassword === ''
                   ? ''
                   : 'is-invalid'
-                : confirmPassword === ''
-                ? ''
-                : 'is-valid'
+                : showValidation && !validationMessage
+                ? 'is-valid'
+                : ''
             }`}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
@@ -63,7 +65,7 @@ function InputPassword() {
             Check
           </button>
         </div>
-        {validationMessage && (
+        {showValidation && validationMessage && (
           <div className="invalid-feedback">{validationMessage}</div>
         )}
       </div>

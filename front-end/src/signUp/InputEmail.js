@@ -5,6 +5,7 @@ import "../bootstrap.css"
 function InputEmail() {
   const [email, setEmail] = useState('');
   const [validationMessage, setValidationMessage] = useState('');
+  const [showValidation, setShowValidation] = useState(false);
 
   const validateEmail = (email) => {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -17,6 +18,7 @@ function InputEmail() {
     } else {
       setValidationMessage('');
     }
+    setShowValidation(true);
   };
 
   return (
@@ -28,13 +30,11 @@ function InputEmail() {
             type="email"
             id="email"
             className={`form-control ${
-              validationMessage
-                ? email === ''
-                  ? ''
-                  : 'is-invalid'
-                : email === ''
-                ? ''
-                : 'is-valid'
+              showValidation && validationMessage
+                ? 'is-invalid'
+                : showValidation && !validationMessage
+                ? 'is-valid'
+                : ''
             }`}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -47,7 +47,7 @@ function InputEmail() {
             Check
           </button>
         </div>
-        {validationMessage && <div className="invalid-feedback">{validationMessage}</div>}
+        {showValidation && validationMessage && <div className="invalid-feedback">{validationMessage}</div>}
       </div>
     </div>
   );
