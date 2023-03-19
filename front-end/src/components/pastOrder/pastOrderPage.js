@@ -4,6 +4,7 @@ import '../../bootstrap.css'
 import ReviewCard from '../reviewCards/reviewCard';
 import './pastOrderPage.css'
 import axios from 'axios';
+import LoadMoreButton from '../loadMoreButton/loadMoreButton';
 function PastOrderPage(props){
     const navigate = useNavigate()
     const [reviewData, setReviewData] = useState([])
@@ -49,7 +50,7 @@ function PastOrderPage(props){
                             <ReviewCard 
                             order={true} 
                             mainName={element.name} 
-                            key={element.id} 
+                            key={element.id + element.name} 
                             itemList={element.itemList} 
                             date={element.date}
                             CreateButton={CreateButton}
@@ -57,8 +58,8 @@ function PastOrderPage(props){
                         ))}
                     </div>
                     <div className='d-flex justify-content-center mt-3'>
-                        <button type="button" className="btn btn-warning btn-sm">Load More...</button>
-                        
+                        {/* <button type="button" className="btn btn-warning btn-sm">Load More...</button> */}
+                        <LoadMoreButton url={'https://my.api.mockaroo.com/userorder123123.json?key=d124d270'} data={reviewData} setdata={setReviewData} />
                     </div>
                 </div>
                 <div className='col'>
