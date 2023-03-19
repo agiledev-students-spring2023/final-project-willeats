@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import SimpleImageSlider from "react-simple-image-slider";
 import '../bootstrap.css'
 import StarRatings from 'react-star-ratings';
@@ -7,8 +7,10 @@ import ReviewCard from './ReviewCard';
 import './ViewDetailMenu.css';
 import CartIcon from './CartIcon';
 
+
 function ViewDetailMenu() {
     const navigate = useNavigate();
+    const location = useLocation();
     const [images, setImages] = useState([
         "https://picsum.photos/id/100/500/200",
         "https://picsum.photos/id/101/500/200",
@@ -61,18 +63,18 @@ function ViewDetailMenu() {
                     </div>
                     <div className="card" style={{ width: '31.2rem' }}>
                         <div className="card-body">
-                            <h5 className="card-title">{name}</h5>
+                            <h5 className="card-title">{new URLSearchParams(location.search).get('name')}</h5>
                             <StarRatings
-                                rating={rating}
+                                rating={parseInt(new URLSearchParams(location.search).get('star'))}
                                 starRatedColor="yellow"
                                 numberOfStars={5}
                                 name='rating'
                                 starDimension="20px"
                                 starSpacing="10px"
                             />
-                            <p className="card-text">{description}</p>
+                            <p className="card-text">{new URLSearchParams(location.search).get('description')}</p>
                             <div className='d-flex justify-content-between'>
-                                <h3 className="card-text">{price}</h3>
+                                <h3 className="card-text">{new URLSearchParams(location.search).get('price')}</h3>
                                 <button className="btn btn-primary" >add to cart</button>
                             </div>
                             

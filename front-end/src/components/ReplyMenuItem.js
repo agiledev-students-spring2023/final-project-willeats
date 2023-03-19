@@ -5,11 +5,18 @@ import { useNavigate } from 'react-router-dom';
 
 
 function ReplyMenuItem(props) {
-  const { name, price, description, image, rating, id } = props;
+  const { name, price, description, image, star,id } = props;
   const navigate = useNavigate();
 
   const handleMenuItemClick = () => {
-    navigate(`/reply/${id}`);
+    const params = new URLSearchParams();
+    params.append('name',name)
+    params.append('description',description)
+    params.append('price',price)
+    params.append('image',image)
+    params.append('star',star)
+    navigate({pathname:`/reply/${id}`,
+    search:params.toString()});
   }
 
   return (
@@ -21,12 +28,12 @@ function ReplyMenuItem(props) {
         <div className="menu-item-description">{description}</div>
         <div className="header-rating">
         <StarRatings
-        rating={4}
+        rating={star}
         starRatedColor="yellow"
         numberOfStars={5}
         name='rating'
         starDimension="20px"
-        starSpacing="10px"
+        starSpacing="7px"
       />
         </div>
       </div>

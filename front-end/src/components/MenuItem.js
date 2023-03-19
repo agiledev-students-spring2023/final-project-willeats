@@ -11,11 +11,23 @@ function MenuItem(props) {
   const refContainer = useRef();
   const navigate = useNavigate();
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const [readmore, setReadmore] = useState(false)
-
-  const handleMenuItemClick = () => {
-    navigate(`/menu/${props.id}`);
+  const [readmore, setReadmore] = useState(false);
+  
+  const handleMenuItemClick = (e) => {
+    const params = new URLSearchParams();
+    params.append('name',props.name)
+    params.append('description',props.description)
+    params.append('price',props.price)
+    params.append('image',props.image)
+    params.append('star',props.star)
+    navigate({pathname:`/menu/${props.id}`,
+              search:params.toString()});
   }
+
+  const handleAddToCartClick = (event) => {
+    event.stopPropagation(); // stop the event from bubbling up to the parent component
+    props.onAddToCart();
+  };
   
 
   useEffect(() => {
@@ -35,7 +47,7 @@ function MenuItem(props) {
       </div>
       <div className="row">
         <div className="col-3">
-          <img src={logo} alt='logo' className="img-thumbnail img-fluid" />
+          <img src={props.image} alt='logo' className="img-thumbnail img-fluid" />
         </div>
         <div className="col">
           <p className='fw-bold fs-4 mb-0'>{props.name}</p>
@@ -52,7 +64,7 @@ function MenuItem(props) {
             </div>
             <div className='d-flex justify-content-between'>
                 <h3 className="card-text">{props.price}</h3>
-                <button className="btn btn-primary" onClick={props.onAddToCart}>add to cart</button>
+                <button className="btn btn-secondary" onClick={handleAddToCartClick}>add to cart</button>
             </div>
 
 

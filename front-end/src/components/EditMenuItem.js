@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 function EditMenuItem(props) {
-  const { name, price, description, image,rating,id } = props;
+  const { name, price, description, image,star,id } = props;
   const [showButtons, setShowButtons] = useState(false);
   const navigate = useNavigate();
 
@@ -19,7 +19,14 @@ function EditMenuItem(props) {
   };
 
   const handleEdit = () => {
-    navigate(`/edit-menu-item/${id}`);
+    const params = new URLSearchParams();
+    params.append('name',name)
+    params.append('description',description)
+    params.append('price',price)
+    params.append('image',image)
+    params.append('star',star)
+    navigate({pathname:`/edit/${id}`,
+    search:params.toString()});
   }
 
   const handleDelete = () => {
@@ -38,7 +45,7 @@ function EditMenuItem(props) {
         <div className="menu-item-description">{description}</div>
         <div className="header-rating">
         <StarRatings
-        rating={4}
+        rating={star}
         starRatedColor="yellow"
         numberOfStars={5}
         name='rating'

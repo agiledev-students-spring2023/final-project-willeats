@@ -1,51 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import EditMenuItem from './EditMenuItem';
 import './EditRestaurantMenu.css';
 import '../bootstrap.css';
 import swal from 'sweetalert';
+import axios from 'axios';
+
 
 function EditRestaurantMenu() {
 
-  const [menuItems, setMenuItems] = useState([
-    {
-      category: 'Lunch Specials',
-      items: [
-        {
-          name: "Cheeseburger",
-          price: "$8.99",
-          description: "Our classic cheeseburger with all the fixings",
-          imageSrc: "https://via.placeholder.com/100x100",
-          id:1
-        },
-        {
-          name: "Fries",
-          price: "$3.99",
-          description: "Crispy, golden French fries",
-          imageSrc: "https://via.placeholder.com/100x100",
-          id:2
-        }
-      ]
-    },
-    {
-      category: 'Dinner Specials',
-      items: [
-        {
-          name: "Grilled Salmon",
-          price: "$15.99",
-          description: "Fresh grilled salmon with a side of steamed veggies",
-          imageSrc: "https://via.placeholder.com/100x100",
-          id:3
-        },
-        {
-          name: "Ribeye Steak",
-          price: "$20.99",
-          description: "A juicy ribeye steak with a side of garlic mashed potatoes",
-          imageSrc: "https://via.placeholder.com/100x100",
-          id:4
-        }
-      ]
-    }
-  ]);
+  const [menuItems, setMenuItems] = useState([]);
+  useEffect(() => {
+    axios
+      .get("https://my.api.mockaroo.com/menu.json?key=3c15f680")
+      .then((response) => {
+        let data = response.data
+        console.log(data)
+        data = Object.values(
+          data.reduce((acc, item) => {
+            const category = item.category;
+            if (!acc[category]) {
+              acc[category] = {
+                category: category,
+                items: [],
+              };
+            }
+            acc[category].items.push({
+              name: item.name,
+              price: item.price,
+              description: item.description,
+              imageSrc: "https://picsum.photos/200/300",
+              star: item.star,
+              id: item.id.$oid,
+            });
+            return acc;
+          }, {})
+        );
+        setMenuItems(data);
+        console.log(response.data);
+        
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   const handleDeleteCategory = (categoryIndex) => {
     swal({
@@ -96,6 +93,7 @@ function EditRestaurantMenu() {
                 price={item.price}
                 description={item.description}
                 image={item.imageSrc}
+                star = {item.star}
                 id={item.id}
               />
             ))}
