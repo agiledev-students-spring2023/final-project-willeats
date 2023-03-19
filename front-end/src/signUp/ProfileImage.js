@@ -14,22 +14,24 @@ function ProfileImage() {
   };
 
   return (
-    <div>
-      <div className="profile-image" style={{ textAlign: 'center' }}>
+    <div className="profile-image-container">
+      <div className="profile-image" onClick={() => document.getElementById("profile-image-input").click()}>
         <img
-          src={profileImage || 'https://via.placeholder.com/150'}
+          src={profileImage || 'https://picsum.photos/200/300'}
           alt="Profile"
           className="rounded-circle"
         />
-        <div style={{ marginTop: '10px' }}>
-          <input
-            type="file"
-            accept="image/*"
-            className="d-flex justify-content-center"
-            onChange={handleProfileImageChange}
-          />
+        <div className="profile-image-overlay">
+          <span className="profile-image-text">Change Profile</span>
         </div>
       </div>
+      <input
+        type="file"
+        accept="image/*"
+        id="profile-image-input"
+        className="profile-image-input"
+        onChange={handleProfileImageChange}
+      />
     </div>
   );
 }

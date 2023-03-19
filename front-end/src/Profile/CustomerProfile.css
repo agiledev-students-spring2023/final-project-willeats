@@ -1,4 +1,4 @@
-.customer-profile {
+  .customer-profile {
     max-width: 500px;
     margin: 0 auto;
   }
@@ -21,14 +21,3 @@
   .form-group {
     margin-bottom: 30px;
   }
-
-  .input-border {
-    border-top-style: hidden;
-    border-right-style: hidden;
-    border-left-style: hidden;
-    border-bottom: 1px solid #ccc;
-    background-color: transparent;
-    margin-right: 10px;
-  }
-
-  
