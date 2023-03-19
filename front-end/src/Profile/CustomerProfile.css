@@ -21,13 +21,6 @@
   .form-group {
     margin-bottom: 30px;
   }
-  
-  .button-round {
-    border-radius: 30px;
-    width: 70px; /* Set a fixed width for the button */
-    padding: 3px 8px; /* Adjust padding to make the button content fit well */
-    font-size: 0.9rem; /* Adjust font size as needed */
-  }
 
   .input-border {
     border-top-style: hidden;
