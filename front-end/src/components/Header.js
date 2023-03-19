@@ -52,7 +52,7 @@ function Header(props) {
                 numberOfStars={5}
                 name='rating'
                 starDimension="20px"
-                starSpacing="15px"
+                starSpacing="4px"
               />
         </div>
       </div>

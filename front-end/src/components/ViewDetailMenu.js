@@ -4,9 +4,10 @@ import SimpleImageSlider from "react-simple-image-slider";
 import '../bootstrap.css'
 import StarRatings from 'react-star-ratings';
 import ReviewCard from './ReviewCard';
-import './ReplyReviewItem.css'
+import './ViewDetailMenu.css';
+import CartIcon from './CartIcon';
 
-function ReplyReviewItem() {
+function ViewDetailMenu() {
     const navigate = useNavigate();
     const [images, setImages] = useState([
         "https://picsum.photos/id/100/500/200",
@@ -17,6 +18,25 @@ function ReplyReviewItem() {
     const [description, setDescription] = useState("A toast is a simple and versatile dish that can be eaten any time of the day. It's a dish that typically consists of toasted bread that is then topped with a variety of spreads or toppings. One of the most popular toppings for a toast is butter");
     const [price, setPrice] = useState('$15');
     const [rating, setRatings] = useState(4);
+    const [count,setCount]=useState(0);
+
+    useEffect(() => {
+        const cartItems = JSON.parse(localStorage.getItem('cartItems'));
+        if (cartItems) {
+            setCount(cartItems.length)
+        }
+      }, []);
+
+
+    const [cartItems, setCartItems] = useState([]);
+
+    const handleAddToCart = (item) => {
+        setCartItems([...cartItems, item]);
+        localStorage.setItem('cartItems', JSON.stringify([...cartItems, item]));
+    };
+
+    
+    
     const review = {mainName:'ljr',star: 4, date:'20020222',review:'I recently had the pleasure of indulging in one of the most scrumptious and satisfying breakfast dishes'}
 
     return (
@@ -51,11 +71,15 @@ function ReplyReviewItem() {
                                 starSpacing="10px"
                             />
                             <p className="card-text">{description}</p>
-                            <h3 className="card-text">{price}</h3>
+                            <div className='d-flex justify-content-between'>
+                                <h3 className="card-text">{price}</h3>
+                                <button className="btn btn-primary" >add to cart</button>
+                            </div>
+                            
                         </div>
                     </div>
                     <div className='sort-btn'>
-                    <button type="button" className="btn btn-link">Sort by Recent</button>
+                    <button type="button" className="btn btn-link">Sort by Ratings</button>
                     </div>
                     <div className='row d-flex justify-content-center'>
                         <ReviewCard
@@ -65,11 +89,13 @@ function ReplyReviewItem() {
                         order={false}
                         review={review.review}
                         />
-                        <button type="button" className="Reply btn btn-secondary">Secondary</button>
                     </div>
                     <div>
                     <div className='d-flex justify-content-center mt-3'>
                         <button type="button" className="btn btn-warning btn-sm">Load More...</button>
+                    </div>
+                    <div className="cart-container d-flex flex-row-reverse">
+                        <CartIcon count={count} />
                     </div>
                     </div>
                 </div>
@@ -84,4 +110,4 @@ function ReplyReviewItem() {
     )
 }
 
-export default ReplyReviewItem
+export default ViewDetailMenu
