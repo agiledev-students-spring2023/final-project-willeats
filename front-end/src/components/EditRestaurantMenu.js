@@ -69,7 +69,10 @@ function EditRestaurantMenu() {
   };
 
   return (
-    <div className="restaurant-menu-container">
+    <div className='row'>
+      <div className='col-4'></div>
+      <div className='col-4'>
+      <div className="restaurant-menu-container">
     <div className="head">
         <h1>Your Menus</h1>
     </div>
@@ -109,6 +112,11 @@ function EditRestaurantMenu() {
         </div>
       ))}
     </div>
+      </div>
+      <div className='col-4'></div>
+    </div>
+
+    
   );
 }
 

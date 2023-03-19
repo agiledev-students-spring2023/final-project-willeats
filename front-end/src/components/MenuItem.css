@@ -43,3 +43,7 @@
     margin-bottom: 0.5rem;
   }
   
+  .button-size-small{
+    padding: 10px 10px;
+    font-size: small;
+}

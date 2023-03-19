@@ -1,7 +1,12 @@
 .cart-icon-container {
     position: fixed;
     bottom: 20px;
-    right: 20px;
+    /* right: 20px; */
+    margin-right: 40px;
+    float: right;
+    z-index: 9999;
+    
+
   }
   
   .cart-icon-link {
@@ -11,14 +16,14 @@
   }
   
   .cart-icon-link > svg {
-    margin-right: 10px;
+    margin-right: 20px;
   }
   
   .cart-count {
     position: absolute;
     top: -8px;
     right: -8px;
-    background-color: rgb(51, 43, 43);
+    background-color: rgb(43, 78, 113);
     color: white;
     border-radius: 50%;
     font-size: 12px;
@@ -28,4 +33,6 @@
     justify-content: center;
     align-items: center;
   }
+
+  
   

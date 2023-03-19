@@ -46,7 +46,10 @@ function ReplyReviews() {
   ]);
 
   return (
-    <div className="restaurant-menu-container">
+    <div className='row'>
+      <div className='col-4'></div>
+      <div className='col-4'>
+      <div className="restaurant-menu-container">
     <div className="head">
         <h1>View Reviews For...</h1>
     </div>
@@ -71,6 +74,10 @@ function ReplyReviews() {
         </div>
       ))}
     </div>
+      </div>
+      <div className='col-4'></div>
+    </div>
+    
   );
 }
 
