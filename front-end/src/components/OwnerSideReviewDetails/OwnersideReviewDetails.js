@@ -48,8 +48,8 @@ const OwnersideReviewDetails = ({ review, user, owner }) => {
                         <div className="review-info">
                             <h5>{owner.name}</h5>
                             <div class="comment-actions">
-                                <button class="btn btn-link" onClick={handleEdit}>Edit</button>
-                                <button class="btn btn-link" onClick={handleDelete}>Delete</button>
+                                <button class="btn btn-lin" onClick={handleEdit}>Edit</button>
+                                <button class="btn btn-lin" onClick={handleDelete}>Delete</button>
                             </div>
                             
                         </div>
