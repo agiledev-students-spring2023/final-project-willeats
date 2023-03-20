@@ -3,7 +3,22 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './index.css';
 import Home from './Home';
 import './App.css';
-import CustomerProfile from './components/CustomerProfile/CustomerProfile';
+
+
+
+
+import Cart from './components/cart/Cart'
+import OrderFinished from './OrderFinished'
+
+
+
+import {review, user, owner} from './config.js'
+import OwnersideReviewDetails from './components/OwnerSideReviewDetails/OwnersideReviewDetails';
+import ReviewDetails from './components/ReviewDetails/ReviewDetails';
+
+
+
+
 import Login from './components/login/Login';
 import CustomerSignUp from './components/signUp/CustomerSignUp';
 import ManagerSignUp from './components/signUp/ManagerSignUp';
@@ -19,6 +34,26 @@ import PastReviewPage from './components/pastReview/pastReviewPage';
 import EditReviewPage from './components/editReview/editReviewPage'
 import CreateReviewPage from './components/createReview/createReviewPage';
 import PastOrderPage from './components/pastOrder/pastOrderPage';
+import CustomerProfile from './components/CustomerProfile/CustomerProfile';
+
+const config = {
+  cartItems: [
+    {
+      id: 1,
+      name: "Cheeseburger",
+      price: 8.99,
+      quantity: 2,
+    },
+    {
+      id: 2,
+      name: "Fries",
+      price: 3.99,
+      quantity: 1,
+    },
+  ],
+  deliveryFee: 2.99,
+  taxRate: 0.1,
+};
 
 function App() {
   return (
@@ -40,14 +75,13 @@ function App() {
           <Route path='/usereditreview' element={<EditReviewPage/>}/>
           <Route path='/usercreatereview' element={<CreateReviewPage/>} />
           <Route path='/userpastorder' element={<PastOrderPage/>} />
-          <Route path="/CP" element={<CustomerProfile/>}></Route>
+          <Route path="/customerprofile" element={<CustomerProfile/>}></Route>
+          <Route path='/cart' element={<Cart config={config} />} />
+          <Route path='/ownerReviewDetail' element={<OwnersideReviewDetails review={review} user={user} owner={owner} />} />
         </Routes>
       </Router>
+
   );
 }
 
 export default App;
-
-
-
-
