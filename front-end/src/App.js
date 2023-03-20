@@ -22,7 +22,7 @@ import ReviewDetails from './components/ReviewDetails/ReviewDetails';
 import Login from './components/login/Login';
 import CustomerSignUp from './components/signUp/CustomerSignUp';
 import ManagerSignUp from './components/signUp/ManagerSignUp';
-import CustomerProfile from './components/profile/CustomerProfile';
+import EditCustomerProfile from './components/profile/EditCustomerProfile';
 import ManagerProfile from './components/profile/ManagerProfile';
 import RestaurantMenu from './components/RestaurantMenu/RestaurantMenu';
 import EditRestaurantMenu from './components/EditRestaurantMenu/EditRestaurantMenu';
@@ -63,7 +63,7 @@ function App() {
           <Route path='/Login' element={<Login/>}></Route>
           <Route path='/Sign-C' element={<CustomerSignUp/>}></Route>
           <Route path='/Sign-M' element={<ManagerSignUp/>}></Route>
-          <Route path='/Profile-C' element={<CustomerProfile/>}></Route>
+          <Route path='/Profile-C' element={<EditCustomerProfile/>}></Route>
           <Route path='/Profile-M' element={<ManagerProfile/>}></Route>
           <Route path="/menu" element={<RestaurantMenu />} />
           <Route path="/editmenu" element={<EditRestaurantMenu />} />
