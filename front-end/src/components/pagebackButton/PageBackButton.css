@@ -1,0 +1,22 @@
+/* .back{
+    
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.back:hover{
+    background-color: #e95420;
+    color:#ffffff;
+} */
+
+.home-button {
+    border-radius: 30px;
+    width: 50px;
+    padding: 4px 8px;
+    font-size: 0.9rem;
+    transition: background-color 0.2s, color 0.2s;
+  }
+  
+  .home-button:hover {
+    background-color: #e95420;
+    color: #ffffff;
+  }
