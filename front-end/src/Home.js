@@ -26,21 +26,19 @@ function Home() {
             <img src={backgroundImage} alt="Background" className="background-image" />
         </div>
         <div className="content-container">
-          <div className="logo-container">
-              <img src={logo} alt="Logo" className="logo" />
-          </div>
-          
-          <div className="profile-container">
-            <img src={profileImage} alt="Profile" className="profile" />
-          </div>
-        
-          <div className="button-container">
-              <button className="button btn btn-primary btn-lg">Scan Now</button>
-          </div>
-          
-          <div className="login-container">
-            <button className="btn btn-link" onClick={handleLoginClick}>Login</button>
-          </div>
+            <div className="logo-container">
+                <img src={logo} alt="Logo" className="logo" />
+            </div>
+        <div className="profile-container">
+        <img src={profileImage} alt="Profile" className="profile" />
+        </div>
+      
+        <div className="button-container">
+            <button className="button btn btn-primary btn-lg">Scan Now</button>
+        </div>
+        <div className="login-container">
+          <button className="btn btn-link" onClick={handleLoginClick}>Login</button>
+        </div>
         </div>
     </div>
   );
