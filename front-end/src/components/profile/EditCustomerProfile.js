@@ -8,7 +8,7 @@ import EditEmail from './EditEmail';
 import EditPassword from './EditPassword';
 import SaveButton from './SaveButton';
 
-const CustomerProfile = () => {
+const EditCustomerProfile = () => {
 
   return (
     <div className="customer-profile text-center">
@@ -27,4 +27,4 @@ const CustomerProfile = () => {
   );
 };
 
-export default CustomerProfile;
+export default EditCustomerProfile;

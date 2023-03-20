@@ -23,7 +23,7 @@ function InputPassword() {
         <label htmlFor="password">Password</label>
         <div className="input-row">
           <input
-            type="password"
+            type="password-sign"
             id="password"
             className={`form-control ${
               showValidation && validationMessage
