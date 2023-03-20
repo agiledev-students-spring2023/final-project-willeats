@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import './bootstrap.css'
-import './ReviewDetails.css'
+import '../../bootstrap.css'
+import '../ReviewDetails/ReviewDetails.css'
 import './OwnersideReviewDetails.css'
-import ReviewDetails from './ReviewDetails';
+import ReviewDetails from '../ReviewDetails/ReviewDetails';
 
 
 
