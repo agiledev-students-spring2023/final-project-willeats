@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../bootstrap.css';
+import '../../bootstrap.css';
 
 function EditEmail(props) {
     const [email, setEmail] = useState(() => props.business ? 'laoma@example.com' : 'john.josh@example.com');

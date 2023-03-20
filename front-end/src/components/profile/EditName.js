@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../bootstrap.css';
+import '../../bootstrap.css';
 
 function EditName(props) {
     const [name, setName] = useState(() => props.business ? 'Lao Ma Spicy' : 'John Josh');
