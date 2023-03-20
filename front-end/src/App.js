@@ -35,6 +35,7 @@ import EditReviewPage from './components/editReview/editReviewPage'
 import CreateReviewPage from './components/createReview/createReviewPage';
 import PastOrderPage from './components/pastOrder/pastOrderPage';
 import CustomerProfile from './components/CustomerProfile/CustomerProfile';
+import OwnerProfile from './components/OwnerProfile/OwnerProfile';
 
 const config = {
   cartItems: [
@@ -78,6 +79,7 @@ function App() {
           <Route path="/customerprofile" element={<CustomerProfile/>}></Route>
           <Route path='/cart' element={<Cart config={config} />} />
           <Route path='/ownerReviewDetail' element={<OwnersideReviewDetails review={review} user={user} owner={owner} />} />
+          <Route path='/ownerprofile' element={<OwnerProfile/>} />
         </Routes>
       </Router>
 

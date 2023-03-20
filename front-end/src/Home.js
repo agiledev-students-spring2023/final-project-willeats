@@ -14,8 +14,12 @@ function Home() {
 
   const Navigate = useNavigate()
 
-  const handleLoginClick = () => {
+  const navigateLogin = () => {
     Navigate('/Login')
+  }
+
+  const navigateMenu = () => {
+    Navigate('/menu')
   }
 
   
@@ -34,10 +38,10 @@ function Home() {
         </div>
       
         <div className="button-container">
-            <button className="button btn btn-primary btn-lg">Scan Now</button>
+            <button className="button btn btn-primary btn-lg" onClick={navigateMenu}>Scan Now</button>
         </div>
         <div className="login-container">
-          <button className="btn btn-link" onClick={handleLoginClick}>Login</button>
+          <button className="btn btn-link" onClick={navigateLogin}>Login</button>
         </div>
         </div>
     </div>
