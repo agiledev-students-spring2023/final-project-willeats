@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom";
-import '../reviewCard/reviewCard.css'
+import '../reviewCards/reviewCard.css'
 import '../../bootstrap.css'
 import StarRatings from 'react-star-ratings'
 import { useState, useEffect, useRef } from 'react';

@@ -32,25 +32,28 @@ function ReviewCard(props) {
         params.append('mainName', props.mainName)
         params.append('itemName', props.itemName)
         params.append('star', props.star)
-        navigate({pathname: '/edit', search: params.toString()})
+        navigate({pathname: '/usereditreview', search: params.toString()})
     }
+
+    
+
     return(
-        <div className="card size mx-auto mt-2" ref={refContainer}>
+        <div className="card size mx-auto mt-2">
             <div className="row">
                 <div className='col-9'>
 
                 </div>
                 {!props.order && <div className="col-3 d-flex flex-row-reverse">
                     {/* add handle event, justify if the review is user's */}
-                    <button type="button" className="btn btn-link float-right">Delete</button>
+                    <button type="button" className="btn btn-link float-right" onClick={props.handleDelete} >Delete</button>
                     <button type="button" className="btn btn-link float-right" onClick={changeEdit}>Edit</button>
-                    <button type="button" className="btn btn-link float-right">Reply</button>
+                    {props.reply && <button type="button" className="btn btn-link float-right">Reply</button>}
                 </div>}
             </div>
             <div className="row">
-                <div className="col-3">
+                <div className="col-3 m-1">
                     {/* image url */}
-                    <img src={logo} alt = 'logo' className="rounded-circle img-fluid"/> 
+                    <img src={props.image} alt = 'logo' className="rounded-circle img-fluid"/> 
                 </div>
                 <div className="col">
                     <p className='fw-bold fs-3 mb-0'>{props.mainName}</p>
@@ -77,14 +80,12 @@ function ReviewCard(props) {
                     {props.CreateButton && <props.CreateButton itemList={props.itemList} mainName={props.mainName}/>}
                 </div>
             </div>
-            <div className="row rounded" >
+            <div className="row rounded mt-1" ref={refContainer}>
                 {dimensions.width !== 0 && !props.order &&
                 <SimpleImageSlider
                     width={dimensions.width}
                     height={200}
-                    images={["https://images.unsplash.com/photo-1509721434272-b79147e0e708?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80",
-                    "https://images.unsplash.com/photo-1506710507565-203b9f24669b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1536&q=80",
-                    "https://images.unsplash.com/photo-1536987333706-fc9adfb10d91?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80",]}
+                    images={[...props.reviewImage]}
                     showBullets={true}
                     showNavs={true}/>}
             </div>
