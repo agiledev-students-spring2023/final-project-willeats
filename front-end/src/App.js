@@ -6,8 +6,35 @@ import './App.css';
 
 
 
+
 import Cart from './components/cart/Cart'
 import OrderFinished from './OrderFinished'
+
+
+
+import {review, user, owner} from './config.js'
+import OwnersideReviewDetails from './components/OwnerSideReviewDetails/OwnersideReviewDetails';
+import ReviewDetails from './components/ReviewDetails/ReviewDetails';
+
+
+
+
+import Login from './components/login/Login';
+import CustomerSignUp from './components/signUp/CustomerSignUp';
+import ManagerSignUp from './components/signUp/ManagerSignUp';
+import CustomerProfile from './components/profile/CustomerProfile';
+import ManagerProfile from './components/profile/ManagerProfile';
+import RestaurantMenu from './components/RestaurantMenu/RestaurantMenu';
+import EditRestaurantMenu from './components/EditRestaurantMenu/EditRestaurantMenu';
+import EditSpecifiedItem from './components/EditSpecifiedItem/EditSpecifiedItem';
+import ReplyReviews from './components/ReplyReviewMenu/ReplyReview';
+import ReplyReviewItem from './components/ReplyReviewItem/ReplyReviewItem';
+import ViewDetailMenu from './components/ViewDetailMenu/ViewDetailMenu';
+import PastReviewPage from './components/pastReview/pastReviewPage';
+import EditReviewPage from './components/editReview/editReviewPage'
+import CreateReviewPage from './components/createReview/createReviewPage';
+import PastOrderPage from './components/pastOrder/pastOrderPage';
+import CustomerProfile from './components/CustomerProfile/CustomerProfile';
 
 const config = {
   cartItems: [
@@ -27,31 +54,6 @@ const config = {
   deliveryFee: 2.99,
   taxRate: 0.1,
 };
-
-import {review, user, owner} from './config.js'
-import OwnersideReviewDetails from './components/OwnerSideReviewDetails/OwnersideReviewDetails';
-import ReviewDetails from './components/ReviewDetails/ReviewDetails';
-
-
-
-import Login from './components/login/Login';
-import CustomerSignUp from './components/signUp/CustomerSignUp';
-import ManagerSignUp from './components/signUp/ManagerSignUp';
-import CustomerProfile from './components/profile/CustomerProfile';
-import ManagerProfile from './components/profile/ManagerProfile';
-import RestaurantMenu from './components/RestaurantMenu/RestaurantMenu';
-import EditRestaurantMenu from './components/EditRestaurantMenu/EditRestaurantMenu';
-import EditSpecifiedItem from './components/EditSpecifiedItem/EditSpecifiedItem';
-import ReplyReviews from './components/ReplyReviewMenu/ReplyReview';
-import ReplyReviewItem from './components/ReplyReviewItem/ReplyReviewItem';
-import ViewDetailMenu from './components/ViewDetailMenu/ViewDetailMenu';
-import PastReviewPage from './components/pastReview/pastReviewPage';
-import EditReviewPage from './components/editReview/editReviewPage'
-import CreateReviewPage from './components/createReview/createReviewPage';
-import PastOrderPage from './components/pastOrder/pastOrderPage';
-
-
-
 
 function App() {
   return (
@@ -73,6 +75,7 @@ function App() {
           <Route path='/usereditreview' element={<EditReviewPage/>}/>
           <Route path='/usercreatereview' element={<CreateReviewPage/>} />
           <Route path='/userpastorder' element={<PastOrderPage/>} />
+          <Route path="/customerprofile" element={<CustomerProfile/>}></Route>
           <Route path='/cart' element={<Cart config={config} />} />
           <Route path='/ownerReviewDetail' element={<OwnersideReviewDetails review={review} user={user} owner={owner} />} />
         </Routes>
