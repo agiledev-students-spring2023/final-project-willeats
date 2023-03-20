@@ -5,6 +5,7 @@ import axios from 'axios';
 import '../../bootstrap.css'
 import LoadMoreButton from '../loadMoreButton/loadMoreButton';
 import PageBackButton from '../pagebackButton/PageBackButton.js';
+import HomeButton from '../profile/HomeButton.js';
 function PastReviewPage() {
 
     const [reviewData, setReviewData] = useState([])
@@ -35,6 +36,7 @@ function PastReviewPage() {
                 <div className='col-4'>
                     <div className='row d-flex justify-content-between'>
                         <PageBackButton/>
+                        <HomeButton/>
                     </div>
                     <div className='col'>
                         <h1 className='mx-auto'>My Reviews</h1>
