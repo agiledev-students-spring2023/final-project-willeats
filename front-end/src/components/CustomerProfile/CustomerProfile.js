@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import '../../bootstrap.css';
 import './CustomerProfile.css'
-
+import { useNavigate } from 'react-router-dom';
 function CustomerProfile() {
+  const navigate = useNavigate()
   const [name, setName] = useState('John Doe');
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingImage, setIsEditingImage] = useState(false);
@@ -36,7 +37,13 @@ function CustomerProfile() {
     setIsEditingImage(false);
   };
 
+  const navigateOrder = () => {
+    navigate('/userpastorder')
+  }
 
+  const navigateReview = () => {
+    navigate('/userpastreview')
+  }
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -81,8 +88,8 @@ function CustomerProfile() {
           )}
         </div>
         <div class="d-grid gap-2">
-          <button type="button" class="btn btn-lg btn-outline-primary">My Orders</button>
-          <button type="button" class="btn btn-lg btn-outline-primary">My Reviews</button>
+          <button type="button" class="btn btn-lg btn-outline-primary" onClick={navigateOrder}>My Orders</button>
+          <button type="button" class="btn btn-lg btn-outline-primary" onClick={navigateReview}>My Reviews</button>
           <button type="button" class="btn btn-lg btn-outline-primary">Account Settings</button>
         </div>
         <button class="btn btn-link logout" >Logout</button>
