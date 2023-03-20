@@ -16,3 +16,7 @@ h5{
     flex-direction: row;
     gap: 10px;
 }
+
+.tip-button{
+    width: calc(100% / 3);
+}
