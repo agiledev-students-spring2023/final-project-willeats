@@ -15,7 +15,7 @@ function ReplyMenuItem(props) {
     params.append('price',price)
     params.append('image',image)
     params.append('star',star)
-    navigate({pathname:`/reply/${id}`,
+    navigate({pathname:`/replymenu/${id}`,
     search:params.toString()});
   }
 

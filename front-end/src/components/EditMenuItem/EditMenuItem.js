@@ -25,7 +25,7 @@ function EditMenuItem(props) {
     params.append('price',price)
     params.append('image',image)
     params.append('star',star)
-    navigate({pathname:`/edit/${id}`,
+    navigate({pathname:`/editmenu/${id}`,
     search:params.toString()});
   }
 

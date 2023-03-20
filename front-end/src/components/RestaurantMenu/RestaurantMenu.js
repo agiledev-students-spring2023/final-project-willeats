@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Header from './Header';
-import MenuItem from './MenuItem';
-import CartIcon from './CartIcon';
+import Header from '../Header/Header';
+import MenuItem from '../MenuItem/MenuItem';
+import CartIcon from '../CartIcon/CartIcon';
 import './RestaurantMenu.css'
-import '../bootstrap.css';
+import '../../bootstrap.css'
 import axios from 'axios';
 
 
