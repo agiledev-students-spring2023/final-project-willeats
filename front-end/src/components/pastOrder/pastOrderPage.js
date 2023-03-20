@@ -5,6 +5,7 @@ import ReviewCard from '../reviewCards/reviewCard';
 import './pastOrderPage.css'
 import axios from 'axios';
 import LoadMoreButton from '../loadMoreButton/loadMoreButton';
+import PageBackButton from '../pagebackButton/PageBackButton';
 function PastOrderPage(props){
     const navigate = useNavigate()
     const [reviewData, setReviewData] = useState([])
@@ -40,6 +41,9 @@ function PastOrderPage(props){
 
                 </div>
                 <div className='col-4'>
+                    <div className='row d-flex justify-content-between'>
+                        <PageBackButton/>
+                    </div>
                     <div className='col'>
                         <h1 className='mx-auto'>My Orders</h1>
                         {/* change with real data */}
