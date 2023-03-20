@@ -27,7 +27,7 @@ function InputEmail() {
         <label htmlFor="email">Email</label>
         <div className="input-row">
           <input
-            type="email"
+            type="email-sign"
             id="email"
             className={`form-control ${
               showValidation && validationMessage
