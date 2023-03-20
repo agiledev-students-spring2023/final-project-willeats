@@ -14,6 +14,10 @@ function Home() {
 
   const Navigate = useNavigate()
 
+  const handleLogin = () => {
+    Navigate('/Login')
+  }
+
   return (
     <div className="container"> 
         <div className="background-container">
@@ -31,7 +35,7 @@ function Home() {
             <button className="button btn btn-primary btn-lg">Scan Now</button>
         </div>
         <div className="login-container">
-          <button className="btn btn-link" onClick={()=>Navigate('/Login')}>Login</button>
+          <button className="btn btn-link" onClick={handleLogin}>Login</button>
         </div>
         </div>
     </div>
