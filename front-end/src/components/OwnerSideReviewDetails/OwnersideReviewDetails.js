@@ -82,7 +82,7 @@ const OwnersideReviewDetails = ({ review, user, owner }) => {
           value={comment}
           onChange={handleChange}
           
-          class="form-control" rows="15"
+          class="form-contro" rows="15"
         />
         <button class="btn btn-primary btn-lg submit-comment" type="submit">Submit</button>
       </form>
