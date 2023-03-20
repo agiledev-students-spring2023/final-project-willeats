@@ -86,6 +86,10 @@ function CreateReviewPage(){
                         {itemList.length > 0 && <button type="button" className="btn btn-warning btn-sm m-1" onClick={handleAddMore}>Add review</button>}
                         {reviewed.length > 1 && <button type="button" className="btn btn-danger btn-sm m-1" onClick={handleDelete}>Delete review</button>}
                     </div>
+                    <div className='d-grid gap-2 col-5 mx-auto mt-3'>
+                        {/* handle save */}
+                        <button type="button" className="btn btn-primary">Submit</button> 
+                    </div>
                 </div>
                 <div className='col'>
 
