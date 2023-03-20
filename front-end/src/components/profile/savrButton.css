@@ -1,0 +1,15 @@
+.close {
+    border: none;
+    background-color: transparent;
+    color: inherit;
+    opacity: 1;
+  }
+  
+.close:hover,
+.close:focus {
+border: none;
+background-color: transparent;
+color: rgba(0, 0, 0, 0.5);
+text-decoration: none;
+cursor: pointer;
+}
