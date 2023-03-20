@@ -1,7 +1,6 @@
 import React from 'react'
 import {useNavigate } from "react-router-dom";
 import './reviewCard.css'
-import logo from '../../image/circle.png'
 import '../../bootstrap.css'
 import StarRatings from 'react-star-ratings'
 import SimpleImageSlider from "react-simple-image-slider";
@@ -35,6 +34,9 @@ function ReviewCard(props) {
         params.append('star', props.star)
         navigate({pathname: '/usereditreview', search: params.toString()})
     }
+
+    
+
     return(
         <div className="card size mx-auto mt-2">
             <div className="row">
@@ -43,9 +45,9 @@ function ReviewCard(props) {
                 </div>
                 {!props.order && <div className="col-3 d-flex flex-row-reverse">
                     {/* add handle event, justify if the review is user's */}
-                    <button type="button" className="btn btn-link float-right">Delete</button>
+                    <button type="button" className="btn btn-link float-right" onClick={props.handleDelete} >Delete</button>
                     <button type="button" className="btn btn-link float-right" onClick={changeEdit}>Edit</button>
-
+                    {props.reply && <button type="button" className="btn btn-link float-right">Reply</button>}
                 </div>}
             </div>
             <div className="row">

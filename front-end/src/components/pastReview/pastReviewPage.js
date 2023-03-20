@@ -5,11 +5,7 @@ import axios from 'axios';
 import '../../bootstrap.css'
 import LoadMoreButton from '../loadMoreButton/loadMoreButton';
 function PastReviewPage() {
-    // const reviewData = [{'name' : 'Lao Ma Spicy', 
-    //                     'date' : '2020/1/3', 
-    //                     'star' : 2 , 
-    //                     'itemName' : 'Spicy Dry Hot Pot', 
-    //                     'review' : 'The breading was light and crispy, and the calamari itself was tender and flavorful. The dipping sauce that came with it was a perfect complement.'}]
+
     const [reviewData, setReviewData] = useState([])
     useEffect(() => {
         axios.get('https://my.api.mockaroo.com/pastreview123123.json?key=d124d270')
@@ -20,7 +16,15 @@ function PastReviewPage() {
         .catch((err) => (
             console.log(err)
         ))
+        console.log('haha')
     }, []);
+    const handleDelete = (e) => {
+        e.preventDefault()
+        const index = e.target.getAttribute('keys')
+        const newData = [...reviewData]
+        newData.splice(index, 1)
+        setReviewData(newData)
+    }
     return(
         <div className='mt-3'>
             <div className='row'>
@@ -34,16 +38,18 @@ function PastReviewPage() {
                         <small className="text-muted">{reviewData.length} review</small>
                     </div>
                     <div className='row d-flex justify-content-center'>
-                        {reviewData != null && reviewData.map((element) => (
+                        {reviewData != null && reviewData.map((element, index) => (
                             <ReviewCard 
                                 mainName={element.name} 
                                 itemName={element.itemName} 
                                 review={element.review} 
-                                key={element.name} 
+                                key={index} 
+                                keys={index}
                                 date={element.date} 
                                 star={element.star}
                                 image={element.restImage}
-                                reviewImage={element.reviewImage} />
+                                reviewImage={element.reviewImage}
+                                handleDelete={handleDelete} />
                         ))}
                     </div>
                     <div className='d-flex justify-content-center mt-3'>
