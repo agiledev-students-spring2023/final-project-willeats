@@ -10,7 +10,7 @@ function PageBackButton() {
   };
 
   return (
-    <button className="btn home-button p-0" onClick={handlePageBack}>
+    <button className="btn home-button" onClick={handlePageBack}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="60"
