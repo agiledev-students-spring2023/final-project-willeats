@@ -6,6 +6,7 @@ import logo from "./image/circle.png";
 import backgroundImage from "./image/food-image.jpg";
 import mockProfileImg from "./image/random-profile.jpg";
 import defaultProfileImg from "./image/default-profile-image.svg";
+import { useNavigate } from "react-router-dom";
 
 
 function Home() {
@@ -14,9 +15,11 @@ function Home() {
 
   const Navigate = useNavigate()
 
-  const handleLogin = () => {
+  const handleLoginClick = () => {
     Navigate('/Login')
   }
+
+  
 
   return (
     <div className="container"> 
@@ -35,7 +38,7 @@ function Home() {
             <button className="button btn btn-primary btn-lg">Scan Now</button>
         </div>
         <div className="login-container">
-          <button className="btn btn-link" onClick={handleLogin}>Login</button>
+          <button className="btn btn-link" onClick={handleLoginClick}>Login</button>
         </div>
         </div>
     </div>
