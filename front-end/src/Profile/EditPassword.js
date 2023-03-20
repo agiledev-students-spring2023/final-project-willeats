@@ -80,10 +80,10 @@ function EditPassword() {
                 Close
               </button>
               <button type="button" className="btn btn-primary" onClick={handleSavePassword}>
-                Save Changes
+                Validate
               </button>
             </div>
-            
+
           </div>
         </div>
       </div>
