@@ -1,7 +1,7 @@
 .home-button {
   border-radius: 30px;
   width: 50px;
-  padding: 3px 8px;
+  padding: 4px 8px;
   font-size: 0.9rem;
   transition: background-color 0.2s, color 0.2s;
 }
