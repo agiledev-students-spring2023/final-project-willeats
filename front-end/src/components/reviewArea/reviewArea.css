@@ -1,0 +1,27 @@
+.noOutline{
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    border-bottom-style: hidden;
+}
+
+.img{
+    width: auto;
+    height: 80px;
+}
+/* sss */
+  .image-container {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .image-container img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  
