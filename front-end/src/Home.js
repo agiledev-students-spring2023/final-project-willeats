@@ -17,7 +17,7 @@ function Home() {
   const Navigate = useNavigate()
 
   const handleLoginClick = () => {
-    Navigate()
+    Navigate('/CP')
   }
 
   
