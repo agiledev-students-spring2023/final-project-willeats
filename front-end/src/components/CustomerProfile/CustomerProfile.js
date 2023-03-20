@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import './bootstrap.css';
+import '../../bootstrap.css';
 import './CustomerProfile.css'
 
-function MyProfile() {
+function CustomerProfile() {
   const [name, setName] = useState('John Doe');
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingImage, setIsEditingImage] = useState(false);
@@ -35,6 +35,7 @@ function MyProfile() {
   const handleCancelImageClick = () => {
     setIsEditingImage(false);
   };
+
 
   return (
     <div>
@@ -90,4 +91,4 @@ function MyProfile() {
   );
 }
 
-export default MyProfile;
+export default CustomerProfile;

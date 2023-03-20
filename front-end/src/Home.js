@@ -6,6 +6,7 @@ import logo from "./image/circle.png";
 import backgroundImage from "./image/food-image.jpg";
 import mockProfileImg from "./image/random-profile.jpg";
 import defaultProfileImg from "./image/default-profile-image.svg";
+import { useNavigate } from "react-router-dom";
 
 
 function Home() {
@@ -13,9 +14,13 @@ function Home() {
   const profileImage = isLoggedIn ? mockProfileImg : defaultProfileImg;
   const loginText = isLoggedIn ? "Log Out" : "Log In";
 
+  const Navigate = useNavigate()
+
   const handleLoginClick = () => {
-    setIsLoggedIn(!isLoggedIn);
+    Navigate()
   }
+
+  
 
   return (
     <div className="container"> 
@@ -34,7 +39,7 @@ function Home() {
             <button className="button btn btn-primary btn-lg">Scan Now</button>
         </div>
         <div className="login-container">
-            <a href="#" className="login-link" onClick={handleLoginClick}>{loginText}</a>
+            
         </div>
         </div>
     </div>
