@@ -5,7 +5,33 @@ import Home from './Home';
 import './App.css';
 
 
+
+import Cart from './components/cart/Cart'
+import OrderFinished from './OrderFinished'
+
+const config = {
+  cartItems: [
+    {
+      id: 1,
+      name: "Cheeseburger",
+      price: 8.99,
+      quantity: 2,
+    },
+    {
+      id: 2,
+      name: "Fries",
+      price: 3.99,
+      quantity: 1,
+    },
+  ],
+  deliveryFee: 2.99,
+  taxRate: 0.1,
+};
+
 import {review, user, owner} from './config.js'
+import OwnersideReviewDetails from './components/OwnerSideReviewDetails/OwnersideReviewDetails';
+import ReviewDetails from './components/ReviewDetails/ReviewDetails';
+
 
 
 import Login from './components/login/Login';
@@ -25,8 +51,7 @@ import CreateReviewPage from './components/createReview/createReviewPage';
 import PastOrderPage from './components/pastOrder/pastOrderPage';
 
 
-import OwnersideReviewDetails from './components/OwnerSideReviewDetails/OwnersideReviewDetails';
-import ReviewDetails from './components/ReviewDetails/ReviewDetails';
+
 
 function App() {
   return (
@@ -48,10 +73,11 @@ function App() {
           <Route path='/usereditreview' element={<EditReviewPage/>}/>
           <Route path='/usercreatereview' element={<CreateReviewPage/>} />
           <Route path='/userpastorder' element={<PastOrderPage/>} />
-          
+          <Route path='/cart' element={<Cart config={config} />} />
           <Route path='/ownerReviewDetail' element={<OwnersideReviewDetails review={review} user={user} owner={owner} />} />
         </Routes>
       </Router>
+
   );
 }
 
