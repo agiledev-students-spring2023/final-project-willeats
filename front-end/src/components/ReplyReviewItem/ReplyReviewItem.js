@@ -1,44 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import SimpleImageSlider from "react-simple-image-slider";
-import '../bootstrap.css'
+import '../../bootstrap.css'
 import StarRatings from 'react-star-ratings';
-import ReviewCard from './ReviewCard';
-import './ViewDetailMenu.css';
-import CartIcon from './CartIcon';
+import ReviewCard from '../reviewCard/ReviewCard';
+import './ReplyReviewItem.css'
 
 
-function ViewDetailMenu() {
+function ReplyReviewItem() {
     const navigate = useNavigate();
     const location = useLocation();
     const [images, setImages] = useState([
-        "https://picsum.photos/id/100/500/200",
-        "https://picsum.photos/id/101/500/200",
-        "https://picsum.photos/id/102/500/200",
+        "https://picsum.photos/200/300",
+        "https://picsum.photos/200/200",
+        "https://picsum.photos/400/400",
     ]);
-    const [name, setName] = useState('French Toast');
-    const [description, setDescription] = useState("A toast is a simple and versatile dish that can be eaten any time of the day. It's a dish that typically consists of toasted bread that is then topped with a variety of spreads or toppings. One of the most popular toppings for a toast is butter");
-    const [price, setPrice] = useState('$15');
-    const [rating, setRatings] = useState(4);
-    const [count,setCount]=useState(0);
-
-    useEffect(() => {
-        const cartItems = JSON.parse(localStorage.getItem('cartItems'));
-        if (cartItems) {
-            setCount(cartItems.length)
-        }
-      }, []);
-
-
-    const [cartItems, setCartItems] = useState([]);
-
-    const handleAddToCart = (item) => {
-        setCartItems([...cartItems, item]);
-        localStorage.setItem('cartItems', JSON.stringify([...cartItems, item]));
-    };
-
-    
-    
+    const [name, setName] = useState(new URLSearchParams(location.search).get('name'));
+    const [description, setDescription] = useState(new URLSearchParams(location.search).get('description'));
+    const [price, setPrice] = useState(new URLSearchParams(location.search).get('price'));
+    const [rating, setRatings] = useState(parseInt(new URLSearchParams(location.search).get('star')));
     const review = {mainName:'ljr',star: 4, date:'20020222',review:'I recently had the pleasure of indulging in one of the most scrumptious and satisfying breakfast dishes'}
 
     return (
@@ -63,25 +43,21 @@ function ViewDetailMenu() {
                     </div>
                     <div className="card" style={{ width: '31.2rem' }}>
                         <div className="card-body">
-                            <h5 className="card-title">{new URLSearchParams(location.search).get('name')}</h5>
+                            <h5 className="card-title">{name}</h5>
                             <StarRatings
-                                rating={parseInt(new URLSearchParams(location.search).get('star'))}
+                                rating={rating}
                                 starRatedColor="yellow"
                                 numberOfStars={5}
                                 name='rating'
                                 starDimension="20px"
                                 starSpacing="10px"
                             />
-                            <p className="card-text">{new URLSearchParams(location.search).get('description')}</p>
-                            <div className='d-flex justify-content-between'>
-                                <h3 className="card-text">{new URLSearchParams(location.search).get('price')}</h3>
-                                <button className="btn btn-primary" >add to cart</button>
-                            </div>
-                            
+                            <p className="card-text">{description}</p>
+                            <h3 className="card-text">{price}</h3>
                         </div>
                     </div>
                     <div className='sort-btn'>
-                    <button type="button" className="btn btn-link">Sort by Ratings</button>
+                    <button type="button" className="btn btn-link">Sort by Recent</button>
                     </div>
                     <div className='row d-flex justify-content-center'>
                         <ReviewCard
@@ -92,13 +68,11 @@ function ViewDetailMenu() {
                         review={review.review}
                         reply={true}
                         />
+                        
                     </div>
                     <div>
                     <div className='d-flex justify-content-center mt-3'>
                         <button type="button" className="btn btn-warning btn-sm">Load More...</button>
-                    </div>
-                    <div className="cart-container d-flex flex-row-reverse">
-                        <CartIcon count={count} />
                     </div>
                     </div>
                 </div>
@@ -113,4 +87,4 @@ function ViewDetailMenu() {
     )
 }
 
-export default ViewDetailMenu
+export default ReplyReviewItem

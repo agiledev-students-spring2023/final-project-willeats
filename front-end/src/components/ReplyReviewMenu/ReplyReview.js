@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import ReplyMenuItem from './ReplyMenuItem';
-import '../bootstrap.css';
+import ReplyMenuItem from '../ReplyMenuItem/ReplyMenuItem';
+import '../../bootstrap.css'
 import axios from 'axios'
 
 function ReplyReviews() {

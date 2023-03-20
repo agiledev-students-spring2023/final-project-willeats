@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
-import EditMenuItem from './EditMenuItem';
+import EditMenuItem from '../EditMenuItem/EditMenuItem';
 import './EditRestaurantMenu.css';
-import '../bootstrap.css';
+import '../../bootstrap.css'
 import swal from 'sweetalert';
 import axios from 'axios';
 
