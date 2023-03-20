@@ -3,8 +3,10 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import SimpleImageSlider from "react-simple-image-slider";
 import '../../bootstrap.css'
 import StarRatings from 'react-star-ratings';
-import ReviewCard from '../reviewCard/ReviewCard';
+import ReviewCard from '../reviewCards/reviewCard';
 import './ReplyReviewItem.css'
+import axios from 'axios'
+
 
 
 function ReplyReviewItem() {
@@ -15,11 +17,25 @@ function ReplyReviewItem() {
         "https://picsum.photos/200/200",
         "https://picsum.photos/400/400",
     ]);
+    const [reviews, setReviews] = useState()
     const [name, setName] = useState(new URLSearchParams(location.search).get('name'));
     const [description, setDescription] = useState(new URLSearchParams(location.search).get('description'));
     const [price, setPrice] = useState(new URLSearchParams(location.search).get('price'));
     const [rating, setRatings] = useState(parseInt(new URLSearchParams(location.search).get('star')));
-    const review = {mainName:'ljr',star: 4, date:'20020222',review:'I recently had the pleasure of indulging in one of the most scrumptious and satisfying breakfast dishes'}
+
+
+    useEffect(() => {
+        axios.get("https://my.api.mockaroo.com/pastreview123123.json?key=d124d270")
+        .then((response)=>{
+            const data = response.data
+            console.log(data)
+            setReviews(data)
+        }).catch((err)=>{
+            console.log(err)
+        })
+            
+        
+    },[])
 
     return (
         <div className='row'>
@@ -60,14 +76,16 @@ function ReplyReviewItem() {
                     <button type="button" className="btn btn-link">Sort by Recent</button>
                     </div>
                     <div className='row d-flex justify-content-center'>
-                        <ReviewCard
-                        mainName={review.mainName}
-                        star={review.star}
-                        date={review.date}
+                        { reviews && <ReviewCard
+                        mainName={reviews[0].name}
+                        star={reviews[0].star}
+                        date={reviews[0].date}
                         order={false}
-                        review={review.review}
+                        review={reviews[0].review}
                         reply={true}
-                        />
+                        image ={reviews[0].restImage}
+                        reviewImage = {reviews[0].reviewImage}
+                        />}
                         
                     </div>
                     <div>
