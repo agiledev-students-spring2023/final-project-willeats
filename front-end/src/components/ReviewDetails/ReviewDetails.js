@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import './bootstrap.css'
+import '../../bootstrap.css'
 import './ReviewDetails.css'
 
-import { ReactComponent as BackIcon } from "./image/arrow-left.svg";
-import { ReactComponent as Star } from './image/star-fill.svg';
+import { ReactComponent as BackIcon } from "../../image/arrow-left.svg";
+import { ReactComponent as Star } from '../../image/star-fill.svg';
 
 const StarFill = () => {
     return (
