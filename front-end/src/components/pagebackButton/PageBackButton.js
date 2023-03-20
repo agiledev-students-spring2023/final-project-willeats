@@ -15,7 +15,7 @@ function PageBackButton() {
         xmlns="http://www.w3.org/2000/svg"
         width="60"
         height="40"
-        viewBox="5 0 16 16"
+        viewBox="0 0 16 16"
       >
         <path
           fillRule="evenodd"
