@@ -66,6 +66,7 @@ function ReplyReviewItem() {
                         date={review.date}
                         order={false}
                         review={review.review}
+                        reply={true}
                         />
                         
                     </div>

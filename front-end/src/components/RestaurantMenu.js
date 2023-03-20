@@ -74,10 +74,6 @@ function RestaurantMenu() {
       });
   }, []);
 
-  
-
-  // const restaurantName = "LaoMa Spicy"; // Set the name of the restaurant here
-
   return (
     <div className='row'>
       <div className='col-4'></div>

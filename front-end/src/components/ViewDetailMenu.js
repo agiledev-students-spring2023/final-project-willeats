@@ -90,6 +90,7 @@ function ViewDetailMenu() {
                         date={review.date}
                         order={false}
                         review={review.review}
+                        reply={true}
                         />
                     </div>
                     <div>
