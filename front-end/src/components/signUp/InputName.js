@@ -26,7 +26,7 @@ function InputName(props) {
         </label>
         <div className="input-row">
           <input
-            type="text"
+            type="text-sign"
             id="name"
             className={`form-control ${
               showValidation && validationMessage
