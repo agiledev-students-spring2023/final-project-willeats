@@ -12,7 +12,7 @@ const ManagerSignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Navigate("/Profile-C");
+    Navigate("/Profile-M");
   };
 
   return (
@@ -23,7 +23,7 @@ const ManagerSignUp = () => {
         <InputName business={true}/>
         <InputEmail/>
         <InputPassword/>
-      <button type="submit" className="btn btn-primary" onClick={useNavigate("Profile-M ")}>
+      <button type="submit" className="btn btn-primary">
         Sign Up
       </button>
     </form>
