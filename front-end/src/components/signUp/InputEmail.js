@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import "./Input.css"
-import "../bootstrap.css"
+import "../../bootstrap.css"
 
-function InputName(props) {
-  const [name, setName] = useState('');
+function InputEmail() {
+  const [email, setEmail] = useState('');
   const [validationMessage, setValidationMessage] = useState('');
   const [showValidation, setShowValidation] = useState(false);
 
-  const validateName = () => {
-    if (name.length > 20) {
-      setValidationMessage('Name must be less than or equal to 20 characters.');
-    } else if (name === '') {
-      setValidationMessage('Name is required.');
+  const validateEmail = (email) => {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  const validateEmailButton = () => {
+    if (!validateEmail(email)) {
+      setValidationMessage('Invalid email address.');
     } else {
       setValidationMessage('');
     }
@@ -21,13 +24,11 @@ function InputName(props) {
   return (
     <div>
       <div className="form-group">
-        <label htmlFor="name" className="form-label">
-          {props.business === true ? 'Business Name' : 'Name'}
-        </label>
+        <label htmlFor="email">Email</label>
         <div className="input-row">
           <input
-            type="text"
-            id="name"
+            type="email"
+            id="email"
             className={`form-control ${
               showValidation && validationMessage
                 ? 'is-invalid'
@@ -35,10 +36,14 @@ function InputName(props) {
                 ? 'is-valid'
                 : ''
             }`}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
-          <button type="button" className="btn btn-primary" onClick={validateName}>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={validateEmailButton}
+          >
             Check
           </button>
         </div>
@@ -48,4 +53,4 @@ function InputName(props) {
   );
 }
 
-export default InputName;
+export default InputEmail;

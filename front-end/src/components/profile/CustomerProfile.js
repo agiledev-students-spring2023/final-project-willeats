@@ -1,5 +1,5 @@
 import React from 'react';
-import '../bootstrap.css';
+import '../../bootstrap.css';
 import './CustomerProfile.css';
 import HomeButton from './HomeButton';
 import ProfileImage from '../signUp/ProfileImage';
