@@ -12,7 +12,7 @@ const Login = () => {
 
     const signUpText = (selected === 'user') ? 'Sign up' : 'Sign up for your business'
     const signPath = (selected === 'user') ? '/Sign-C' : '/Sign-M'
-    const loginPath = (selected === 'user') ? '/Profile-C' : '/Profile-M'
+    const loginPath = (selected === 'user') ? '/customerprofile' : '/customerprofile'
 
     const prohibitRefresh = (e) => {
         e.preventDefault() || (e.returnValue = false);

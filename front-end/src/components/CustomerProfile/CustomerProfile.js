@@ -44,6 +44,11 @@ function CustomerProfile() {
   const navigateReview = () => {
     navigate('/userpastreview')
   }
+  
+  const navigateAccount = () => {
+    navigate('/Profile-C')
+  }
+
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -90,7 +95,7 @@ function CustomerProfile() {
         <div class="d-grid gap-2">
           <button type="button" class="btn btn-lg btn-outline-primary" onClick={navigateOrder}>My Orders</button>
           <button type="button" class="btn btn-lg btn-outline-primary" onClick={navigateReview}>My Reviews</button>
-          <button type="button" class="btn btn-lg btn-outline-primary">Account Settings</button>
+          <button type="button" class="btn btn-lg btn-outline-primary" onClick={navigateAccount}>Account Settings</button>
         </div>
         <button class="btn btn-link logout" >Logout</button>
       </div>
