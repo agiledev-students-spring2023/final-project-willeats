@@ -3,6 +3,11 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './index.css';
 import Home from './Home';
 import './App.css';
+
+
+import {review, user, owner} from './config.js'
+
+
 import Login from './components/login/Login';
 import CustomerSignUp from './components/signUp/CustomerSignUp';
 import ManagerSignUp from './components/signUp/ManagerSignUp';
@@ -18,6 +23,10 @@ import PastReviewPage from './components/pastReview/pastReviewPage';
 import EditReviewPage from './components/editReview/editReviewPage'
 import CreateReviewPage from './components/createReview/createReviewPage';
 import PastOrderPage from './components/pastOrder/pastOrderPage';
+
+
+import OwnersideReviewDetails from './components/OwnerSideReviewDetails/OwnersideReviewDetails';
+import ReviewDetails from './components/ReviewDetails/ReviewDetails';
 
 function App() {
   return (
@@ -39,13 +48,11 @@ function App() {
           <Route path='/usereditreview' element={<EditReviewPage/>}/>
           <Route path='/usercreatereview' element={<CreateReviewPage/>} />
           <Route path='/userpastorder' element={<PastOrderPage/>} />
+          
+          <Route path='/ownerReviewDetail' element={<OwnersideReviewDetails review={review} user={user} owner={owner} />} />
         </Routes>
       </Router>
   );
 }
 
 export default App;
-
-
-
-
