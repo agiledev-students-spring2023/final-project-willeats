@@ -6,6 +6,17 @@
   margin: 0 auto;
 }
 
+
+@media (max-width: 576px) {
+    .consumer-login {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: none;
+      margin: 20px;
+    }
+}
+
 form {
   width: 100%;
 }
