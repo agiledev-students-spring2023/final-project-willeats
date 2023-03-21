@@ -70,7 +70,7 @@ function EditSpecifiedItem() {
     <div className="edit-specified-item-container justify-content-center">
       <div className="image-slider-container">
         <SimpleImageSlider
-          width={500}
+          width={'90%'}
           height={200}
           images={images.map(image => ({ url: image }))}
           navStyle={1}
@@ -100,7 +100,7 @@ function EditSpecifiedItem() {
       </div>
 
       <div className="save-button-container">
-        <button className="btn btn-primary save-button" onClick={handleSave}>Save</button>
+        <button className="btn btn-primary save-button-edit-specify" onClick={handleSave}>Save</button>
       </div>
     </div>
   );

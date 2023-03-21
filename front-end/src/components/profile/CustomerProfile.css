@@ -3,6 +3,13 @@
   margin: 0 auto;
 }
 
+@media (max-width: 576px) {
+  .customer-profile {
+      max-width: none;
+      margin: 20px;
+  }
+}
+
 .customer-profile label {
   display: block;
   margin: 0 auto;

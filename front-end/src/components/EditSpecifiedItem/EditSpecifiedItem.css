@@ -7,12 +7,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 500px;
+    max-width: 500px;
     margin: 0 auto;
   }
 
+  @media (max-width: 576px) {
+    .edit-specified-item-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: none;
+      margin: 20px;
+    }
+}
+
   .image-slider-container {
-    width: 500px;
+    width: 100%;
     height: 200px;
     margin: 0 auto;
   }
@@ -61,7 +71,7 @@
   .description-container {
     display: flex;
     flex-direction: column;
-    width: 500px;
+    width: 80%;
     margin-bottom: 1rem;
   }
   
@@ -84,7 +94,7 @@
     flex-direction: column;
     align-items: left;
     margin-top: 1rem;
-    width: 500px;
+    width: 80%;
   }
   
   .price-container h2 {
@@ -109,7 +119,7 @@
     margin-top: 1rem;
   }
   
-  .save-button {
+  .save-button-edit-specify {
     background-color:  #e95420;
     color: white;
     padding: 0.5rem 1rem;

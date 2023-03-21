@@ -3,6 +3,14 @@
     margin: 0 auto;
 }
 
+
+@media (max-width: 576px) {
+    .login-page {
+        max-width: none;
+        margin: 20px;
+    }
+}
+
 .button-center{
     display: flex;
     justify-content: center;
