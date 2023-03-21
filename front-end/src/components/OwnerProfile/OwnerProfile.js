@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../bootstrap.css'
-import './OwnerProfile.css'
 
 function OwnerProfile() {
   const [name, setName] = useState('Peet\'s coffee and tea');
