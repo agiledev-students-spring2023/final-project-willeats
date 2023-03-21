@@ -30,25 +30,21 @@ function EditReviewPage() {
     //     }
     // }
     return(
-        <div className='mt-3'>
+        <div className='mt-1'>
             <div className='row'>
-                <div className='col'>
 
-                </div>
-                <div className='col-4'>
+                <div className='col'>
                     <PageBackButton />
-                    <p className='fs-3'>Edit the review for...</p>
-                    <h1>{new URLSearchParams(location.search).get('mainName')}</h1>
-                    <p className='fs-4'>{new URLSearchParams(location.search).get('itemName')}</p>
-                    <ReviewArea name={new URLSearchParams(location.search).get('itemName')} />
+                    <p className='fs-3 m-1'>Edit the review for...</p>
+                    <h1 className='m-1 fw-bold'>{new URLSearchParams(location.search).get('mainName')}</h1>
+                    <p className='fs-4 m-1'>{new URLSearchParams(location.search).get('itemName')}</p>
+                    <ReviewArea name={new URLSearchParams(location.search).get('itemName')} 
+                                review={new URLSearchParams(location.search).get('review')} 
+                                image={new URLSearchParams(location.search).getAll('image')} />
                     <div className='d-grid gap-2 col-5 mx-auto mt-3'>
                         {/* handle save */}
                         <button type="button" className="btn btn-primary">Save</button> 
                     </div>
-                </div>
-                
-                <div className='col'>
-
                 </div>
             </div>
 
