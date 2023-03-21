@@ -36,20 +36,18 @@ function PastOrderPage(props){
         )
     }
     return(
-        <div className='mt-3'>
+        <div className='mt-1'>
             <div className='row'>
-                <div className='col'>
 
-                </div>
-                <div className='col-4'>
-                    <div className='row d-flex justify-content-between'>
+                <div className='col'>
+                    <div className='d-flex justify-content-between'>
                         <PageBackButton/>
                         <HomeButton/>
                     </div>
                     <div className='col'>
-                        <h1 className='mx-auto'>My Orders</h1>
+                        <h1 className='m-1'>My Orders</h1>
                         {/* change with real data */}
-                        {reviewData && <small className="text-muted">{ reviewData.length} orders</small>}
+                        {reviewData && <small className="text-muted m-1">{ reviewData.length} orders</small>}
                     </div>
                     <div className='row-gap-3'>
                         {reviewData != null && reviewData.map((element) => (
@@ -68,9 +66,7 @@ function PastOrderPage(props){
                         <LoadMoreButton url={'https://my.api.mockaroo.com/userreview1234.json?key=3c15f680'} data={reviewData} setdata={setReviewData} />
                     </div>
                 </div>
-                <div className='col'>
 
-                </div>
             </div>
 
         </div>

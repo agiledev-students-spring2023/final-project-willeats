@@ -50,22 +50,20 @@ function CreateReviewPage(){
     }
 
     return(
-        <div className='mt-3'>
+        <div className='mt-1'>
             <div className='row'>
+
                 <div className='col'>
-                    
-                </div>
-                <div className='col-4'>
                     <div className='col'>
                         <PageBackButton />
-                        <h2 className='mx-auto'>Write a review for...</h2>
-                        <h1 className='fw-bolder'>{new URLSearchParams(location.search).get('mainName')}</h1>
+                        <p className='fs-3 m-1'>Write a review for...</p>
+                        <h1 className='fw-bolder m-1'>{new URLSearchParams(location.search).get('mainName')}</h1>
                         
                     </div>
                     <div className='row-gap-3'>
                         {reviewed.length > 0 && reviewed.map((e, index) => (
                             <div key={e}>
-                                <select className='btn btn-primary dropdown-toggle mb-1 mt-1' 
+                                <select className='btn btn-primary dropdown-toggle m-1' 
                                     id='dropdown' 
                                     value={e} 
                                     onChange={handleClick} 
@@ -73,7 +71,7 @@ function CreateReviewPage(){
                                     keys={index}>
                                     <option className='dropdown-item' value={e} key={e}>{e}</option>
                                     {itemList.map((ele, i) => (
-                                        <option className='dropdown-item' value={ele} key={ele}>{ele}</option>
+                                        <option className='dropdown-item' value={ele} key={i}>{ele}</option>
                                     ))}
                                     
                                 </select>
@@ -91,9 +89,7 @@ function CreateReviewPage(){
                         <button type="button" className="btn btn-primary">Submit</button> 
                     </div>
                 </div>
-                <div className='col'>
 
-                </div>
             </div>
 
         </div>

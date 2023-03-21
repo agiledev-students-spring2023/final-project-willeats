@@ -28,20 +28,18 @@ function PastReviewPage() {
         setReviewData(newData)
     }
     return(
-        <div className='mt-3'>
+        <div className='mt-1 mw-40'>
             <div className='row'>
-                <div className='col'>
 
-                </div>
-                <div className='col-4'>
-                    <div className='row d-flex justify-content-between'>
+                <div className='col'>
+                    <div className='d-flex justify-content-between'>
                         <PageBackButton/>
                         <HomeButton/>
                     </div>
                     <div className='col'>
-                        <h1 className='mx-auto'>My Reviews</h1>
+                        <h1 className='m-1'>My Reviews</h1>
                         {/* change with real data */}
-                        <small className="text-muted">{reviewData.length} review</small>
+                        <small className="text-muted m-1">{reviewData.length} review</small>
                     </div>
                     <div className='row d-flex justify-content-center'>
                         {reviewData != null && reviewData.map((element, index) => (
@@ -63,9 +61,7 @@ function PastReviewPage() {
                         <LoadMoreButton url={'https://my.api.mockaroo.com/pastreview1234.json?key=3c15f680'} data={reviewData} setdata={setReviewData} />
                     </div>
                 </div>
-                <div className='col'>
 
-                </div>
             </div>
 
         </div>

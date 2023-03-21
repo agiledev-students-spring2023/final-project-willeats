@@ -68,9 +68,9 @@ import { useLocation } from "react-router-dom";
 
 function ReviewArea(props){
   const location = useLocation()
-  const [review, setReview] = useState('')
+  const [review, setReview] = useState(props.review)
   const [rating, setRating] = useState(parseInt(new URLSearchParams(location.search).get('star')))
-  const [preimage, setPreimage] = useState([]) //preview
+  const [preimage, setPreimage] = useState(new URLSearchParams(location.search).getAll('image')) //preview
   const [image, setImage] = useState([])
 
   const handleChange = (event) => {
@@ -99,9 +99,11 @@ function ReviewArea(props){
     setPreimage(newPreimage)
   }
 
+  
+
   return(
     
-      <div className='card rounded'>
+      <div className='card rounded m-1 '>
         <div className='row m-1 p-0'>
           <StarRatings
             rating={isNaN(rating) ? 0 : rating}
@@ -117,12 +119,13 @@ function ReviewArea(props){
               id="exampleTextarea"
               rows="3"
               placeholder='write something...'
-              onChange={handleChange}></textarea>
+              onChange={handleChange}
+              value={review} ></textarea>
           </div>
         </div>
         <div className='row m-1'>
-          {preimage.map((element, index) => (
-            <div key={element} className='image-container'>
+          {preimage && preimage.map((element, index) => (
+            <div key={index} className='image-container'>
               <img src={element} alt={element} className='img img-thumbnail' onClick={() => handleImageClick(index)} />
             </div>
           ))}
