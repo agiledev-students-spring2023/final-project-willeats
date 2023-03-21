@@ -14,7 +14,7 @@ function ProfileImage() {
   };
 
   return (
-    <div className="profile-image-container">
+    <div className="profile-image-container-login">
       <div className="profile-image" onClick={() => document.getElementById("profile-image-input").click()}>
         <img
           src={profileImage || 'https://picsum.photos/200/300'}

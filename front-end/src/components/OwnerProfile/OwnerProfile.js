@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import './bootstrap.css'
-import './OwnerProfile.css'
+import { useNavigate } from 'react-router-dom';
+import '../../bootstrap.css'
 
 function OwnerProfile() {
   const [name, setName] = useState('Peet\'s coffee and tea');
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingImage, setIsEditingImage] = useState(false);
   const [isEditingHeaderImage, setIsEditingHeaderImage] = useState(false);
+  const navigate = useNavigate()
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -47,6 +48,10 @@ function OwnerProfile() {
   const handleCancelHeaderImageClick = () => {
     setIsEditingHeaderImage(false);
   };
+
+  const navigateProfile = () => {
+    navigate('/Profile-M')
+  }
 
   return (
     <div class="profile-container">
@@ -99,7 +104,7 @@ function OwnerProfile() {
         <div class="main-buttons">
           <button  class="btn btn-lg btn-outline-primary">Manage Menus</button>
           <button class="btn btn-lg btn-outline-primary">Manage Reviews</button>
-          <button class="btn btn-lg btn-outline-primary" >Account Settings</button>
+          <button class="btn btn-lg btn-outline-primary" onClick={navigateProfile}>Account Settings</button>
         </div>
         <button class="btn btn-link" >Logout</button>
       </div>
