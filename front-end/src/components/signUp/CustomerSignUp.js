@@ -5,6 +5,7 @@ import InputName from './InputName';
 import InputEmail from './InputEmail';
 import InputPassword from './InputPassword';
 import { useNavigate } from 'react-router-dom';
+import TopBar from '../topBar/TopBar';
 
 const CustomerSignUp = () => {
 
@@ -12,11 +13,12 @@ const CustomerSignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Navigate("/Profile-C");
+    Navigate("/customerprofile");
   };
 
   return (
     <div className="consumer-login">
+      <TopBar/>
       <h1>Consumer Sign up</h1>
       <form onSubmit={handleSubmit}>
         <ProfileImage />
