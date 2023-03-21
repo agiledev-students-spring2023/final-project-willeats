@@ -13,9 +13,9 @@ function EditSpecifiedItem() {
   const [description, setDescription] = useState(new URLSearchParams(location.search).get('description'));
   const [price, setPrice] = useState(new URLSearchParams(location.search).get('price'));
   const [images, setImages] = useState([
-    "https://picsum.photos/id/100/500/200",
-    "https://picsum.photos/id/101/500/200",
-    "https://picsum.photos/id/102/500/200",
+    "https://picsum.photos/id/100/300/200",
+    "https://picsum.photos/id/101/300/200",
+    "https://picsum.photos/id/102/300/200",
   ]);
   
   //fetch menu item data from the server using the id
