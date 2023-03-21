@@ -6,7 +6,7 @@ import StarRatings from 'react-star-ratings';
 import ReviewCard from '../reviewCards/reviewCard';
 import './ReplyReviewItem.css'
 import axios from 'axios'
-
+import PageBackButton from '../pagebackButton/PageBackButton';
 
 
 function ReplyReviewItem() {
@@ -25,7 +25,7 @@ function ReplyReviewItem() {
 
 
     useEffect(() => {
-        axios.get("https://my.api.mockaroo.com/pastreview123123.json?key=d124d270")
+        axios.get("https://my.api.mockaroo.com/pastreview1234.json?key=3c15f680")
         .then((response)=>{
             const data = response.data
             console.log(data)
@@ -39,10 +39,9 @@ function ReplyReviewItem() {
 
     return (
         <div className='row'>
-            <div className='col-4'>                           
-            </div>
-            <div className='col-4'>             
+                        
             <div className='ReplyReview-Container'>
+            <PageBackButton></PageBackButton>
                     <div className="image-slider-container">
                         <SimpleImageSlider
                             width={500}
@@ -57,12 +56,11 @@ function ReplyReviewItem() {
                             onClickNav={(index) => console.log(`Clicked nav button: ${index}`)}
                         />
                     </div>
-                    <div className="card" style={{ width: '31.2rem' }}>
+                    <div className="card border-0">
                         <div className="card-body">
                             <h5 className="card-title">{name}</h5>
                             <StarRatings
                                 rating={rating}
-                                starRatedColor="yellow"
                                 numberOfStars={5}
                                 name='rating'
                                 starDimension="20px"
@@ -94,8 +92,7 @@ function ReplyReviewItem() {
                     </div>
                     </div>
                 </div>
-            </div>
-            <div className='col-4'></div>
+           
         </div>
         
 
