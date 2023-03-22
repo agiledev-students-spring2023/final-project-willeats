@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../Header/Header';
-import MenuItem from '../MenuItem/MenuItem';
+import MenuItem from '../MenuItem/MenuItem.jsx';
 import CartIcon from '../CartIcon/CartIcon';
 import './RestaurantMenu.css'
 import '../../bootstrap.css'
 import axios from 'axios';
+import HomeButton from '../profile/HomeButton';
+import PageBackButton from '../pagebackButton/PageBackButton';
 
 
 
 function RestaurantMenu() {
   const [cartItems, setCartItems] = useState([]);
-  const [count,setCount]=useState(0);
+  const [count, setCount] = useState(0);
   const [menuItems, setMenuItems] = useState();
   const [restaurantName, setRestaurantName] = useState('')
-  
+
   const handleAddToCart = (item) => {
     setCartItems([...cartItems, item]);
     localStorage.setItem('cartItems', JSON.stringify([...cartItems, item]));
@@ -22,7 +24,7 @@ function RestaurantMenu() {
   useEffect(() => {
     const cartItems = JSON.parse(localStorage.getItem('cartItems'));
     if (cartItems) {
-        setCount(cartItems.length)
+      setCount(cartItems.length)
     }
   }, []);
 
@@ -54,7 +56,7 @@ function RestaurantMenu() {
         );
         setMenuItems(data);
         console.log(response.data);
-        
+
       })
       .catch((error) => {
         console.error(error);
@@ -76,47 +78,52 @@ function RestaurantMenu() {
 
   return (
     <div className='row'>
-      <div className='col-4'></div>
-      <div className='col-4'>
-      <div className="restaurant-menu-container">
-      <Header
-        name={restaurantName}
-        rating={4}
-        logoSrc="https://picsum.photos/200/200"
-        backgroundSrc="https://picsum.photos/1500/500"
-      />
-      {menuItems && menuItems.map((category, index) => (
-        <div key={index}>
-        <div style={{
-            display: 'flex',
-        }}>
-           <h1>{category.category}</h1>
-        </div>
-          <div className="menu-items-container">
-            {category.items.map((item, index) => (
-              <MenuItem
-                key={index}
-                name={item.name}
-                price={item.price}
-                description={item.description}
-                image={item.imageSrc}
-                star={item.star}
-                id={item.id}
-                onAddToCart={() => handleAddToCart({ name: item.name, price: item.price, description:item.description })}
-              />
-            ))}
+        <div className="restaurant-menu-container">
+        <div className='row d-flex justify-content-between m-1'>
+            <PageBackButton />
+            <HomeButton />
           </div>
-        </div>
-      ))}
+          <Header
+            name={restaurantName}
+            rating={4}
+            logoSrc="https://picsum.photos/200/200"
+            backgroundSrc="https://picsum.photos/1500/500"
+          />
+          {menuItems && menuItems.map((category, index) => (
+            <div key={index}>
+              <div style={{
+                display: 'flex',
+              }}>
+                <h1>{category.category}</h1>
+              </div>
+              <div className="menu-items-container">
+                {category.items.map((item, index) => (
+                  <MenuItem
+                    key={index}
+                    name={item.name}
+                    price={item.price}
+                    description={item.description}
+                    image={item.imageSrc}
+                    star={item.star}
+                    id={item.id}
+                    toCart={true}
+                    edit={false}
+                    reply = {false}
+                    menu = {true}
+                    onAddToCart={() => handleAddToCart({ name: item.name, price: item.price, description: item.description })}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
           <div className='d-flex justify-content-center mt-3'>
             <button type="button" className="btn btn-warning btn-sm">Load More...</button>
           </div>
-      <div className="cart-container d-flex flex-row-reverse">
-        <CartIcon count={cartItems.length} />
-      </div>
-    </div>
-      </div>
-      <div className='col-4'></div>
+          <div className="cart-container d-flex flex-row-reverse">
+            <CartIcon count={cartItems.length} />
+          </div>
+        </div>
+      
     </div>
   );
 }
