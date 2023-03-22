@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../../bootstrap.css'
+import TopBar from '../topBar/TopBar';
 import './cart.css'
 
 
@@ -14,6 +16,12 @@ const Cart = ({ config }) => {
     setTipAmount(parseFloat(event.target.value));
   };
 
+  const navigate = useNavigate()
+
+  const navigateHome = () => {
+    navigate('/')
+  }
+
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
   const tax = subtotal * taxRate;
   const total = subtotal + tax + deliveryFee + tipAmount;
@@ -23,13 +31,8 @@ const Cart = ({ config }) => {
 
   return (
     <div className="cart-overlay">
-      /* Closing button below
-        Navigation (routing) will be implemented later */
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-      </svg>
-      
-      <div className="cart">
+      <TopBar/>
+      <div className="cart mt-4">
         <h5>Your Cart</h5>
         {cartItems.map((item) => (
           <div class="cart-list" key={item.id}>
@@ -71,7 +74,7 @@ const Cart = ({ config }) => {
         
           <p>Total: ${total.toFixed(2)}</p>
         
-          <button className="button btn btn-primary btn-lg">Checkout</button>
+          <button className="button btn btn-primary btn-lg" onClick={navigateHome}>Checkout</button>
         
         </div>
       </div>
