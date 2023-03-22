@@ -48,7 +48,7 @@ function EditSpecifiedItem() {
   const handleSave = () => {
     // handle save functionality here
     // (e.g. submit a PUT request to the server to update the menu item)
-    navigate('/edit'); // redirect back to the menu page after saving
+    navigate('/editmenu'); // redirect back to the menu page after saving
   };
 
   const handleNameClick = () => {
@@ -67,7 +67,7 @@ function EditSpecifiedItem() {
   };
 
     return (
-    <div className="edit-specified-item-container justify-content-center">
+    <div className="edit-specified-item-container">
       <div className="image-slider-container">
         <SimpleImageSlider
           width={'90%'}

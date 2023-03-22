@@ -7,6 +7,7 @@ import ReviewCard from '../reviewCards/reviewCard';
 import './ViewDetailMenu.css';
 import CartIcon from '../CartIcon/CartIcon';
 import axios from 'axios'
+import PageBackButton from '../pagebackButton/PageBackButton';
 
 
 function ViewDetailMenu() {
@@ -32,7 +33,7 @@ function ViewDetailMenu() {
       }, []);
 
       useEffect(() => {
-        axios.get("https://my.api.mockaroo.com/pastreview123123.json?key=d124d270")
+        axios.get("https://my.api.mockaroo.com/pastreview1234.json?key=3c15f680")
         .then((response)=>{
             const data = response.data
             console.log(data)
@@ -53,11 +54,9 @@ function ViewDetailMenu() {
     };
 
     return (
-        <div className='row'>
-            <div className='col-4'>                           
-            </div>
-            <div className='col-4'>             
+        <div className='row'>            
             <div className='ReplyReview-Container'>
+            <PageBackButton></PageBackButton>
                     <div className="image-slider-container">
                         <SimpleImageSlider
                             width={500}
@@ -72,7 +71,7 @@ function ViewDetailMenu() {
                             onClickNav={(index) => console.log(`Clicked nav button: ${index}`)}
                         />
                     </div>
-                    <div className="card" style={{ width: '31.2rem' }}>
+                    <div className="card border-0">
                         <div className="card-body">
                             <h5 className="card-title">{new URLSearchParams(location.search).get('name')}</h5>
                             <StarRatings
@@ -86,7 +85,7 @@ function ViewDetailMenu() {
                             <p className="card-text">{new URLSearchParams(location.search).get('description')}</p>
                             <div className='d-flex justify-content-between'>
                                 <h3 className="card-text">{new URLSearchParams(location.search).get('price')}</h3>
-                                <button className="btn btn-primary" >add to cart</button>
+                                <button className="btn btn-primary" onClick={handleAddToCart}>add to cart</button>
                             </div>
                             
                         </div>
@@ -115,8 +114,8 @@ function ViewDetailMenu() {
                     </div>
                     </div>
                 </div>
-            </div>
-            <div className='col-4'></div>
+         
+
         </div>
         
 

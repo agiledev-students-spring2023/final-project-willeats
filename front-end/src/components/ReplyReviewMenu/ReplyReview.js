@@ -2,10 +2,16 @@ import React, { useState, useEffect } from 'react';
 import ReplyMenuItem from '../ReplyMenuItem/ReplyMenuItem';
 import '../../bootstrap.css'
 import axios from 'axios'
+import MenuItem from '../MenuItem/MenuItem.jsx';
+import HomeButton from '../profile/HomeButton';
+import PageBackButton from '../pagebackButton/PageBackButton';
+
 
 function ReplyReviews() {
 
   const [menuItems, setMenuItems] = useState([]);
+ 
+
   useEffect(() => {
     axios
       .get("https://my.api.mockaroo.com/menu.json?key=3c15f680")
@@ -42,9 +48,13 @@ function ReplyReviews() {
   }, []);
   return (
     <div className='row'>
-      <div className='col-4'></div>
-      <div className='col-4'>
+
+      
       <div className="restaurant-menu-container">
+      <div className='row d-flex justify-content-between m-1'>
+            <PageBackButton />
+            <HomeButton />
+          </div>
     <div className="head">
         <h1>View Reviews For...</h1>
     </div>
@@ -56,7 +66,7 @@ function ReplyReviews() {
         </div>
           <div className="menu-items-container">
             {category.items.map((item, itemIndex) => (
-              <ReplyMenuItem
+              <MenuItem
                 key={itemIndex}
                 name={item.name}
                 price={item.price}
@@ -64,14 +74,16 @@ function ReplyReviews() {
                 image={item.imageSrc}
                 star = {item.star}
                 id={item.id}
+                toCart={false}
+                reply = {true}
               />
             ))}
           </div>
         </div>
       ))}
     </div>
-      </div>
-      <div className='col-4'></div>
+      
+
     </div>
     
   );
