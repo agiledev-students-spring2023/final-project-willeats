@@ -12,10 +12,10 @@ function CreateReviewPage(){
         if(reviewed.length === 0){
             setReviewed([itemList[0]])
             let newItemList = [...itemList]
-            console.log(newItemList)
+           
             newItemList.splice(0, 1)
             setItemList(newItemList)
-            console.log(newItemList)
+           
         }
     },[itemList, reviewed.length])
 
@@ -28,7 +28,7 @@ function CreateReviewPage(){
         newReviewed[curReviewed] = keys
         const index = itemList.indexOf(keys)
         newItemList.splice(index, 1)
-        console.log(newItemList)
+        
         setItemList(newItemList)
         setReviewed(newReviewed)
     }

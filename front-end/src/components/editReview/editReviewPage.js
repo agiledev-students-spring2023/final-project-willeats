@@ -5,30 +5,7 @@ import ReviewArea from '../reviewArea/reviewArea.js'
 import PageBackButton from '../pagebackButton/PageBackButton'; 
 function EditReviewPage() {
     const location = useLocation()
-    const reviewData = {'name' : 'Lao Ma Spicy', 
-    'date' : '2020/1/3', 
-    'star' : 2 , 
-    'itemName' : 'Spicy Dry Hot Pot', 
-    'review' : 'The breading was light and crispy, and the calamari itself was tender and flavorful. The dipping sauce that came with it was a perfect complement.'}
-    // const [review, setReview] = useState('')
-    // // change with real data
-    // const [rating, setRating] = useState(parseInt(new URLSearchParams(location.search).get('star')))
-    // const [preimage, setPreimage] = useState([]) //preview
-    // const [image, setImage] = useState([])
-    // const handleChange = (event) => {
-    //     setReview(event.target.value)
-    // }
-    // const changeRating = (newRating) =>{
-    //     setRating(newRating)
-    // }
-    // const handleUpload = (e) => {
-    //     if(!e.target.files || e.target.files.length === 0){
-    //         return
-    //     }else{
-    //         setImage([...image, e.target.files[0]])
-    //         setPreimage([...preimage, window.URL.createObjectURL(e.target.files[0])])
-    //     }
-    // }
+
     return(
         <div className='mt-1'>
             <div className='row'>
