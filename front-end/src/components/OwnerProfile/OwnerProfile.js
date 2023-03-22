@@ -11,6 +11,18 @@ function OwnerProfile() {
     navigate('/Profile-M')
   }
 
+  const navigateHome = () => {
+    navigate('/')
+  }
+
+  const navigateMenu = () => {
+    navigate('/editmenu')
+  }
+
+  const navigateReview = () => {
+    navigate('/replymenu')
+  }
+
   return (
     <div className="owner-profile-container">
         
@@ -32,11 +44,11 @@ function OwnerProfile() {
             </div>
         </div>
         <div className="main-buttons">
-          <button  className="btn btn-lg btn-outline-primary">Manage Menus</button>
-          <button className="btn btn-lg btn-outline-primary">Manage Reviews</button>
+          <button className="btn btn-lg btn-outline-primary" onClick={navigateMenu}>Manage Menus</button>
+          <button className="btn btn-lg btn-outline-primary" onClick={navigateReview}>Manage Reviews</button>
           <button className="btn btn-lg btn-outline-primary" onClick={navigateProfile}>Account Settings</button>
         </div>
-        <button className="btn btn-link" >Logout</button>
+        <button className="btn btn-link" onClick={navigateHome}>Logout</button>
       </div>
     </div>
   );

@@ -32,7 +32,7 @@ const Login = () => {
     return (
         <div className='login-page'>
             <TopBar/>
-            <h1 className='text-center'>Log in to WillEats</h1>
+            <h1 className='text-center mb-4'>Log in to WillEats</h1>
             <form onSubmit={prohibitRefresh}>
                 <div className="login-switch-container">
                     <button className={`login-switch-button ${selected === 'user' ? 'active' : ''}`} onClick={() => handleSelected('user')}>
