@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import '../../bootstrap.css'
+import TopBar from '../topBar/TopBar';
 import './cart.css'
 import axios from 'axios';
 import HomeButton from '../profile/HomeButton';
@@ -24,6 +25,15 @@ const Cart = ({}) => {
     setTipAmount(parseFloat(event.target.value));
   };
 
+  const navigate = useNavigate()
+
+  const navigateHome = () => {
+    navigate('/')
+  }
+
+  const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const tax = subtotal * taxRate;
+  const total = subtotal + tax + deliveryFee + tipAmount;
 
   useEffect(() => {
     axios.get('https://my.api.mockaroo.com/cart_items.json?key=63c46330')
