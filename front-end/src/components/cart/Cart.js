@@ -1,40 +1,91 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import '../../bootstrap.css'
+import TopBar from '../topBar/TopBar';
 import './cart.css'
+import axios from 'axios';
+import HomeButton from '../profile/HomeButton';
+import PageBackButton from '../pagebackButton/PageBackButton';
 
 
-const Cart = ({ config }) => {
-  const cartItems = config.cartItems;
-  const taxRate = config.taxRate;
-  const deliveryFee = config.deliveryFee;
 
+
+
+const Cart = ({}) => {
+
+  
+  const Navigate = useNavigate()
   const [tipAmount, setTipAmount] = useState(0);
+  const [cartItems, setCartItems] = useState([]);
+  
+  const [deliveryFee, setDeliveryFee] = useState(0);
+  const [taxRate, setTaxRate] = useState(0);
 
   const handleTipChange = (event) => {
     setTipAmount(parseFloat(event.target.value));
   };
 
-  const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  const tax = subtotal * taxRate;
-  const total = subtotal + tax + deliveryFee + tipAmount;
+  const navigate = useNavigate()
+
+  const navigateHome = () => {
+    navigate('/')
+  }
+
+  // const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  // const tax = subtotal * taxRate;
+  // const total = subtotal + tax + deliveryFee + tipAmount;
+
+  useEffect(() => {
+    axios.get('https://my.api.mockaroo.com/cart_items.json?key=63c46330')
+    .then((res) => {
+        console.log(res.data)
+        setCartItems(res.data)
+    })
+    .catch((err) => (
+      console.log(err)
+    ))    
+}, []);
+
+useEffect(() => {
+  axios.get('https://my.api.mockaroo.com/resdata.json?key=63c46330')
+  .then((res) => {
+    console.log(res.data)
+
+    setDeliveryFee(res.data.deliveryFee)
+    setTaxRate(res.data.taxrate)
+  })
+  .catch((err) => (
+      console.log(err)
+  ))
+}, []);
+
+const handleLCheckout = () => {
+  Navigate('/checkout')
+}
+
+ 
+const subtotal=cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
+
+const tax = subtotal * taxRate/100;
+const total = subtotal + tax + deliveryFee + tipAmount;
 
   const tipPercentages = [10, 15, 20];
 
-
+ 
+  
   return (
     <div className="cart-overlay">
-      /* Closing button below
-        Navigation (routing) will be implemented later */
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-      </svg>
+        <div className='row d-flex justify-content-between m-1'>
+            <PageBackButton />
+            <HomeButton />
+          </div>      
       
       <div className="cart">
         <h5>Your Cart</h5>
         {cartItems.map((item) => (
           <div class="cart-list" key={item.id}>
             <p>{item.name} x {item.quantity}</p>
-            <p>${item.price.toFixed(2)}</p>
+            <p>${(item.price*item.quantity).toFixed(2)}</p>
           </div>
         ))}
         <div className="subtotal">
@@ -63,7 +114,7 @@ const Cart = ({ config }) => {
                 step="0.01"
                 value={tipAmount}
                 onChange={handleTipChange}
-              /> $
+              /> 
 
             </div>
             <span>{(tipAmount/subtotal*100).toFixed(1)}%</span>
@@ -71,7 +122,7 @@ const Cart = ({ config }) => {
         
           <p>Total: ${total.toFixed(2)}</p>
         
-          <button className="button btn btn-primary btn-lg">Checkout</button>
+          <button className="button btn btn-primary btn-lg"  onClick={handleLCheckout}>Checkout</button>
         
         </div>
       </div>

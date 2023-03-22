@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../bootstrap.css'
+import TopBar from '../topBar/TopBar';
 import './OwnerProfile.css'
 
 function OwnerProfile() {
@@ -25,7 +26,7 @@ function OwnerProfile() {
 
   return (
     <div className="owner-profile-container">
-        
+      <TopBar/>  
         <div className="greeting-bar">
           <h4>Welcome, {name}</h4>
         </div>
