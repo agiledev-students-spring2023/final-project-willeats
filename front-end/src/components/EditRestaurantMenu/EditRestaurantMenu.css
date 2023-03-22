@@ -73,22 +73,22 @@
     align-items: center;
   }
   
-  .modal {
+  .modal-editmenu {
     background-color: white;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     padding: 1rem;
   }
   
-  .modal h2 {
+  .modal-editmenu h2 {
     margin-top: 0;
   }
   
-  .modal p {
+  .modal-editmenu p {
     margin-bottom: 1rem;
   }
   
-  .modal button {
+  .modal-editmenu button {
     margin-left: auto;
     display: block;
     background-color: #007bff;
@@ -98,7 +98,7 @@
     cursor: pointer;
   }
   
-  .modal button:hover {
+  .modal-editmenu button:hover {
     background-color: #0069d9;
   }
   
