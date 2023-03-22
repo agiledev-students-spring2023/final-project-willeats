@@ -37,25 +37,6 @@ import PastOrderPage from './components/pastOrder/pastOrderPage';
 import CustomerProfile from './components/CustomerProfile/CustomerProfile';
 import OwnerProfile from './components/OwnerProfile/OwnerProfile';
 
-const config = {
-  cartItems: [
-    {
-      id: 1,
-      name: "Cheeseburger",
-      price: 8.99,
-      quantity: 2,
-    },
-    {
-      id: 2,
-      name: "Fries",
-      price: 3.99,
-      quantity: 1,
-    },
-  ],
-  deliveryFee: 2.99,
-  taxRate: 0.1,
-};
-
 function App() {
   return (
       <Router>
@@ -77,9 +58,10 @@ function App() {
           <Route path='/usercreatereview' element={<CreateReviewPage/>} />
           <Route path='/userpastorder' element={<PastOrderPage/>} />
           <Route path="/customerprofile" element={<CustomerProfile/>}></Route>
-          <Route path='/cart' element={<Cart config={config} />} />
+          <Route path='/cart' element={<Cart />} />
           <Route path='/ownerReviewDetail' element={<OwnersideReviewDetails review={review} user={user} owner={owner} />} />
           <Route path='/ownerprofile' element={<OwnerProfile/>} />
+          <Route path='/checkout' element={<OrderFinished/>} />
         </Routes>
       </Router>
 
