@@ -8,9 +8,18 @@ import { useNavigate } from "react-router-dom";
 import './OrderFinished.css'
 
 function OrderFinished() {
-
+    const navigate = useNavigate()
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const profileImage = isLoggedIn ? mockProfileImg : defaultProfileImg;
+    
+    const handleOrderMore = () => {
+        navigate('/menu')
+    }
+    
+    const handleWriteReview = () => {
+        navigate('/userpastorder')
+    }
+    
 
   return (
 
@@ -25,9 +34,8 @@ function OrderFinished() {
             </div>
 
             <div className="button-container">
-                <button className="button btn btn-primary btn-lg">View Receipt</button>
-                <button className="button btn btn-primary btn-lg">Order More</button>
-                <button className="button btn btn-primary btn-lg">Write Reviews</button>
+                <button className="button btn btn-primary btn-lg" onClick={handleOrderMore}>Order More</button>
+                <button className="button btn btn-primary btn-lg" onClick={handleWriteReview}>Write Reviews</button>
             </div>
         </div>
     </div>
