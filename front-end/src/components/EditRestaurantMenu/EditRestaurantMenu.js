@@ -4,8 +4,8 @@ import '../../bootstrap.css'
 import swal from 'sweetalert';
 import axios from 'axios';
 import MenuItem from '../MenuItem/MenuItem.jsx';
-// import HomeButton from '../profile/HomeButton';
-// import PageBackButton from '../pagebackButton/PageBackButton';
+import HomeButton from '../profile/HomeButton';
+import PageBackButton from '../pagebackButton/PageBackButton';
 import { useNavigate } from 'react-router-dom';
 
 function EditRestaurantMenu() {
