@@ -7,15 +7,15 @@
 
 .img{
     width: auto;
-    height: 80px;
+    height: 100px;
 }
 /* sss */
   .image-container {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    
     overflow: hidden;
-    margin-right: 10px;
-    margin-bottom: 10px;
+    
+    
   }
   
   .image-container img {
