@@ -8,4 +8,42 @@
     width: 400px;
     height:200px;
     margin: 0 auto;
+  }
+  
+  .item__image {
+    width: 100px;
+    height: 100px;
+    /* object-fit: cover; */
+    margin-right: 1rem;
+  }
+  
+  .item__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #29944b;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    float: right;
+  }
+  
+  .item__name {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .item__price {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .button-size-small{
+    padding: 10px 10px;
+    font-size: small;
 }
