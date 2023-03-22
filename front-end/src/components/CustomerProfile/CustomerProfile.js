@@ -48,6 +48,10 @@ function CustomerProfile() {
   const navigateAccount = () => {
     navigate('/Profile-C')
   }
+  
+  const navigateHome = () => {
+    navigate('/')
+  }
 
   return (
     <div>
@@ -97,7 +101,7 @@ function CustomerProfile() {
           <button type="button" className="btn btn-lg btn-outline-primary" onClick={navigateReview}>My Reviews</button>
           <button type="button" className="btn btn-lg btn-outline-primary" onClick={navigateAccount}>Account Settings</button>
         </div>
-        <button className="btn btn-link logout" >Logout</button>
+        <button className="btn btn-link logout" onClick={navigateHome}>Logout</button>
       </div>
     </div>
   );
