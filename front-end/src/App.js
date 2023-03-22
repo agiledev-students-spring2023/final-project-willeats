@@ -6,6 +6,7 @@ import './App.css';
 
 
 
+import Cart from './components/cart/Cart'
 import {review, user, owner} from './config.js'
 import OwnersideReviewDetails from './components/OwnerSideReviewDetails/OwnersideReviewDetails';
 import ReviewDetails from './components/ReviewDetails/ReviewDetails';
