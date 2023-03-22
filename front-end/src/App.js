@@ -58,6 +58,7 @@ function App() {
           <Route path='/ownerReviewDetail' element={<OwnersideReviewDetails review={review} user={user} owner={owner} />} />
           <Route path='/ownerprofile' element={<OwnerProfile/>} />
           <Route path='/checkout' element={<OrderFinished/>} />
+          <Route path='/reviewDetails' element={<ReviewDetails/>} />
         </Routes>
       </Router>
 
