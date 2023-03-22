@@ -29,6 +29,10 @@ function ReviewCard(props) {
 
     const changeEdit = () => {
         const params = new URLSearchParams()
+        params.append('review', props.review)
+        props.reviewImage.map((e) =>{
+            params.append('image', e)
+        })
         params.append('mainName', props.mainName)
         params.append('itemName', props.itemName)
         params.append('star', props.star)
@@ -38,9 +42,9 @@ function ReviewCard(props) {
     
 
     return(
-        <div className="card size mx-auto mt-2">
+        <div className="card size mx-auto mt-2 ">
             <div className="row">
-                <div className='col-9'>
+                <div className='col'>
 
                 </div>
                 {!props.order && <div className="col-3 d-flex flex-row-reverse">
@@ -60,15 +64,15 @@ function ReviewCard(props) {
                     {props.itemName && <p className='card-subtitle text-muted mb-1 '>{props.itemName}</p>}
                     {props.order && <p className='card-subtitle text-muted mb-1 '>{props.itemList[0]}
                     {props.itemList.length > 1 && <span className='card-subtitle text-muted mb-1'> and {props.itemList.length - 1} others</span>}  </p> }
-                    <div className='row'>
-                        {props.star && <div className='col-8'>
+                    <div className='row d-flex justidy-content-between'>
+                        {props.star && <div className='col'>
                             <StarRatings 
                             rating={props.star}
-                            starDimension="20px"
-                            starSpacing="4px"/>
+                            starDimension="18px"
+                            starSpacing="2px"/>
                         </div>}
                         <div className='col'>
-                            <p>{props.date}</p>
+                            {props.order ? <p className=''>{props.date}</p> : <p className='text-end'>{props.date}</p>}
                         </div>
                     </div>
                     
