@@ -13,7 +13,6 @@ function PastReviewPage() {
         axios.get('https://my.api.mockaroo.com/pastreview1234.json?key=3c15f680')
         .then((res) => {
             setReviewData(res.data)
-            console.log(res)
         })
         .catch((err) => (
             console.log(err)
