@@ -31,7 +31,6 @@ import CreateReviewPage from './components/createReview/createReviewPage';
 import PastOrderPage from './components/pastOrder/pastOrderPage';
 import CustomerProfile from './components/CustomerProfile/CustomerProfile';
 import OwnerProfile from './components/OwnerProfile/OwnerProfile';
-import Cart from './components/cart/Cart'
 import OrderFinished from './components/OrderFinished/OrderFinished';
 
 function App() {
