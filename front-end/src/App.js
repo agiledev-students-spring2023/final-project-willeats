@@ -6,12 +6,6 @@ import './App.css';
 
 
 
-
-import Cart from './components/cart/Cart'
-import OrderFinished from './OrderFinished'
-
-
-
 import {review, user, owner} from './config.js'
 import OwnersideReviewDetails from './components/OwnerSideReviewDetails/OwnersideReviewDetails';
 import ReviewDetails from './components/ReviewDetails/ReviewDetails';
@@ -36,6 +30,8 @@ import CreateReviewPage from './components/createReview/createReviewPage';
 import PastOrderPage from './components/pastOrder/pastOrderPage';
 import CustomerProfile from './components/CustomerProfile/CustomerProfile';
 import OwnerProfile from './components/OwnerProfile/OwnerProfile';
+import Cart from './components/cart/Cart'
+import OrderFinished from './components/OrderFinished/OrderFinished';
 
 function App() {
   return (
