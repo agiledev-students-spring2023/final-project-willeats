@@ -1,0 +1,12 @@
+name: mocki
+port: 3000
+endpoints:
+
+- path: /userreview
+  method: get
+  responses: - statusCode: 200
+  body:
+  message: {
+"message": "Hello from Mocki!"
+}
+  

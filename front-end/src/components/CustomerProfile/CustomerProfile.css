@@ -1,0 +1,35 @@
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: center ;
+    width: 100%;
+}
+
+.name{
+    display: flex;
+    flex-direction: column;
+    align-items: center ;
+    gap: 5px;
+}
+
+.customer-profile-image{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 20px; 
+}
+
+.back, .home {
+    border: 0px;
+    background: white;
+    margin: 20px;
+}
+
+svg{
+    width: 40px;
+}
+
+.logout{
+    margin-top: 50px;
+}

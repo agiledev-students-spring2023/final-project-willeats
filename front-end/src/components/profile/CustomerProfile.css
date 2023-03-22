@@ -1,0 +1,30 @@
+.customer-profile {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+@media (max-width: 576px) {
+  .customer-profile {
+      max-width: none;
+      margin: 20px;
+  }
+}
+
+.customer-profile label {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.customer-profile img {
+  display: block;
+  margin: 0 auto;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.form-group {
+  margin-bottom: 30px;
+}
