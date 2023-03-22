@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import SimpleImageSlider from "react-simple-image-slider";
@@ -95,6 +94,11 @@ function ReplyReviewItem() {
                 </div>
            
         </div>
+        
+
+
+
+
     )
 }
 
