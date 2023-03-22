@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import './Home.css'
-import './bootstrap.css'
-import logo from "./image/circle.png";
-import backgroundImage from "./image/food-image.jpg";
-import mockProfileImg from "./image/random-profile.jpg";
-import defaultProfileImg from "./image/default-profile-image.svg";
+import '../../bootstrap.css'
+import logo from "../../image/circle.png";
+import backgroundImage from "../../image/food-image.jpg";
+import mockProfileImg from "../../image/random-profile.jpg";
+import defaultProfileImg from "../../image/default-profile-image.svg";
 
 
 function Home() {
