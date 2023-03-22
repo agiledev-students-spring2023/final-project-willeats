@@ -31,9 +31,9 @@ const Cart = ({}) => {
     navigate('/')
   }
 
-  const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  const tax = subtotal * taxRate;
-  const total = subtotal + tax + deliveryFee + tipAmount;
+  // const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  // const tax = subtotal * taxRate;
+  // const total = subtotal + tax + deliveryFee + tipAmount;
 
   useEffect(() => {
     axios.get('https://my.api.mockaroo.com/cart_items.json?key=63c46330')
