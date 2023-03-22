@@ -1,0 +1,49 @@
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type='file'] {
+  margin-top: 10px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+input[type='text-sign'],
+input[type='email-sign'],
+input[type='password-sign'] {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.input-row {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.input-row input {
+  flex-grow: 1;
+}
+
+.input-row button {
+  margin-left: 5px;
+  padding: 8px 12px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.invalid-feedback {
+  margin-top: 4px;
+  display: block;
+  color: #dc3545;
+  font-size: 14px;
+}

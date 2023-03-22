@@ -1,0 +1,117 @@
+
+.owner-profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    margin-bottom: 20px;
+  }
+  
+  .greeting-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+    background-color: #f5f5f5;
+  }
+  
+  .header-img-container {
+    position: relative;
+    width: 100%;
+    height: 300px;
+  }
+  
+  .header-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .owner-profile-image-container {
+    position: absolute;
+    top:340px;
+    left: calc(50% - 50px);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  
+  .profile-image-owners {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+  }
+  
+  .edit-button {
+    background-color: transparent;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    color: #000;
+    cursor: pointer;
+  }
+  
+  .name-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .main-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    gap:5px;
+  }
+    
+.btn-outline-primary{
+    width: calc(100%);
+}
+
+  .save-button,
+  .cancel-button,
+  .image-save-button,
+  .image-cancel-button {
+    margin: 5px;
+  }
+  
+  .save-button,
+  .image-save-button {
+    background-color: #28a745;
+  }
+  
+  .cancel-button,
+  .image-cancel-button {
+    background-color: #dc3545;
+  }
+  
+  .name {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .name-text {
+    margin-bottom: 0;
+    font-size: 24px;
+  }
+  

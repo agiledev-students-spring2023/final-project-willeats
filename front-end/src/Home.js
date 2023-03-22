@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 import './Home.css'
 import './bootstrap.css'
 import logo from "./image/circle.png";
@@ -11,11 +11,18 @@ import defaultProfileImg from "./image/default-profile-image.svg";
 function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const profileImage = isLoggedIn ? mockProfileImg : defaultProfileImg;
-  const loginText = isLoggedIn ? "Log Out" : "Log In";
 
-  const handleLoginClick = () => {
-    setIsLoggedIn(!isLoggedIn);
+  const Navigate = useNavigate()
+
+  const navigateLogin = () => {
+    Navigate('/Login')
   }
+
+  const navigateMenu = () => {
+    Navigate('/menu')
+  }
+
+  
 
   return (
     <div className="container"> 
@@ -31,10 +38,10 @@ function Home() {
         </div>
       
         <div className="button-container">
-            <button className="button btn btn-primary btn-lg">Scan Now</button>
+            <button className="button btn btn-primary btn-lg" onClick={navigateMenu}>Scan Now</button>
         </div>
         <div className="login-container">
-            <a href="#" className="login-link" onClick={handleLoginClick}>{loginText}</a>
+          <button className="btn btn-link" onClick={navigateLogin}>Login</button>
         </div>
         </div>
     </div>
