@@ -16,11 +16,6 @@ function EditRestaurantMenu() {
 
   const handleEdit = () => {
     const params = new URLSearchParams();
-    // params.append('name',name)
-    // params.append('description',description)
-    // params.append('price',price)
-    // params.append('image',image)
-    // params.append('star',star)
     navigate({pathname:`/editmenu/${'1'}`,
     search:params.toString()});
   }
