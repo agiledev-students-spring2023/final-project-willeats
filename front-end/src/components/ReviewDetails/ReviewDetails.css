@@ -23,6 +23,7 @@ h5{
 
   .profile-image{
     width:50px;
+    border-radius: 100px;
   }
   
   .review-images-container {

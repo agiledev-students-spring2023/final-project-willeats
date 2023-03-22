@@ -27,6 +27,10 @@ function ReviewCard(props) {
         setReadmore(false)
     }
 
+    const handleClick=()=>{
+        navigate('/reviewDetails')
+    }
+
     const changeEdit = () => {
         const params = new URLSearchParams()
         params.append('review', props.review)
@@ -42,7 +46,7 @@ function ReviewCard(props) {
     
 
     return(
-        <div className="card size mx-auto mt-2 ">
+        <div className="card size mx-auto mt-2 " onClick={handleClick}>
             <div className="row">
                 <div className='col'>
 
