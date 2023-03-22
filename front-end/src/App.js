@@ -8,7 +8,6 @@ import './App.css';
 
 
 import Cart from './components/cart/Cart'
-import OrderFinished from './OrderFinished'
 
 
 
@@ -78,8 +77,9 @@ function App() {
           <Route path='/userpastorder' element={<PastOrderPage/>} />
           <Route path="/customerprofile" element={<CustomerProfile/>}></Route>
           <Route path='/cart' element={<Cart config={config} />} />
-          <Route path='/ownerReviewDetail' element={<OwnersideReviewDetails review={review} user={user} owner={owner} />} />
+          <Route path='/ownerReviewDetail' element={<OwnersideReviewDetails />} />
           <Route path='/ownerprofile' element={<OwnerProfile/>} />
+          <Route path='/reviewdetails' element={<ReviewDetails/>} />
         </Routes>
       </Router>
 
