@@ -12,7 +12,7 @@ function PastOrderPage(props){
     const [reviewData, setReviewData] = useState([])
 
     useEffect(() => {
-        axios.get('https://my.api.mockaroo.com/userreview1234.json?key=3c15f680')
+        axios.get('http://localhost:3001/userpastorder')
         .then((res) => {
             setReviewData(res.data)
             console.log(res)

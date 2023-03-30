@@ -6,7 +6,7 @@ const cors = require('cors')
 const multer = require("multer") // middleware to handle HTTP POST requests with file uploads
 // require("dotenv").config({ silent: true }) // load environmental variables from a hidden file named .env
 const morgan = require("morgan") // middleware for nice logging of incoming HTTP requests
-
+const axios = require("axios")
 /**
  * Typically, all middlewares would be included before routes
  * In this file, however, most middlewares are after most routes
@@ -20,6 +20,32 @@ app.use(cors());
 app.use(express.json()) // decode JSON-formatted incoming POST data
 app.use(express.urlencoded({ extended: true }))
 app.use("/static", express.static("public"))
+
+
+app.get('/userpastreview', (req, resp) => {
+    axios.get('https://my.api.mockaroo.com/pastreview1234.json?key=3c15f680')
+        .then((res) => {
+            resp.status(200).send(res.data)
+            setReviewData(res.data)
+        })
+        .catch((err) => {
+            console.log(err)
+            resp.status(500).send({message: "retrieve review error"})
+        })
+});
+
+app.get('/userpastorder', (req, resp) => {
+    axios.get('https://my.api.mockaroo.com/userreview1234.json?key=3c15f680')
+        .then((res) => {
+            resp.status(200).send(res.data)
+            setReviewData(res.data)
+        })
+        .catch((err) => {
+            console.log(err)
+            resp.status(500).send({message: "retrieve review error"})
+        })
+});
+
 
 
 
