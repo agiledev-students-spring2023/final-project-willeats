@@ -10,7 +10,7 @@ function PastReviewPage() {
 
     const [reviewData, setReviewData] = useState([])
     useEffect(() => {
-        axios.get('https://my.api.mockaroo.com/pastreview1234.json?key=3c15f680')
+        axios.get('http://localhost:3001/userpastreview')
         .then((res) => {
             setReviewData(res.data)
             console.log(res)
