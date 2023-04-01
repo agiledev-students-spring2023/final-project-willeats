@@ -11,7 +11,7 @@ const Login = () => {
         setSelected(type)
     }
 
-    const signUpText = (selected === 'user') ? 'Sign up' : 'Sign up for your business'
+    const signUpText = (selected === 'user') ? "Don't yet have an account? Sign up!" : "New manager? Sign up for your business!"
     const signPath = (selected === 'user') ? '/Sign-C' : '/Sign-M'
     const loginPath = (selected === 'user') ? '/customerprofile' : '/ownerprofile'
 
@@ -28,6 +28,10 @@ const Login = () => {
     const handleLogin = () => {
         Navigate(loginPath)
     }
+
+    const navigateMenu = () => {
+        Navigate('/menu')
+      }
 
     return (
         <div className='login-page'>
@@ -68,7 +72,7 @@ const Login = () => {
                 </div>
 
                 <div className='d-flex justify-content-center'>
-                    <button type="button" className="btn btn-outline-dark" onClick={handleLogin}>
+                    <button type="button" className="btn btn-outline-dark" onClick={navigateMenu}>
                         Login
                     </button>
                 </div>
