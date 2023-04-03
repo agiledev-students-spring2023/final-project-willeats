@@ -26,11 +26,11 @@ app.get('/userpastreview', (req, resp) => {
     axios.get('https://my.api.mockaroo.com/pastreview1234.json?key=3c15f680')
         .then((res) => {
             resp.status(200).send(res.data)
-            setReviewData(res.data)
+            
         })
         .catch((err) => {
             console.log(err)
-            resp.status(500).send({message: "retrieve review error"})
+            resp.status(500).send()
         })
 });
 
@@ -38,13 +38,15 @@ app.get('/userpastorder', (req, resp) => {
     axios.get('https://my.api.mockaroo.com/userreview1234.json?key=3c15f680')
         .then((res) => {
             resp.status(200).send(res.data)
-            setReviewData(res.data)
+            
         })
         .catch((err) => {
             console.log(err)
-            resp.status(500).send({message: "retrieve review error"})
+            resp.status(500).send()
         })
 });
+
+
 
 
 
