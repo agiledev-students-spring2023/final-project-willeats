@@ -17,6 +17,8 @@ const Cart = ({}) => {
   const Navigate = useNavigate()
   const [tipAmount, setTipAmount] = useState(0);
   const [cartItems, setCartItems] = useState([]);
+  const [items, setItems] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
   
   const [deliveryFee, setDeliveryFee] = useState(0);
   const [taxRate, setTaxRate] = useState(0);
@@ -31,9 +33,33 @@ const Cart = ({}) => {
     navigate('/')
   }
 
-  // const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  // const tax = subtotal * taxRate;
-  // const total = subtotal + tax + deliveryFee + tipAmount;
+
+  useEffect(() => {
+    const cartItems = JSON.parse(localStorage.getItem('cartItems'));
+    if (cartItems) {
+      const itemQuantities = {};
+      cartItems.forEach(item => {
+        const itemName = item.name;
+        if (itemQuantities[itemName]) {
+          itemQuantities[itemName] += 1;
+        } else {
+          itemQuantities[itemName] = 1;
+        }
+      });
+      const itemsWithQuantities = Object.entries(itemQuantities).map(([name, quantity]) => {
+        const item = cartItems.find(item => item.name === name);
+        const price = parseFloat(item.price.replace('$', ''));
+        return {
+          name: name,
+          quantity: quantity,
+          price: price,
+        };
+      });
+      setItems(itemsWithQuantities);
+      const total = itemsWithQuantities.reduce((acc, item) => acc + item.quantity * item.price, 0);
+      setTotalPrice(total);
+    }
+  }, []);
 
   useEffect(() => {
     axios.get('https://my.api.mockaroo.com/cart_items.json?key=63c46330')
@@ -64,7 +90,7 @@ const handleLCheckout = () => {
 }
 
  
-const subtotal=cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
+const subtotal=items.reduce((acc, item) => acc + item.price * item.quantity, 0)
 
 const tax = subtotal * taxRate/100;
 const total = subtotal + tax + deliveryFee + tipAmount;
@@ -82,7 +108,7 @@ const total = subtotal + tax + deliveryFee + tipAmount;
       
       <div className="cart">
         <h5>Your Cart</h5>
-        {cartItems.map((item) => (
+        {items.map((item) => (
           <div class="cart-list" key={item.id}>
             <p>{item.name} x {item.quantity}</p>
             <p>${(item.price*item.quantity).toFixed(2)}</p>

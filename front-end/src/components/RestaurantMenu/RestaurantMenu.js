@@ -7,6 +7,7 @@ import '../../bootstrap.css'
 import axios from 'axios';
 import HomeButton from '../profile/HomeButton';
 import PageBackButton from '../pagebackButton/PageBackButton';
+import TopBar_Cprofile from '../topBar/TopBar-C-profile';
 
 
 
@@ -30,7 +31,7 @@ function RestaurantMenu() {
 
   useEffect(() => {
     axios
-      .get("https://my.api.mockaroo.com/menu.json?key=3c15f680")
+      .get("http://localhost:3001/data")
       .then((response) => {
         let data = response.data
         console.log(data)
@@ -79,10 +80,8 @@ function RestaurantMenu() {
   return (
     <div className='row'>
         <div className="restaurant-menu-container">
-        <div className='row d-flex justify-content-between m-1'>
-            <PageBackButton />
-            <HomeButton />
-          </div>
+            <TopBar_Cprofile/>
+
           <Header
             name={restaurantName}
             rating={4}
@@ -116,9 +115,6 @@ function RestaurantMenu() {
               </div>
             </div>
           ))}
-          <div className='d-flex justify-content-center mt-3'>
-            <button type="button" className="btn btn-warning btn-sm">Load More...</button>
-          </div>
           <div className="cart-container d-flex flex-row-reverse">
             <CartIcon count={cartItems.length} />
           </div>
