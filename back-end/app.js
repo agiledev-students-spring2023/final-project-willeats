@@ -26,7 +26,6 @@ app.get('/userpastreview', (req, resp) => {
     axios.get('https://my.api.mockaroo.com/pastreview1234.json?key=3c15f680')
         .then((res) => {
             resp.status(200).send(res.data)
-            
         })
         .catch((err) => {
             console.log(err)
@@ -38,7 +37,6 @@ app.get('/userpastorder', (req, resp) => {
     axios.get('https://my.api.mockaroo.com/userreview1234.json?key=3c15f680')
         .then((res) => {
             resp.status(200).send(res.data)
-            
         })
         .catch((err) => {
             console.log(err)
@@ -46,6 +44,16 @@ app.get('/userpastorder', (req, resp) => {
         })
 });
 
+app.post('/edituserreview', (req, resp) => {
+    console.log(req.body.saveData)
+    resp.status(200).send({message: 'edit successfully'})
+});
+
+
+app.post('/createuserreview', (req, resp) => {
+    console.log(req.body.saveData)
+    resp.status(200).send({message: 'create successfully'})
+});
 
 
 

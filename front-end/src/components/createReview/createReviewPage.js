@@ -1,13 +1,49 @@
 import React, { useEffect, useState } from 'react'
-import {useLocation } from "react-router-dom";
+import {useLocation, useNavigate } from "react-router-dom";
 import '../../bootstrap.css'
 import ReviewArea from '../reviewArea/reviewArea';
 import './createReviewPage.css'
 import PageBackButton from '../pagebackButton/PageBackButton'; 
+import axios from 'axios'
 function CreateReviewPage(){
+    const navigate = useNavigate()
     const location = useLocation()
     const [itemList, setItemList] = useState(new URLSearchParams(location.search).getAll('item'))
     const [reviewed, setReviewed] = useState([])
+    const [saveData, setSaveData] = useState([])
+    const [save, setSave] = useState(false)
+
+
+    const handlesave = () => {
+        setSave(true)
+    }
+
+    useEffect(() => {
+        if(save && saveData.length == reviewed.length){
+            let resData = {}
+            reviewed.forEach((ele, i) => {
+                resData[ele] = saveData[i]
+            })
+            console.log(resData)
+            const configuration = {
+                method: "post",
+                url: "http://localhost:3001/createuserreview",
+                data: {
+                    saveData : resData
+                },
+            }
+            axios(configuration)
+            .then((res) =>{
+                console.log(res.data.message)
+                setSave(false)
+                navigate(-1)//add pop up 
+            })
+            .catch((err) =>{
+                console.log(err)
+            })
+        }
+    },[saveData]);
+
     useEffect(()=>{
         if(reviewed.length === 0){
             setReviewed([itemList[0]])
@@ -75,7 +111,12 @@ function CreateReviewPage(){
                                     ))}
                                     
                                 </select>
-                                <ReviewArea name={e} key={e}/>
+                                <ReviewArea 
+                                    name={e} 
+                                    key={e}
+                                    save={save}
+                                    setSaveData={setSaveData}
+                                    saveData={saveData} />
                             </div>
                         ))}
                        
@@ -86,7 +127,7 @@ function CreateReviewPage(){
                     </div>
                     <div className='d-grid gap-2 col-5 mx-auto mt-3'>
                         {/* handle save */}
-                        <button type="button" className="btn btn-primary">Submit</button> 
+                        <button type="button" className="btn btn-primary" onClick={handlesave} disabled={save}>Submit</button> 
                     </div>
                 </div>
 

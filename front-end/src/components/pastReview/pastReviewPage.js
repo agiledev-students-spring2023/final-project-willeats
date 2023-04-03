@@ -18,7 +18,6 @@ function PastReviewPage() {
         .catch((err) => (
             console.log(err)
         ))
-        console.log('haha')
     }, []);
     const handleDelete = (e) => {
         e.preventDefault()
