@@ -6,6 +6,7 @@ const cors = require('cors')
 const multer = require("multer") // middleware to handle HTTP POST requests with file uploads
 // require("dotenv").config({ silent: true }) // load environmental variables from a hidden file named .env
 const morgan = require("morgan") // middleware for nice logging of incoming HTTP requests
+const axios = require("axios")
 
 /**
  * Typically, all middlewares would be included before routes
@@ -21,12 +22,14 @@ app.use(express.json()) // decode JSON-formatted incoming POST data
 app.use(express.urlencoded({ extended: true }))
 app.use("/static", express.static("public"))
 
-
-
-
-
-
-
-
+app.get('/data', async(req,res)=>{
+    try{
+        const response = await axios.get("https://my.api.mockaroo.com/menu.json?key=3c15f680");
+        res.json(response.data);
+    }catch(error){
+        console.error(error);
+        res.status(500).send('An error occured');
+    }
+})
 
 module.exports = app
