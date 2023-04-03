@@ -22,18 +22,18 @@ const StarEmpty = () => {
 
 const ReviewDetails = () => {
 
-  const [reviewData, setReviewData] = useState([])
+  const [reviewData, setReviewData] = useState([]);
 
   useEffect(() => {
-    axios.get('https://my.api.mockaroo.com/pastreview1234.json?key=3c15f680')
+    axios
+      .get('http://localhost:3000/reviewdetails')
       .then((res) => {
-        setReviewData(res.data[0])
+        setReviewData(res.data[0]);
         console.log(res.data[0]);
       })
-      .catch((err) => (
-        console.log(err)
-      ))
+      .catch((err) => console.log(err));
   }, []);
+  
 
 
   const [selectedImage, setSelectedImage] = useState(null);
