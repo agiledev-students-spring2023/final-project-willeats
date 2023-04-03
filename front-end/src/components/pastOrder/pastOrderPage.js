@@ -15,7 +15,7 @@ function PastOrderPage(props){
         axios.get('http://localhost:3001/userpastorder')
         .then((res) => {
             setReviewData(res.data)
-            console.log(res)
+            console.log(res.data)
         })
         .catch((err) => (
             console.log(err)
@@ -23,6 +23,7 @@ function PastOrderPage(props){
     }, []);
 
     const CreateButton = (props) => {
+
         const handleCreate = () => {
             const params = new URLSearchParams()
             params.append('mainName', props.mainName)
@@ -61,9 +62,9 @@ function PastOrderPage(props){
                             image={element.restImage} />
                         ))}
                     </div>
-                    <div className='d-flex justify-content-center mt-3'>
+                    <div className='d-flex justify-content-center mt-2'>
                         
-                        <LoadMoreButton url={'https://my.api.mockaroo.com/userreview1234.json?key=3c15f680'} data={reviewData} setdata={setReviewData} />
+                        {reviewData.length > 0 && <LoadMoreButton url={'http://localhost:3001/userpastorder'} data={reviewData} setdata={setReviewData} />}
                     </div>
                 </div>
 
