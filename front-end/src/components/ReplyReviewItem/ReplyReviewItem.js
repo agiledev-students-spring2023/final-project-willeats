@@ -104,6 +104,7 @@ function ReplyReviewItem() {
                             star={element.star}
                             image={element.restImage}
                             reviewImage={element.reviewImage}
+                            reply={true}
                            />
                     ))}
                         

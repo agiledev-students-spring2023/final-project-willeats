@@ -20,8 +20,8 @@ const Cart = ({}) => {
   const [items, setItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   
-  const [deliveryFee, setDeliveryFee] = useState(0);
-  const [taxRate, setTaxRate] = useState(0);
+  const [deliveryFee, setDeliveryFee] = useState(3);
+  const [taxRate, setTaxRate] = useState(8.75);
 
   const handleTipChange = (event) => {
     setTipAmount(parseFloat(event.target.value));
@@ -61,29 +61,28 @@ const Cart = ({}) => {
     }
   }, []);
 
-  useEffect(() => {
-    axios.get('https://my.api.mockaroo.com/cart_items.json?key=63c46330')
-    .then((res) => {
-        console.log(res.data)
-        setCartItems(res.data)
-    })
-    .catch((err) => (
-      console.log(err)
-    ))    
-}, []);
+//   useEffect(() => {
+//     axios.get('https://my.api.mockaroo.com/cart_items.json?key=63c46330')
+//     .then((res) => {
+//         console.log(res.data)
+//         setCartItems(res.data)
+//     })
+//     .catch((err) => (
+//       console.log(err)
+//     ))    
+// }, []);
 
-useEffect(() => {
-  axios.get('https://my.api.mockaroo.com/resdata.json?key=63c46330')
-  .then((res) => {
-    console.log(res.data)
-
-    setDeliveryFee(res.data.deliveryFee)
-    setTaxRate(res.data.taxrate)
-  })
-  .catch((err) => (
-      console.log(err)
-  ))
-}, []);
+// useEffect(() => {
+//   axios.get('https://my.api.mockaroo.com/resdata.json?key=63c46330')
+//   .then((res) => {
+//     console.log(res.data)
+//     setDeliveryFee(res.data.deliveryFee)
+//     setTaxRate(res.data.taxrate)
+//   })
+//   .catch((err) => (
+//       console.log(err)
+//   ))
+// }, []);
 
 const handleLCheckout = () => {
   Navigate('/checkout')
