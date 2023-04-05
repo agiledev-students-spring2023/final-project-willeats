@@ -32,4 +32,14 @@ app.get('/data', async(req,res)=>{
     }
 })
 
+app.post('/api/edit-menu-items/:id', (req, res) => {
+    const itemId = req.params.id;
+    const { name, description, price } = req.body;
+    
+    // Do something with the updated data here (e.g. update the menu item in the database)
+    console.log(`Updated menu item ${itemId}: { name: ${name}, description: ${description}, price: ${price} }`);
+    
+    res.status(200).json({ message: 'Menu item updated successfully.' });
+  });
+
 module.exports = app
