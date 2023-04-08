@@ -1,17 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './index.css';
-import Home from './Home';
+import Home from './components/Home/Home';
 import './App.css';
 
 
 
-
 import Cart from './components/cart/Cart'
-import OrderFinished from './OrderFinished'
-
-
-
 import {review, user, owner} from './config.js'
 import OwnersideReviewDetails from './components/OwnerSideReviewDetails/OwnersideReviewDetails';
 import ReviewDetails from './components/ReviewDetails/ReviewDetails';
@@ -36,25 +31,7 @@ import CreateReviewPage from './components/createReview/createReviewPage';
 import PastOrderPage from './components/pastOrder/pastOrderPage';
 import CustomerProfile from './components/CustomerProfile/CustomerProfile';
 import OwnerProfile from './components/OwnerProfile/OwnerProfile';
-
-const config = {
-  cartItems: [
-    {
-      id: 1,
-      name: "Cheeseburger",
-      price: 8.99,
-      quantity: 2,
-    },
-    {
-      id: 2,
-      name: "Fries",
-      price: 3.99,
-      quantity: 1,
-    },
-  ],
-  deliveryFee: 2.99,
-  taxRate: 0.1,
-};
+import OrderFinished from './components/OrderFinished/OrderFinished';
 
 function App() {
   return (
@@ -77,9 +54,11 @@ function App() {
           <Route path='/usercreatereview' element={<CreateReviewPage/>} />
           <Route path='/userpastorder' element={<PastOrderPage/>} />
           <Route path="/customerprofile" element={<CustomerProfile/>}></Route>
-          <Route path='/cart' element={<Cart config={config} />} />
+          <Route path='/cart' element={<Cart />} />
           <Route path='/ownerReviewDetail' element={<OwnersideReviewDetails review={review} user={user} owner={owner} />} />
           <Route path='/ownerprofile' element={<OwnerProfile/>} />
+          <Route path='/checkout' element={<OrderFinished/>} />
+          <Route path='/reviewDetails' element={<ReviewDetails/>} />
         </Routes>
       </Router>
 
