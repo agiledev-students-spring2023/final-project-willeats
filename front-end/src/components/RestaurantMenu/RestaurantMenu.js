@@ -5,8 +5,6 @@ import CartIcon from '../CartIcon/CartIcon';
 import './RestaurantMenu.css'
 import '../../bootstrap.css'
 import axios from 'axios';
-import HomeButton from '../profile/HomeButton';
-import PageBackButton from '../pagebackButton/PageBackButton';
 import TopBar_Cprofile from '../topBar/TopBar-C-profile';
 
 
@@ -80,8 +78,9 @@ function RestaurantMenu() {
   return (
     <div className='row'>
         <div className="restaurant-menu-container">
-            <TopBar_Cprofile/>
-
+        <div className='row d-flex justify-content-between m-1'>
+            <TopBar_Cprofile />
+          </div>
           <Header
             name={restaurantName}
             rating={4}
