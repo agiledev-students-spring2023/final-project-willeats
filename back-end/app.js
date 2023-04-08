@@ -57,7 +57,4 @@ app.get('/reviewDetails', (req, res) => {
       });
 });
 
-
-
-
 module.exports = app
