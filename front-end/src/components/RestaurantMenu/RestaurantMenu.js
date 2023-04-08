@@ -29,7 +29,7 @@ function RestaurantMenu() {
 
   useEffect(() => {
     axios
-      .get("https://my.api.mockaroo.com/menu.json?key=3c15f680")
+      .get("http://localhost:3001/getmenu")
       .then((response) => {
         let data = response.data
         console.log(data)
@@ -114,9 +114,6 @@ function RestaurantMenu() {
               </div>
             </div>
           ))}
-          <div className='d-flex justify-content-center mt-3'>
-            <button type="button" className="btn btn-warning btn-sm">Load More...</button>
-          </div>
           <div className="cart-container d-flex flex-row-reverse">
             <CartIcon count={cartItems.length} />
           </div>

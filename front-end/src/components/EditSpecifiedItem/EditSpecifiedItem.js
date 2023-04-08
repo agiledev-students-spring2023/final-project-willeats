@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams,useLocation } from 'react-router-dom';
 import SimpleImageSlider from "react-simple-image-slider";
 import './EditSpecifiedItem.css';
-import '../../bootstrap.css'
+import '../../bootstrap.css';
+import axios from 'axios';
 
 
 function EditSpecifiedItem() {
@@ -12,12 +13,13 @@ function EditSpecifiedItem() {
   const [name, setName] = useState(new URLSearchParams(location.search).get('name'));
   const [description, setDescription] = useState(new URLSearchParams(location.search).get('description'));
   const [price, setPrice] = useState(new URLSearchParams(location.search).get('price'));
+  const [id, setId] = useState(new URLSearchParams(location.search).get('id'));
   const [images, setImages] = useState([
     "https://picsum.photos/id/100/300/200",
     "https://picsum.photos/id/101/300/200",
     "https://picsum.photos/id/102/300/200",
   ]);
-  
+  console.log(id)
   //fetch menu item data from the server using the id
   useEffect(() => {
     fetch(`/api/menu-items/${itemId}`)
@@ -46,10 +48,22 @@ function EditSpecifiedItem() {
   };
 
   const handleSave = () => {
-    // handle save functionality here
-    // (e.g. submit a PUT request to the server to update the menu item)
-    navigate('/editmenu'); // redirect back to the menu page after saving
+    const data = {
+      name: name,
+      description: description,
+      price: price,
+    };
+  
+  axios.post(`http://localhost:3001/api/edit-menu-items/${id}`, data)
+      .then(response => {
+        console.log(response.data);
+        navigate('/editmenu'); // redirect back to the menu page after saving
+      })
+      .catch(error => {
+        console.error('Error saving changes:', error);
+      });
   };
+  
 
   const handleNameClick = () => {
     const nameElement = document.getElementById('name');
