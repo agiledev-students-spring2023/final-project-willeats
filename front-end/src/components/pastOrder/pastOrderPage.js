@@ -42,29 +42,31 @@ function PastOrderPage(props){
 
                 <div className='col'>
                     <div className='d-flex justify-content-between'>
-                        <PageBackButton/>
-                        <HomeButton/>
+                        <PageBackButton />
+                        <HomeButton />
                     </div>
                     <div className='col'>
                         <h1 className='m-1'>My Orders</h1>
-                        
-                        {reviewData && <small className="text-muted m-1">{ reviewData.length} orders</small>}
+
+                        {reviewData && <small className="text-muted m-1">{reviewData.length} orders</small>}
                     </div>
                     <div className='row-gap-3'>
                         {reviewData != null && reviewData.map((element) => (
-                            <ReviewCard 
-                            order={true} 
-                            mainName={element.name} 
-                            key={element.id + element.name} 
-                            itemList={element.itemList} 
-                            date={element.date}
-                            CreateButton={CreateButton}
-                            image={element.restImage} />
+                            <ReviewCard
+                                order={true}
+                                mainName={element.name}
+                                key={element.id + element.name}
+                                itemList={element.itemList}
+                                date={element.date}
+                                CreateButton={CreateButton}
+                                image={element.restImage} />
                         ))}
                     </div>
+
                     <div className='d-flex justify-content-center mt-2'>
                         
                         {reviewData.length > 0 && <LoadMoreButton url={'http://localhost:3001/userpastorder'} data={reviewData} setdata={setReviewData} />}
+
                     </div>
                 </div>
 

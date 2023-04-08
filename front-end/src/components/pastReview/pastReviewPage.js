@@ -13,7 +13,6 @@ function PastReviewPage() {
         axios.get('http://localhost:3001/userpastreview')
         .then((res) => {
             setReviewData(res.data)
-            console.log(res)
         })
         .catch((err) => (
             console.log(err)
