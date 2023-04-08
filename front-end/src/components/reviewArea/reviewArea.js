@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import StarRatings from 'react-star-ratings'
 import './reviewArea.css'
 import '../../bootstrap.css'
@@ -11,6 +11,16 @@ function ReviewArea(props){
   const [preimage, setPreimage] = useState(new URLSearchParams(location.search).getAll('image')) //preview
   const [image, setImage] = useState([])
 
+  useEffect(() => {
+    if(props.save){
+      const editData = {}
+      editData.rating = rating
+      editData.review = review
+      editData.image = [...image]
+      const newSaveData = [...props.saveData, editData]
+      props.setSaveData(newSaveData)
+    }
+  },[props.save]);
   const handleChange = (event) => {
     setReview(event.target.value)
   }
