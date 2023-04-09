@@ -19,7 +19,7 @@ const ManagerSignUp = () => {
   return (
     <div className="consumer-login">
       <TopBar/>
-      <h1>Manager Sign up</h1>
+      <h1 className='mb-4'>Manager Sign up</h1>
       <form onSubmit={handleSubmit}>
         <ProfileImage/>
         <InputName business={true}/>

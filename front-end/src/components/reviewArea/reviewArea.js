@@ -91,7 +91,7 @@ function ReviewArea(props){
         </div>
         <div className='row m-1'>
           {preimage && preimage.map((element, index) => (
-            <div key={index} className='image-container'>
+            <div key={index} className='image-container mt-1'>
               <img src={element} alt={element} className='img img-thumbnail' onClick={() => handleImageClick(index)} />
             </div>
           ))}

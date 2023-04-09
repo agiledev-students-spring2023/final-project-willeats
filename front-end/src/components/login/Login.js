@@ -11,7 +11,7 @@ const Login = () => {
         setSelected(type)
     }
 
-    const signUpText = (selected === 'user') ? 'Sign up' : 'Sign up for your business'
+    const signUpText = (selected === 'user') ? "Don't yet have an account? Sign up!" : "New manager? Sign up for your business!"
     const signPath = (selected === 'user') ? '/Sign-C' : '/Sign-M'
     const loginPath = (selected === 'user') ? '/customerprofile' : '/ownerprofile'
 
@@ -29,10 +29,14 @@ const Login = () => {
         Navigate(loginPath)
     }
 
+    const navigateMenu = () => {
+        Navigate('/menu')
+      }
+
     return (
         <div className='login-page'>
             <TopBar/>
-            <h1 className='text-center'>Log in to WillEats</h1>
+            <h1 className='text-center mb-4'>Log in to WillEats</h1>
             <form onSubmit={prohibitRefresh}>
                 <div className="login-switch-container">
                     <button className={`login-switch-button ${selected === 'user' ? 'active' : ''}`} onClick={() => handleSelected('user')}>
@@ -68,7 +72,7 @@ const Login = () => {
                 </div>
 
                 <div className='d-flex justify-content-center'>
-                    <button type="button" className="btn btn-outline-dark" onClick={handleLogin}>
+                    <button type="button" className="btn btn-outline-dark" onClick={navigateMenu}>
                         Login
                     </button>
                 </div>
