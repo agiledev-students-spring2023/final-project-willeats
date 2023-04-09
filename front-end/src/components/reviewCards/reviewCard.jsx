@@ -20,10 +20,12 @@ function ReviewCard(props) {
           });
         }
       }, []);
-    const handleReadmore = () => {
+    const handleReadmore = (e) => {
+        e.stopPropagation()
         setReadmore(true)
     }
-    const handleReadLess = () => {
+    const handleReadLess = (e) => {
+        e.stopPropagation()
         setReadmore(false)
     }
 
@@ -31,7 +33,8 @@ function ReviewCard(props) {
         navigate('/reviewDetails')
     }
 
-    const changeEdit = () => {
+    const changeEdit = (e) => {
+        e.stopPropagation()
         const params = new URLSearchParams()
         params.append('review', props.review)
         props.reviewImage.map((e) =>{
@@ -46,8 +49,8 @@ function ReviewCard(props) {
     
 
     return(
-        <div className="card size mx-auto mt-2 " onClick={handleClick}>
-            <div className="row">
+        <div className="card size mx-auto mt-2 " >
+            <div className="row" onClick={handleClick}>
                 <div className='col'>
 
                 </div>
@@ -58,7 +61,7 @@ function ReviewCard(props) {
                     {props.reply && <button type="button" className="btn btn-link float-right">Reply</button>}
                 </div>}
             </div>
-            <div className="row">
+            <div className="row " onClick={handleClick}>
                 <div className="col-3 m-1">
                     {/* image url */}
                     <img src={props.image} alt = 'logo' className="rounded-circle img-fluid"/> 
