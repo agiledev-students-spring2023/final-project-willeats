@@ -18,7 +18,7 @@ function CreateReviewPage(){
     }
 
     useEffect(() => {
-        if(save && saveData.length == reviewed.length){
+        if(save && saveData.length === reviewed.length){
             console.log(saveData)
             console.log(save)
             const request = []
@@ -27,9 +27,9 @@ function CreateReviewPage(){
                 const formData = new FormData()
                 formData.append("itemName", ele)
                 formData.append("rating", saveData[i].rating)
-                formData.append("review", saveData[i].review)
+                formData.append ("review", saveData[i].review)
                 formData.append("date", saveData[i].date)
-                saveData[i].image.map((e) => {
+                saveData[i].image.forEach((e) => {
                     formData.append("image", e)
                 })
                 const newRequest = axios.post("http://localhost:3001/createuserreview", formData)
