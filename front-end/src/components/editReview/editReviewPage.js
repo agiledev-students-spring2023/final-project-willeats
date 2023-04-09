@@ -1,10 +1,39 @@
 import React, { useEffect, useState } from 'react'
-import {useLocation } from "react-router-dom";
+import {useLocation, useNavigate } from "react-router-dom";
 import '../../bootstrap.css'
 import ReviewArea from '../reviewArea/reviewArea.js'
 import PageBackButton from '../pagebackButton/PageBackButton'; 
+import axios from 'axios';
 function EditReviewPage() {
+    const navigate = useNavigate()
     const location = useLocation()
+    const [saveData, setSaveData] = useState([])
+    const [save, setSave] = useState(false)
+    const configuration = {
+        method: "post",
+        url: "http://localhost:3001/edituserreview",
+        data: {
+            saveData : saveData
+        },
+    };
+    const handlesave = () => {
+        setSave(true)
+    }
+
+    useEffect(() => {
+        if(save && saveData){
+            saveData[0].itemName = new URLSearchParams(location.search).get('itemName')
+            axios(configuration)
+            .then((res) =>{
+                console.log(res.data.message)
+                setSave(false)
+                navigate(-1)//add pop up 
+            })
+            .catch((err) =>{
+                console.log(err)
+            })
+        }
+    },[saveData]);
 
     return(
         <div className='mt-1'>
@@ -17,10 +46,13 @@ function EditReviewPage() {
                     <p className='fs-4 m-1'>{new URLSearchParams(location.search).get('itemName')}</p>
                     <ReviewArea name={new URLSearchParams(location.search).get('itemName')} 
                                 review={new URLSearchParams(location.search).get('review')} 
-                                image={new URLSearchParams(location.search).getAll('image')} />
+                                image={new URLSearchParams(location.search).getAll('image')} 
+                                save={save}
+                                setSaveData={setSaveData}
+                                saveData={saveData} />
                     <div className='d-grid gap-2 col-5 mx-auto mt-3'>
                         {/* handle save */}
-                        <button type="button" className="btn btn-primary">Save</button> 
+                        <button type="button" className="btn btn-primary" onClick={handlesave} disabled={save} >Save</button> 
                     </div>
                 </div>
             </div>
