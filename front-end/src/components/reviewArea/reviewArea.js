@@ -1,16 +1,45 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import StarRatings from 'react-star-ratings'
 import './reviewArea.css'
 import '../../bootstrap.css'
 import { useLocation } from "react-router-dom";
-
+import axios from 'axios';
 function ReviewArea(props){
   const location = useLocation()
   const [review, setReview] = useState(props.review)
   const [rating, setRating] = useState(parseInt(new URLSearchParams(location.search).get('star')))
   const [preimage, setPreimage] = useState(new URLSearchParams(location.search).getAll('image')) //preview
   const [image, setImage] = useState([])
+  
+  useEffect(() => {
+    if(props.save){
+      const editData = {}
+      editData.rating = rating ? 0 : rating
+      editData.review = review
+      editData.image = [...image]
+      const current = new Date();
+      const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`
+      editData.date = date
+      // const formData = new FormData()
+      // formData.append("itemName", props.name)
+      // formData.append("rating", rating ? 0 : rating)
+      // formData.append("review",review)
+      // formData.append("date", date)
+      // image.map((e) => {
+      //   formData.append("image", e)
+      // })
+      // axios.post("http://localhost:3001/createuserreview", formData)
+      //   .then((res) => {
+      //     console.log(res.data.message)
+      //     props.setTotal((prevTotal) => prevTotal + 1)
+      //   })
+      //   .catch((err) => {
+      //     console.log(err)
+      //   })
 
+      props.setSaveData((prevSaveData) => [...prevSaveData, editData])
+    }
+  },[props.save]);
   const handleChange = (event) => {
     setReview(event.target.value)
   }
@@ -29,6 +58,7 @@ function ReviewArea(props){
   }
 
   const handleImageClick = (index) => {
+    
     let newImage = [...image]
     let newPreimage = [...preimage]
     newImage.splice(index, 1)
@@ -64,7 +94,7 @@ function ReviewArea(props){
         <div className='row m-1'>
           {preimage && preimage.map((element, index) => (
             <div key={index} className='image-container mt-1'>
-              <img src={element} alt={element} className='img img-thumbnail' onClick={() => handleImageClick(index)} />
+              <img src={element} alt={element} className='img img-thumbnail' onClick={(e) => handleImageClick(e,index)} />
             </div>
           ))}
         </div>
