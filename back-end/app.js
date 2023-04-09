@@ -8,7 +8,7 @@ const multer = require("multer") // middleware to handle HTTP POST requests with
 // require("dotenv").config({ silent: true }) // load environmental variables from a hidden file named .env
 const morgan = require("morgan") // middleware for nice logging of incoming HTTP requests
 
-const axios = require("axios")
+
 
 /**
  * Typically, all middlewares would be included before routes
@@ -25,6 +25,7 @@ app.use(express.json()) // decode JSON-formatted incoming POST data
 app.use(express.urlencoded({ extended: true }))
 app.use("/static", express.static("public"))
 
+const upload = multer({dest: "./public/uploads" })
 
 app.get('/userpastreview', (req, resp) => {
     axios.get(`${process.env.API_USER_PAST_REVIEW}?key=${process.env.API_KEY}`)
@@ -54,20 +55,14 @@ app.post('/edituserreview', (req, resp) => {
 });
 
 
-app.post('/createuserreview', (req, resp) => {
-    console.log(req.body.saveData)
+app.post('/createuserreview', upload.array("image"), (req, resp) => {
+    console.log(req.files)
+    console.log(req.body)
     resp.status(200).send({message: 'create successfully'})
 });
 
-
-
-
-
-
-
-
-
-
-
+app.post('/deleteuserreview', (req, resp) => {
+    resp.status(200).send({message: 'delete successfully'})
+})
 
 module.exports = app
