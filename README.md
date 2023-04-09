@@ -49,7 +49,22 @@ Please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
 
 # Instructions for Building and Testing the Project
 
-Will be included after we reach that step.
+
+## Clone the source code from Github
+1. Run ``git clone https://github.com/agiledev-students-spring-2023/final-project-willeats`` to create a local repository in any folder you like
+1. Install [Node.js](https://nodejs.org/ko) if you don’t have it
+1. Open the cloned folder in VS Code
+
+## Deploy the backend server
+1. Navigate into back-end directory (use ``cd back-end``)
+1. Run ``npm install`` and ``npm start`` to develop and deploy the back end server
+
+
+## Deploy the front end 
+1. Navigate into the front-end directory (use ``cd ../`` to back to main folder (if still in the back-end folder)and use ``cd front-end``)
+1. Run ``npm install`` and ``npm start`` to develop and deploy the front end
+
+
 
 
 # Additional Resources
