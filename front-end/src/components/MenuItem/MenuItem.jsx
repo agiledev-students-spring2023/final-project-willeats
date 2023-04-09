@@ -21,6 +21,7 @@ function MenuItem(props) {
     params.append('price',props.price)
     params.append('image',props.image)
     params.append('star',props.star)
+    params.append('id', props.id)
     if (props.menu) {
       navigate({
         pathname: `/menu/${props.id}`,
@@ -55,6 +56,7 @@ function MenuItem(props) {
     params.append('price',props.price)
     params.append('image', props.image)
     params.append('star',props.star)
+    params.append('id', props.id)
     navigate({pathname:`/editmenu/${props.id}`,
     search:params.toString()});
   }
