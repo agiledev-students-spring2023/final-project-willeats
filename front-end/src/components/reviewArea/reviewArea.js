@@ -10,34 +10,34 @@ function ReviewArea(props){
   const [rating, setRating] = useState(parseInt(new URLSearchParams(location.search).get('star')))
   const [preimage, setPreimage] = useState(new URLSearchParams(location.search).getAll('image')) //preview
   const [image, setImage] = useState([])
-  const {setTotal, total} = props
+  
   useEffect(() => {
     if(props.save){
-      // const editData = {}
-      // editData.rating = rating
-      // editData.review = review
-      // editData.image = [...image]
+      const editData = {}
+      editData.rating = rating
+      editData.review = review
+      editData.image = [...image]
       const current = new Date();
-      const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
-      const formData = new FormData()
-      formData.append("itemName", props.name)
-      formData.append("rating", rating ? 0 : rating)
-      formData.append("review",review)
-      formData.append("date", date)
-      image.map((e) => {
-        formData.append("image", e)
-      })
-      axios.post("http://localhost:3001/createuserreview", formData)
-        .then((res) => {
-          console.log(res.data.message)
-          setTotal(total + 1)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+      const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`
+      editData.date = date
+      // const formData = new FormData()
+      // formData.append("itemName", props.name)
+      // formData.append("rating", rating ? 0 : rating)
+      // formData.append("review",review)
+      // formData.append("date", date)
+      // image.map((e) => {
+      //   formData.append("image", e)
+      // })
+      // axios.post("http://localhost:3001/createuserreview", formData)
+      //   .then((res) => {
+      //     console.log(res.data.message)
+      //     props.setTotal((prevTotal) => prevTotal + 1)
+      //   })
+      //   .catch((err) => {
+      //     console.log(err)
+      //   })
 
-      // const newSaveData = [...props.saveData, editData]
-      // props.setSaveData(newSaveData)
+      props.setSaveData((prevSaveData) => [...prevSaveData, editData])
     }
   },[props.save]);
   const handleChange = (event) => {

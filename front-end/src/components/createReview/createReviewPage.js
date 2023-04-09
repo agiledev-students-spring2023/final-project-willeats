@@ -17,51 +17,54 @@ function CreateReviewPage(){
         setSave(true)
     }
 
-    // useEffect(() => {
-    //     console.log(saveData)
-    //     console.log(save)
-    //     if(save && saveData.length == reviewed.length){
-    //         const request = []
-    //         reviewed.forEach((ele, i) => {
-    //             console.log(saveData[i].image)
-    //             const formData = new FormData()
-    //             formData.append("itemName", ele)
-    //             formData.append("rating", saveData[i].rating)
-    //             formData.append("review", saveData[i].review)
-    //             saveData[i].image.map((e) => {
-    //                 formData.append("image", e)
-    //             })
-    //             const newRequest = axios.post("http://localhost:3001/createuserreview", formData)
-    //             request.push(newRequest)
-    //         })
-    //         // axios.all(request)
-    //         // .then(axios.spread((...res) => {
-    //         //     setSave(false)
-    //         //     navigate(-1)
-    //         // }))
-    //         // .catch(err => {
-    //         //     console.log(err)
-    //         // })
-    //         // axios.post("http://localhost:3001/createuserreview", formData)
-    //         //         .then((res) => {
-    //         //             console.log(res.data.message)
-    //         //             if(i == reviewed.length - 1){
-    //         //                 navigate(-1)
-    //         //                 setSave(false)
-    //         //             }
-    //         //         })
-    //         //         .catch((err) => {
-    //         //             console.log(err)
-    //         //         })
-    //     }
-    // },[saveData]);
-
     useEffect(() => {
-        if(save && total == reviewed.length){
-            setSave(false)
-            navigate(-1)
+        if(save && saveData.length == reviewed.length){
+            console.log(saveData)
+            console.log(save)
+            const request = []
+            reviewed.forEach((ele, i) => {
+                console.log(saveData[i].image)
+                const formData = new FormData()
+                formData.append("itemName", ele)
+                formData.append("rating", saveData[i].rating)
+                formData.append("review", saveData[i].review)
+                formData.append("date", saveData[i].date)
+                saveData[i].image.map((e) => {
+                    formData.append("image", e)
+                })
+                const newRequest = axios.post("http://localhost:3001/createuserreview", formData)
+                request.push(newRequest)
+            })
+            axios.all(request)
+            .then(axios.spread((...res) => {
+                setSave(false)
+                navigate(-1)
+            }))
+            .catch(err => {
+                console.log(err)
+            })
+            // axios.post("http://localhost:3001/createuserreview", formData)
+            //         .then((res) => {
+            //             console.log(res.data.message)
+            //             if(i == reviewed.length - 1){
+            //                 navigate(-1)
+            //                 setSave(false)
+            //             }
+            //         })
+            //         .catch((err) => {
+            //             console.log(err)
+            //         })
         }
-    },[total])
+    },[saveData]);
+
+    // useEffect(() => {
+    //     console.log(total)
+    //     console.log(reviewed.length)
+    //     if(save && total == reviewed.length){
+    //         setSave(false)
+    //         navigate(-1)
+    //     }
+    // }, [total])
 
     useEffect(()=>{
         if(reviewed.length === 0){
@@ -88,7 +91,8 @@ function CreateReviewPage(){
         setReviewed(newReviewed)
     }
 
-    const handleAddMore = () => {
+    const handleAddMore = (e) => {
+        
         const newReviewed = [...reviewed, itemList[0]]
         const newItemList = [...itemList]
         newItemList.splice(0,1)
@@ -136,7 +140,8 @@ function CreateReviewPage(){
                                     key={e}
                                     save={save}
                                     total={total}
-                                    setTotal={setTotal} />
+                                    setTotal={setTotal}
+                                    setSaveData={setSaveData} />
                             </div>
                         ))}
                        
