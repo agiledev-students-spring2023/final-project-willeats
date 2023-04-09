@@ -193,6 +193,10 @@ describe('POST /api/edit-menu-items/:id', () => {
         expect(err).to.be.null;
         expect(res).to.have.status(200);
         expect(res.body).to.deep.equal(pastReviewData);
+        done();
+      });
+  });
+
   it('should return a status code of 404 for non-existent POST route', (done) => {
     chai.request(app)
       .post('/nonexistentroute')
@@ -203,4 +207,3 @@ describe('POST /api/edit-menu-items/:id', () => {
       });
   });
 });
-
