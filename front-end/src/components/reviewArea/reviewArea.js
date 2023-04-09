@@ -14,7 +14,7 @@ function ReviewArea(props){
   useEffect(() => {
     if(props.save){
       const editData = {}
-      editData.rating = rating
+      editData.rating = rating ? 0 : rating
       editData.review = review
       editData.image = [...image]
       const current = new Date();
@@ -58,6 +58,7 @@ function ReviewArea(props){
   }
 
   const handleImageClick = (index) => {
+    
     let newImage = [...image]
     let newPreimage = [...preimage]
     newImage.splice(index, 1)
@@ -93,7 +94,7 @@ function ReviewArea(props){
         <div className='row m-1'>
           {preimage && preimage.map((element, index) => (
             <div key={index} className='image-container mt-1'>
-              <img src={element} alt={element} className='img img-thumbnail' onClick={() => handleImageClick(index)} />
+              <img src={element} alt={element} className='img img-thumbnail' onClick={(e) => handleImageClick(e,index)} />
             </div>
           ))}
         </div>

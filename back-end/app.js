@@ -54,11 +54,14 @@ app.post('/edituserreview', (req, resp) => {
 });
 
 
-app.post('/createuserreview', upload.array("image", 9), (req, resp) => {
+app.post('/createuserreview', upload.array("image"), (req, resp) => {
     console.log(req.files)
     console.log(req.body)
     resp.status(200).send({message: 'create successfully'})
 });
 
+app.post('/deleteuserreview', (req, resp) => {
+    resp.status(200).send({message: 'delete successfully'})
+})
 
 module.exports = app
