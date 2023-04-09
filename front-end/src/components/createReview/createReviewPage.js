@@ -13,36 +13,48 @@ function CreateReviewPage(){
     const [saveData, setSaveData] = useState([])
     const [save, setSave] = useState(false)
 
-
     const handlesave = () => {
         setSave(true)
     }
 
-    useEffect(() => {
-        if(save && saveData.length == reviewed.length){
-            let resData = {}
-            reviewed.forEach((ele, i) => {
-                resData[ele] = saveData[i]
-            })
-            console.log(resData)
-            const configuration = {
-                method: "post",
-                url: "http://localhost:3001/createuserreview",
-                data: {
-                    saveData : resData
-                },
-            }
-            axios(configuration)
-            .then((res) =>{
-                console.log(res.data.message)
-                setSave(false)
-                navigate(-1)//add pop up 
-            })
-            .catch((err) =>{
-                console.log(err)
-            })
-        }
-    },[saveData]);
+    // useEffect(() => {
+    //     console.log(saveData)
+    //     console.log(save)
+    //     if(save && saveData.length == reviewed.length){
+    //         const request = []
+    //         reviewed.forEach((ele, i) => {
+    //             console.log(saveData[i].image)
+    //             const formData = new FormData()
+    //             formData.append("itemName", ele)
+    //             formData.append("rating", saveData[i].rating)
+    //             formData.append("review", saveData[i].review)
+    //             saveData[i].image.map((e) => {
+    //                 formData.append("image", e)
+    //             })
+    //             const newRequest = axios.post("http://localhost:3001/createuserreview", formData)
+    //             request.push(newRequest)
+    //         })
+    //         // axios.all(request)
+    //         // .then(axios.spread((...res) => {
+    //         //     setSave(false)
+    //         //     navigate(-1)
+    //         // }))
+    //         // .catch(err => {
+    //         //     console.log(err)
+    //         // })
+    //         // axios.post("http://localhost:3001/createuserreview", formData)
+    //         //         .then((res) => {
+    //         //             console.log(res.data.message)
+    //         //             if(i == reviewed.length - 1){
+    //         //                 navigate(-1)
+    //         //                 setSave(false)
+    //         //             }
+    //         //         })
+    //         //         .catch((err) => {
+    //         //             console.log(err)
+    //         //         })
+    //     }
+    // },[saveData]);
 
     useEffect(()=>{
         if(reviewed.length === 0){
@@ -113,6 +125,7 @@ function CreateReviewPage(){
                                 </select>
                                 <ReviewArea 
                                     name={e} 
+                                    i={index}
                                     key={e}
                                     save={save}
                                     setSaveData={setSaveData}

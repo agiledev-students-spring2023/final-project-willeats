@@ -3,7 +3,7 @@ import StarRatings from 'react-star-ratings'
 import './reviewArea.css'
 import '../../bootstrap.css'
 import { useLocation } from "react-router-dom";
-
+import axios from 'axios';
 function ReviewArea(props){
   const location = useLocation()
   const [review, setReview] = useState(props.review)
@@ -17,6 +17,24 @@ function ReviewArea(props){
       editData.rating = rating
       editData.review = review
       editData.image = [...image]
+      const current = new Date();
+      const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
+      const formData = new FormData()
+      formData.append("itemName", props.name)
+      formData.append("rating", rating ? 0 : rating)
+      formData.append("review",review)
+      formData.append("date", date)
+      image.map((e) => {
+        formData.append("image", e)
+      })
+      axios.post("http://localhost:3001/createuserreview", formData)
+        .then((res) => {
+          console.log(res.data.message)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+
       const newSaveData = [...props.saveData, editData]
       props.setSaveData(newSaveData)
     }
