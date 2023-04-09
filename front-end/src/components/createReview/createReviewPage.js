@@ -12,7 +12,7 @@ function CreateReviewPage(){
     const [reviewed, setReviewed] = useState([])
     const [saveData, setSaveData] = useState([])
     const [save, setSave] = useState(false)
-
+    const [total,setTotal] = useState(0);
     const handlesave = () => {
         setSave(true)
     }
@@ -55,6 +55,13 @@ function CreateReviewPage(){
     //         //         })
     //     }
     // },[saveData]);
+
+    useEffect(() => {
+        if(save && total == reviewed.length){
+            setSave(false)
+            navigate(-1)
+        }
+    },[total])
 
     useEffect(()=>{
         if(reviewed.length === 0){
@@ -128,8 +135,8 @@ function CreateReviewPage(){
                                     i={index}
                                     key={e}
                                     save={save}
-                                    setSaveData={setSaveData}
-                                    saveData={saveData} />
+                                    total={total}
+                                    setTotal={setTotal} />
                             </div>
                         ))}
                        
