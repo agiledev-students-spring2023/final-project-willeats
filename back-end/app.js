@@ -16,6 +16,7 @@ const morgan = require("morgan") // middleware for nice logging of incoming HTTP
  * This is to match the order of the accompanying slides
  */
 
+require("dotenv").config({ silent: true })
 // use the morgan middleware to log all incoming http requests
 app.use(morgan("dev")) // morgan has a few logging default styles - dev is a nice concise color-coded style
 app.use(cors());
@@ -27,7 +28,7 @@ app.use("/static", express.static("public"))
 const upload = multer({dest: "./public/uploads" })
 
 app.get('/userpastreview', (req, resp) => {
-    axios.get('https://my.api.mockaroo.com/pastreview1234.json?key=3c15f680')
+    axios.get(`${process.env.API_USER_PAST_REVIEW}?key=${process.env.API_KEY}`)
         .then((res) => {
             resp.status(200).send(res.data)
         })
@@ -38,7 +39,7 @@ app.get('/userpastreview', (req, resp) => {
 });
 
 app.get('/userpastorder', (req, resp) => {
-    axios.get('https://my.api.mockaroo.com/userreview1234.json?key=3c15f680')
+    axios.get(`${process.env.API_USER_PAST_ORDER}?key=${process.env.API_KEY}`)
         .then((res) => {
             resp.status(200).send(res.data)
         })
