@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import {useLocation, useNavigate } from "react-router-dom";
 import '../../bootstrap.css'
 import ReviewArea from '../reviewArea/reviewArea.js'
-import PageBackButton from '../pagebackButton/PageBackButton'; 
+import TopBar from '../topBar/TopBar'
+
 import axios from 'axios';
 function EditReviewPage() {
     const navigate = useNavigate()
@@ -38,9 +39,8 @@ function EditReviewPage() {
     return(
         <div className='mt-1'>
             <div className='row'>
-
+                <TopBar />
                 <div className='col'>
-                    <PageBackButton />
                     <p className='fs-3 m-1'>Edit the review for...</p>
                     <h1 className='m-1 fw-bold'>{new URLSearchParams(location.search).get('mainName')}</h1>
                     <p className='fs-4 m-1'>{new URLSearchParams(location.search).get('itemName')}</p>

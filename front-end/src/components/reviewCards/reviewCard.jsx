@@ -20,18 +20,16 @@ function ReviewCard(props) {
           });
         }
       }, []);
-    const handleReadmore = (e) => {
-        e.stopPropagation()
-        setReadmore(true)
-    }
-    const handleReadLess = (e) => {
-        e.stopPropagation()
-        setReadmore(false)
-    }
-
-    const handleClick=()=>{
+    const handleReadmore = () => {
         navigate('/reviewDetails')
     }
+//    const handleReadLess = () => {
+//        setReadmore(false)
+//   }
+
+//    const handleClick=()=>{
+//        navigate('/reviewDetails')
+//    }
 
     const changeEdit = (e) => {
         e.stopPropagation()
@@ -49,8 +47,8 @@ function ReviewCard(props) {
     
 
     return(
-        <div className="card size mx-auto mt-2 " >
-            <div className="row" onClick={handleClick}>
+        <div className="card size mx-auto mt-2 ">
+            <div className="row">
                 <div className='col'>
 
                 </div>
@@ -59,9 +57,11 @@ function ReviewCard(props) {
                     <button type="button" className="btn btn-link float-right" onClick={props.handleDelete} >Delete</button>
                     <button type="button" className="btn btn-link float-right" onClick={changeEdit}>Edit</button>
                     {props.reply && <button type="button" className="btn btn-link float-right">Reply</button>} */}
+
+
                 </div>}
             </div>
-            <div className="row " onClick={handleClick}>
+            <div className="row " >
                 <div className="col-3 m-1">
                     {/* image url */}
                     <img src={props.image} alt = 'logo' className="rounded-circle img-fluid"/> 
@@ -86,7 +86,7 @@ function ReviewCard(props) {
                     {!props.order && <div>
                         {readmore ? <p className='mb-0'>{props.review}</p> : <p className='mb-0'>{props.review.substring(0, 50)}...</p>}
                         {readmore === false && !props.order ? <button type="button" className="btn btn-link p-0" onClick={handleReadmore} >Read More</button> :
-                        <button type="button" className="btn btn-link p-0" onClick={handleReadLess} >Read Less</button>}
+                        <button type="button" className="btn btn-link p-0" >Read Less</button>}
                     </div>}
                     {props.CreateButton && <props.CreateButton itemList={props.itemList} mainName={props.mainName}/>}
                 </div>
