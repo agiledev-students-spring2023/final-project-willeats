@@ -94,6 +94,12 @@ app.get('/getmenu', async(req,res)=>{
     }
 })
 
+app.post('/api/delete-menu-item', (req, res) => {
+    const id = req.body.id;
+    console.log(`Deleting menu item with ID ${id}`);
+    res.sendStatus(200);
+  });
+
 
 app.get('/getname', async(req,res)=>{
     try{
