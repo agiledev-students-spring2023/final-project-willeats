@@ -26,7 +26,8 @@ app.use("/static", express.static("public"))
 const upload = multer({dest: "./public/uploads" })
 
 app.get('/userpastreview', (req, resp) => {
-    axios.get('https://my.api.mockaroo.com/pastreview1234.json?key=3c15f680')
+    
+    axios.get(`${process.env.MOCKAROO_PAST_REVIEW}?key=${process.env.MOCKAROO_API_KEY_1}`)
         .then((res) => {
             resp.status(200).send(res.data)
         })
@@ -37,7 +38,7 @@ app.get('/userpastreview', (req, resp) => {
 });
 
 app.get('/userpastorder', (req, resp) => {
-    axios.get('https://my.api.mockaroo.com/userreview1234.json?key=3c15f680')
+    axios.get(`${process.env.MOCKAROO_USER_REVIEW}?key=${process.env.MOCKAROO_API_KEY_1}`)
         .then((res) => {
             resp.status(200).send(res.data)
         })
@@ -60,7 +61,7 @@ app.post('/createuserreview', upload.array("image"), (req, resp) => {
 });
 app.get('/getuser', async(req,res)=>{
     try{
-        const response = await axios.get("https://my.api.mockaroo.com/user.json?key=63c46330");
+        const response = await axios.get(`${process.env.MOCKAROO_USER}?key=${process.env.MOCKAROO_API_KEY_4}`);
         res.json(response.data);
     }catch(error){
         console.error(error);
@@ -70,7 +71,7 @@ app.get('/getuser', async(req,res)=>{
 
 app.get('/getbuisness', async(req,res)=>{
     try{
-        const response = await axios.get("https://my.api.mockaroo.com/buisness.json?key=63c46330");
+        const response = await axios.get(`${process.env.MOCKAROO_BUSINESS}?key=${process.env.MOCKAROO_API_KEY_4}`);
         res.json(response.data);
     }catch(error){
         console.error(error);
@@ -86,7 +87,7 @@ app.post('/deleteuserreview', (req, resp) => {
 
 app.get('/getmenu', async(req,res)=>{
     try{
-        const response = await axios.get("https://my.api.mockaroo.com/menu.json?key=3c15f680");
+        const response = await axios.get(`${process.env.MOCKAROO_MENU}?key=${process.env.MOCKAROO_API_KEY_1}`);
         res.json(response.data);
     }catch(error){
         console.error(error);
@@ -97,7 +98,7 @@ app.get('/getmenu', async(req,res)=>{
 
 app.get('/getname', async(req,res)=>{
     try{
-        const response = await axios.get("https://my.api.mockaroo.com/restaurant_name.json?key=3c15f680");
+        const response = await axios.get(`${process.env.MOCKAROO_RESTAURANT_NAME}?key=${process.env.MOCKAROO_API_KEY_1}`);
         res.json(response.data);
     }catch(error){
         console.error(error);
@@ -122,7 +123,7 @@ app.get("/", (req, res) => {
 
 app.get('/reviewDetails', (req, res) => {
     axios
-      .get('https://my.api.mockaroo.com/pastreview1234.json?key=3c15f680')
+      .get(`${process.env.MOCKAROO_PAST_REVIEW}?key=${process.env.MOCKAROO_API_KEY_1}`)
       .then((response) => {
         res.json(response.data);
       })
