@@ -1,11 +1,26 @@
-import React, { useState } from 'react';
+import {React, useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
 import '../../bootstrap.css'
 import TopBar from '../topBar/TopBar';
 import './OwnerProfile.css'
+import axios from 'axios';
 
 function OwnerProfile() {
-  const name = useState('Peet\'s coffee and tea');
+
+  
+  const [userData, setUserData] = useState([])
+  useEffect(() => {
+      axios.get('http://localhost:3001/getbuisness')
+      .then((res) => {
+        setUserData(res.data[0])
+      })
+      .catch((err) => (
+          console.log(err)
+      ))
+  }, []);
+
+  const name = userData.name;
+  console.log(userData)
   const navigate = useNavigate()
 
   const navigateProfile = () => {
@@ -32,12 +47,12 @@ function OwnerProfile() {
         </div>
 
         <div className="header-img-container">
-          <img src="https://source.unsplash.com/random" alt="Header" className="header-image" />
+          <img src={userData.image} alt="Header" className="header-image" />
       </div>
 
       <div className="content">
         <div className="owner-profile-image-container">
-          <img src="https://source.unsplash.com/random" alt="Profile" className="profile-image-owners" />
+          <img src={userData.image} alt="Profile" className="profile-image-owners" />
         </div>
         <div className="name-container">    
             <div className="name">

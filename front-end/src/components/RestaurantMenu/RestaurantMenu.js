@@ -64,7 +64,7 @@ function RestaurantMenu() {
 
   useEffect(() => {
     axios
-      .get("https://my.api.mockaroo.com/restaurant_name.json?key=3c15f680")
+      .get("http://localhost:3001/getname")
       .then((response) => {
         const data = response.data
 
