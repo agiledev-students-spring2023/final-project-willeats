@@ -25,6 +25,13 @@ function EditRestaurantMenu() {
     search:params.toString()});
   }
 
+  const handleDelete = (id) => {
+    setMenuItems(menuItems.map(category => ({
+      ...category,
+      items: category.items.filter(item => item.id !== id),
+    })));
+  };
+
   useEffect(() => {
     axios
       .get("https://my.api.mockaroo.com/menu.json?key=3c15f680")
