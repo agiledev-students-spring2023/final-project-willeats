@@ -60,7 +60,7 @@ function ReviewCard(props) {
                     }
                 </div>}
             </div>
-            <div className="row " onClick={handleClick}>
+            <div className="row " >
                 <div className="col-3 m-1">
                     {/* image url */}
                     <img src={props.image} alt = 'logo' className="rounded-circle img-fluid"/> 
