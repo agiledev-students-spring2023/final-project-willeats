@@ -21,15 +21,15 @@ function ReviewCard(props) {
         }
       }, []);
     const handleReadmore = () => {
-        setReadmore(true)
-    }
-    const handleReadLess = () => {
-        setReadmore(false)
-    }
-
-    const handleClick=()=>{
         navigate('/reviewDetails')
     }
+//    const handleReadLess = () => {
+//        setReadmore(false)
+//   }
+
+//    const handleClick=()=>{
+//        navigate('/reviewDetails')
+//    }
 
     const changeEdit = () => {
         const params = new URLSearchParams()
@@ -46,7 +46,7 @@ function ReviewCard(props) {
     
 
     return(
-        <div className="card size mx-auto mt-2 " onClick={handleClick}>
+        <div className="card size mx-auto mt-2 ">
             <div className="row">
                 <div className='col'>
 
@@ -55,7 +55,8 @@ function ReviewCard(props) {
                     {/* add handle event, justify if the review is user's */}
                     <button type="button" className="btn btn-link float-right" onClick={props.handleDelete} >Delete</button>
                     <button type="button" className="btn btn-link float-right" onClick={changeEdit}>Edit</button>
-                    {props.reply && <button type="button" className="btn btn-link float-right">Reply</button>}
+                    {//props.reply && <button type="button" className="btn btn-link float-right">Reply</button>} 
+                    }
                 </div>}
             </div>
             <div className="row">
@@ -83,7 +84,7 @@ function ReviewCard(props) {
                     {!props.order && <div>
                         {readmore ? <p className='mb-0'>{props.review}</p> : <p className='mb-0'>{props.review.substring(0, 50)}...</p>}
                         {readmore === false && !props.order ? <button type="button" className="btn btn-link p-0" onClick={handleReadmore} >Read More</button> :
-                        <button type="button" className="btn btn-link p-0" onClick={handleReadLess} >Read Less</button>}
+                        <button type="button" className="btn btn-link p-0" >Read Less</button>}
                     </div>}
                     {props.CreateButton && <props.CreateButton itemList={props.itemList} mainName={props.mainName}/>}
                 </div>

@@ -26,7 +26,7 @@ const ReviewDetails = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3000/reviewdetails')
+      .get('http://localhost:3001/userpastreview')
       .then((res) => {
         setReviewData(res.data[0]);
         console.log(res.data[0]);
@@ -65,7 +65,7 @@ const ReviewDetails = () => {
 
           <div className="review-header">
             
-            <img className="profile-image" src={reviewData.reviewImage} alt="Reviewer profile" />
+            <img className="profile-image" src={reviewData.restImage} alt="Reviewer profile" />
             <div className="review-info">
               <h5>{reviewData.name}</h5>
 

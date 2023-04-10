@@ -8,8 +8,6 @@ const multer = require("multer") // middleware to handle HTTP POST requests with
 // require("dotenv").config({ silent: true }) // load environmental variables from a hidden file named .env
 const morgan = require("morgan") // middleware for nice logging of incoming HTTP requests
 
-const axios = require("axios")
-
 /**
  * Typically, all middlewares would be included before routes
  * In this file, however, most middlewares are after most routes
@@ -19,7 +17,7 @@ const axios = require("axios")
 require("dotenv").config({ silent: true })
 // use the morgan middleware to log all incoming http requests
 app.use(morgan("dev")) // morgan has a few logging default styles - dev is a nice concise color-coded style
-app.use(cors());
+app.use(cors())
 // use express's builtin body-parser middleware to parse any data included in a request
 app.use(express.json()) // decode JSON-formatted incoming POST data
 app.use(express.urlencoded({ extended: true }))
@@ -27,7 +25,7 @@ app.use("/static", express.static("public"))
 
 
 app.get('/userpastreview', (req, resp) => {
-    axios.get(`${process.env.API_USER_PAST_REVIEW}?key=${process.env.API_KEY}`)
+    axios.get('https://my.api.mockaroo.com/pastreview1234.json?key=3c15f680')
         .then((res) => {
             resp.status(200).send(res.data)
         })
@@ -38,7 +36,7 @@ app.get('/userpastreview', (req, resp) => {
 });
 
 app.get('/userpastorder', (req, resp) => {
-    axios.get(`${process.env.API_USER_PAST_ORDER}?key=${process.env.API_KEY}`)
+    axios.get('https://my.api.mockaroo.com/userreview1234.json?key=3c15f680')
         .then((res) => {
             resp.status(200).send(res.data)
         })
@@ -60,11 +58,59 @@ app.post('/createuserreview', (req, resp) => {
 });
 
 
+app.post('/api/edit-menu-items/:id', (req, res) => {
+    const itemId = req.params.id;
+    const { name, description, price } = req.body;
+
+    // Do something with the updated data here (e.g. update the menu item in the database)
+    console.log(`Updated menu item ${itemId}: { name: ${name}, description: ${description}, price: ${price} }`);
+
+    res.status(200).json({ message: 'Menu item updated successfully.' });
+  });
 
 
 
+app.get('/getuser', async(req,res)=>{
+    try{
+        const response = await axios.get("https://my.api.mockaroo.com/user.json?key=63c46330");
+        res.json(response.data);
+    }catch(error){
+        console.error(error);
+        res.status(500).send('An error occured');
+    }
+})
+
+app.get('/getbuisness', async(req,res)=>{
+    try{
+        const response = await axios.get("https://my.api.mockaroo.com/buisness.json?key=63c46330");
+        res.json(response.data);
+    }catch(error){
+        console.error(error);
+        res.status(500).send('An error occured');
+    }
+})
 
 
+app.get('/getmenu', async(req,res)=>{
+    try{
+        const response = await axios.get("https://my.api.mockaroo.com/menu.json?key=3c15f680");
+        res.json(response.data);
+    }catch(error){
+        console.error(error);
+        res.status(500).send('An error occured');
+    }
+})
+
+
+app.get('/getname', async(req,res)=>{
+    try{
+        const response = await axios.get("https://my.api.mockaroo.com/restaurant_name.json?key=3c15f680");
+        res.json(response.data);
+    }catch(error){
+        console.error(error);
+        res.status(500).send('An error occured');
+    }
+})
 
 
 

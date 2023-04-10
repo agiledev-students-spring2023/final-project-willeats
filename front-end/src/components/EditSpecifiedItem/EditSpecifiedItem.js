@@ -3,6 +3,8 @@ import { useNavigate, useParams,useLocation } from 'react-router-dom';
 import SimpleImageSlider from "react-simple-image-slider";
 import './EditSpecifiedItem.css';
 import '../../bootstrap.css';
+import TopBar from '../topBar/TopBar'
+
 import axios from 'axios';
 
 
@@ -81,7 +83,9 @@ function EditSpecifiedItem() {
   };
 
     return (
+      
     <div className="edit-specified-item-container">
+        <TopBar/>
       <div className="image-slider-container">
         <SimpleImageSlider
           width={'90%'}
