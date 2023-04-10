@@ -3,7 +3,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import '../../bootstrap.css'
 import TopBar from '../topBar/TopBar';
 import './cart.css';
-
+import axios from 'axios';
 
 
 
@@ -16,8 +16,26 @@ const Cart = ({}) => {
   const [items, setItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   
-  const [deliveryFee, setDeliveryFee] = useState(3);
-  const [taxRate, setTaxRate] = useState(8.75);
+  const [rateData, setRateData] = useState([])
+
+  useEffect(() => {
+    axios.get('http://localhost:3001/getrate')
+    .then((res) => {
+      console.log(res.data)
+
+      setRateData(res.data)
+    })
+    .catch((err) => (
+        console.log(err)
+    ))
+  }, []);
+ 
+  const deliveryFee = rateData.deliveryFee;
+  const taxRate = rateData.taxRate;
+
+
+
+
 
   const handleTipChange = (event) => {
     setTipAmount(parseFloat(event.target.value));
