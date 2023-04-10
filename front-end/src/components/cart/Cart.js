@@ -30,8 +30,8 @@ const Cart = ({}) => {
     ))
   }, []);
  
-  const deliveryFee = rateData.deliveryFee;
-  const taxRate = rateData.taxRate;
+  const deliveryFee = parseFloat(rateData.deliveryFee);
+  const taxRate = parseFloat(rateData.taxrate);
 
 
 
