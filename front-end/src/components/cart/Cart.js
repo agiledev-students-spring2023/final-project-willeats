@@ -125,7 +125,7 @@ const total = subtotal + tax + deliveryFee + tipAmount;
                 className="tip-input"
                 min="0"
                 step="0.01"
-                value={tipAmount}
+                value={tipAmount.toFixed(2)}
                 onChange={handleTipChange}
               /> 
 
