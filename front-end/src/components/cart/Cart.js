@@ -2,11 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import '../../bootstrap.css'
 import TopBar from '../topBar/TopBar';
-import './cart.css'
-import axios from 'axios';
-import HomeButton from '../profile/HomeButton';
-import PageBackButton from '../pagebackButton/PageBackButton';
-
+import './cart.css';
 
 
 
@@ -61,29 +57,6 @@ const Cart = ({}) => {
     }
   }, []);
 
-//   useEffect(() => {
-//     axios.get('https://my.api.mockaroo.com/cart_items.json?key=63c46330')
-//     .then((res) => {
-//         console.log(res.data)
-//         setCartItems(res.data)
-//     })
-//     .catch((err) => (
-//       console.log(err)
-//     ))    
-// }, []);
-
-// useEffect(() => {
-//   axios.get('https://my.api.mockaroo.com/resdata.json?key=63c46330')
-//   .then((res) => {
-//     console.log(res.data)
-//     setDeliveryFee(res.data.deliveryFee)
-//     setTaxRate(res.data.taxrate)
-//   })
-//   .catch((err) => (
-//       console.log(err)
-//   ))
-// }, []);
-
 const handleLCheckout = () => {
   Navigate('/checkout')
 }
@@ -100,10 +73,7 @@ const total = subtotal + tax + deliveryFee + tipAmount;
   
   return (
     <div className="cart-overlay">
-        <div className='row d-flex justify-content-between m-1'>
-            <PageBackButton />
-            <HomeButton />
-          </div>      
+        <TopBar /> 
       
       <div className="cart">
         <h5>Your Cart</h5>

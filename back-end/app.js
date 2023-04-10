@@ -8,8 +8,6 @@ const multer = require("multer") // middleware to handle HTTP POST requests with
 // require("dotenv").config({ silent: true }) // load environmental variables from a hidden file named .env
 const morgan = require("morgan") // middleware for nice logging of incoming HTTP requests
 
-
-
 /**
  * Typically, all middlewares would be included before routes
  * In this file, however, most middlewares are after most routes
@@ -19,7 +17,7 @@ const morgan = require("morgan") // middleware for nice logging of incoming HTTP
 require("dotenv").config({ silent: true })
 // use the morgan middleware to log all incoming http requests
 app.use(morgan("dev")) // morgan has a few logging default styles - dev is a nice concise color-coded style
-app.use(cors());
+app.use(cors())
 // use express's builtin body-parser middleware to parse any data included in a request
 app.use(express.json()) // decode JSON-formatted incoming POST data
 app.use(express.urlencoded({ extended: true }))
@@ -28,7 +26,7 @@ app.use("/static", express.static("public"))
 const upload = multer({dest: "./public/uploads" })
 
 app.get('/userpastreview', (req, resp) => {
-    axios.get(`${process.env.API_USER_PAST_REVIEW}?key=${process.env.API_KEY}`)
+    axios.get('https://my.api.mockaroo.com/pastreview1234.json?key=3c15f680')
         .then((res) => {
             resp.status(200).send(res.data)
         })
@@ -39,7 +37,7 @@ app.get('/userpastreview', (req, resp) => {
 });
 
 app.get('/userpastorder', (req, resp) => {
-    axios.get(`${process.env.API_USER_PAST_ORDER}?key=${process.env.API_KEY}`)
+    axios.get('https://my.api.mockaroo.com/userreview1234.json?key=3c15f680')
         .then((res) => {
             resp.status(200).send(res.data)
         })
@@ -60,6 +58,24 @@ app.post('/createuserreview', upload.array("image"), (req, resp) => {
     console.log(req.body)
     resp.status(200).send({message: 'create successfully'})
 });
+app.get('/getuser', async(req,res)=>{
+    try{
+        const response = await axios.get("https://my.api.mockaroo.com/user.json?key=63c46330");
+        res.json(response.data);
+    }catch(error){
+        console.error(error);
+        res.status(500).send('An error occured');
+    }
+})
+
+app.get('/getbuisness', async(req,res)=>{
+    try{
+        const response = await axios.get("https://my.api.mockaroo.com/buisness.json?key=63c46330");
+        res.json(response.data);
+    }catch(error){
+        console.error(error);
+        res.status(500).send('An error occured');
+    }
 
 app.post('/deleteuserreview', (req, resp) => {
     resp.status(200).send({message: 'delete successfully'})
@@ -75,6 +91,18 @@ app.get('/getmenu', async(req,res)=>{
         res.status(500).send('An error occured');
     }
 })
+
+
+app.get('/getname', async(req,res)=>{
+    try{
+        const response = await axios.get("https://my.api.mockaroo.com/restaurant_name.json?key=3c15f680");
+        res.json(response.data);
+    }catch(error){
+        console.error(error);
+        res.status(500).send('An error occured');
+    }
+})
+
 
 app.post('/api/edit-menu-items/:id', (req, res) => {
     const itemId = req.params.id;
