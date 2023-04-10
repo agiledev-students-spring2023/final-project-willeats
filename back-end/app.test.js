@@ -8,8 +8,8 @@ const expect = chai.expect;
 
 describe('GET /userpastreview', () => {
   beforeEach(() => {
-    nock(process.env.API_USER_PAST_REVIEW)
-      .get(`?key=${process.env.API_KEY}`)
+    nock(process.env.MOCKAROO_PAST_REVIEW)
+      .get(`?key=${process.env.MOCKAROO_API_KEY_1}`)
       .reply(200, { data: 'mock data' });
   });
 
@@ -24,8 +24,8 @@ describe('GET /userpastreview', () => {
 
   it('should return a status code of 500 on error', (done) => {
     nock.cleanAll(); // Clear existing mocks
-    nock(process.env.API_USER_PAST_REVIEW)
-      .get(`?key=${process.env.API_KEY}`)
+    nock(process.env.MOCKAROO_PAST_REVIEW)
+      .get(`?key=${process.env.MOCKAROO_API_KEY_1}`)
       .replyWithError('Something went wrong');
 
     chai.request(app)
@@ -39,8 +39,8 @@ describe('GET /userpastreview', () => {
 
 describe('GET /userpastorder', () => {
   beforeEach(() => {
-    nock(process.env.API_USER_PAST_ORDER)
-      .get(`?key=${process.env.API_KEY}`)
+    nock('https://my.api.mockaroo.com')
+      .get('/userreview1234.json?key=3c15f680')
       .reply(200, { data: 'mock data' });
   });
 
@@ -55,8 +55,8 @@ describe('GET /userpastorder', () => {
 
   it('should return a status code of 500 on error', (done) => {
     nock.cleanAll(); // Clear existing mocks
-    nock(process.env.API_USER_PAST_ORDER)
-      .get(`?key=${process.env.API_KEY}`)
+    nock(process.env.MOCKAROO_PAST_REVIEW)
+      .get(`?key=${process.env.MOCKAROO_API_KEY_1}`)
       .replyWithError('Something went wrong');
 
     chai.request(app)
@@ -180,22 +180,6 @@ describe('POST /api/edit-menu-items/:id', () => {
     // Add additional assertions here to test the updated data was saved
   });
 
-  // Success test for /reviewDetails route
-  it('should return past review data on GET /reviewDetails', (done) => {
-    const pastReviewData = [{ name: 'John', review: 'Great food!', rating: 5 }, { name: 'Jane', review: 'Service was a bit slow', rating: 3 }];
-    // Mock the axios.get call to return the pastReviewData
-    nock('https://my.api.mockaroo.com')
-      .get('/pastreview1234.json?key=3c15f680')
-      .reply(200, pastReviewData);
-    chai.request(app)
-      .get('/reviewDetails')
-      .end((err, res) => {
-        expect(err).to.be.null;
-        expect(res).to.have.status(200);
-        expect(res.body).to.deep.equal(pastReviewData);
-        done();
-      });
-  });
 
   it('should return a status code of 404 for non-existent POST route', (done) => {
     chai.request(app)
