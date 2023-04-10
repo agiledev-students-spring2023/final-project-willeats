@@ -3,6 +3,7 @@
 
 Willeats is an online ordering platform that makes ordering easier both for the business owners and customers. For each dish on the menu, users can first see the reviews and write a review after their order. Restaurants can create and modify their menu and reply to the customers’ reviews.
 
+> Note that due to lack of authentification, the delete, edit, and reply function in reviews pages will be accomplished in Sprint 4.
 
 # Product Vision Statement
 
