@@ -6,6 +6,7 @@ import mockProfileImg from "../../image/random-profile.jpg";
 import defaultProfileImg from "../../image/default-profile-image.svg";
 import { useNavigate } from "react-router-dom";
 import './OrderFinished.css'
+import TopBarProfile from "../topBar/TopBar-just-profile";
 
 function OrderFinished() {
     const navigate = useNavigate()
@@ -19,9 +20,12 @@ function OrderFinished() {
     const handleWriteReview = () => {
         navigate('/userpastorder')
     }
+
+    
     
 
   return (
+<div>
 
     <div class="orderfinished-container"> 
         <div class="background-container">
@@ -30,8 +34,8 @@ function OrderFinished() {
         <div className="content-container">
             <h4 class="confirm-text"><strong>Order Placed. <br /> Get Prepared to Eat!</strong></h4>
             <div className="profile-container">
-            <img src={profileImage} alt="Profile" className="profile" />
-            </div>
+            <TopBarProfile />
+</div>
 
             <div className="button-container">
                 <button className="button btn btn-primary btn-lg" onClick={handleOrderMore}>Order More</button>
@@ -39,7 +43,7 @@ function OrderFinished() {
             </div>
         </div>
     </div>
-
+</div>
   );
 }
 
