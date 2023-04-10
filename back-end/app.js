@@ -77,6 +77,8 @@ app.get('/getbuisness', async(req,res)=>{
         res.status(500).send('An error occured');
     }
 
+})
+
 app.post('/deleteuserreview', (req, resp) => {
     resp.status(200).send({message: 'delete successfully'})
 })
