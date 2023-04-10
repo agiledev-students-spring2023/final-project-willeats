@@ -100,7 +100,7 @@ function EditSpecifiedItem() {
             navHeight={10}
             onClickNav={(index) => console.log(`Clicked nav button: ${index}`)}
           />
-          <button className="edit-images-button">Edit the Images</button>
+          {/* <button className="edit-images-button">Edit the Images</button> */}
         </div>
 
         <div className="name-container">
