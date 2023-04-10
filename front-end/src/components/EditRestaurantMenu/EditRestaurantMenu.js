@@ -4,8 +4,7 @@ import '../../bootstrap.css'
 import swal from 'sweetalert';
 import axios from 'axios';
 import MenuItem from '../MenuItem/MenuItem.jsx';
-import HomeButton from '../profile/HomeButton';
-import PageBackButton from '../pagebackButton/PageBackButton';
+import TopBar_Mprofile from '../topBar/TopBar-M-profile';
 import { useNavigate } from 'react-router-dom';
 
 function EditRestaurantMenu() {
@@ -21,8 +20,10 @@ function EditRestaurantMenu() {
     // params.append('price',price)
     // params.append('image',image)
     // params.append('star',star)
-    navigate({pathname:`/editmenu/${'1'}`,
-    search:params.toString()});
+    navigate({
+      pathname: `/editmenu/${'1'}`,
+      search: params.toString()
+    });
   }
 
 
@@ -92,6 +93,7 @@ function EditRestaurantMenu() {
   };
 
   return (
+
     <div className='row'>      
         <div className="restaurant-menu-container col">
           <div className='row d-flex justify-content-between m-1'>
@@ -134,12 +136,6 @@ function EditRestaurantMenu() {
                 </button>
               </div>
 
-            </div>
-          ))}
-        </div>
-      
-
-    </div>
 
 
   );
