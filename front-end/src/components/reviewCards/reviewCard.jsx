@@ -31,7 +31,8 @@ function ReviewCard(props) {
 //        navigate('/reviewDetails')
 //    }
 
-    const changeEdit = () => {
+    const changeEdit = (e) => {
+        e.stopPropagation()
         const params = new URLSearchParams()
         params.append('review', props.review)
         props.reviewImage.map((e) =>{
@@ -59,7 +60,7 @@ function ReviewCard(props) {
                     }
                 </div>}
             </div>
-            <div className="row">
+            <div className="row " onClick={handleClick}>
                 <div className="col-3 m-1">
                     {/* image url */}
                     <img src={props.image} alt = 'logo' className="rounded-circle img-fluid"/> 

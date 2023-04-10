@@ -24,7 +24,8 @@ function PastOrderPage(props){
 
     const CreateButton = (props) => {
 
-        const handleCreate = () => {
+        const handleCreate = (e) => {
+            e.stopPropagation();
             const params = new URLSearchParams()
             params.append('mainName', props.mainName)
             props.itemList.map((e) => (

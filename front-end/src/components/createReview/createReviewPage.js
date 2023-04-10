@@ -12,37 +12,59 @@ function CreateReviewPage(){
     const [reviewed, setReviewed] = useState([])
     const [saveData, setSaveData] = useState([])
     const [save, setSave] = useState(false)
-
-
+    const [total,setTotal] = useState(0);
     const handlesave = () => {
         setSave(true)
     }
 
     useEffect(() => {
-        if(save && saveData.length == reviewed.length){
-            let resData = {}
+        if(save && saveData.length === reviewed.length){
+            console.log(saveData)
+            console.log(save)
+            const request = []
             reviewed.forEach((ele, i) => {
-                resData[ele] = saveData[i]
+                console.log(saveData[i].image)
+                const formData = new FormData()
+                formData.append("itemName", ele)
+                formData.append("rating", saveData[i].rating)
+                formData.append ("review", saveData[i].review)
+                formData.append("date", saveData[i].date)
+                saveData[i].image.forEach((e) => {
+                    formData.append("image", e)
+                })
+                const newRequest = axios.post("http://localhost:3001/createuserreview", formData)
+                request.push(newRequest)
             })
-            console.log(resData)
-            const configuration = {
-                method: "post",
-                url: "http://localhost:3001/createuserreview",
-                data: {
-                    saveData : resData
-                },
-            }
-            axios(configuration)
-            .then((res) =>{
-                console.log(res.data.message)
+            axios.all(request)
+            .then(axios.spread((...res) => {
                 setSave(false)
-                navigate(-1)//add pop up 
-            })
-            .catch((err) =>{
+                navigate(-1)
+            }))
+            .catch(err => {
                 console.log(err)
             })
+            // axios.post("http://localhost:3001/createuserreview", formData)
+            //         .then((res) => {
+            //             console.log(res.data.message)
+            //             if(i == reviewed.length - 1){
+            //                 navigate(-1)
+            //                 setSave(false)
+            //             }
+            //         })
+            //         .catch((err) => {
+            //             console.log(err)
+            //         })
         }
     },[saveData]);
+
+    // useEffect(() => {
+    //     console.log(total)
+    //     console.log(reviewed.length)
+    //     if(save && total == reviewed.length){
+    //         setSave(false)
+    //         navigate(-1)
+    //     }
+    // }, [total])
 
     useEffect(()=>{
         if(reviewed.length === 0){
@@ -69,7 +91,8 @@ function CreateReviewPage(){
         setReviewed(newReviewed)
     }
 
-    const handleAddMore = () => {
+    const handleAddMore = (e) => {
+        
         const newReviewed = [...reviewed, itemList[0]]
         const newItemList = [...itemList]
         newItemList.splice(0,1)
@@ -113,10 +136,12 @@ function CreateReviewPage(){
                                 </select>
                                 <ReviewArea 
                                     name={e} 
+                                    i={index}
                                     key={e}
                                     save={save}
-                                    setSaveData={setSaveData}
-                                    saveData={saveData} />
+                                    total={total}
+                                    setTotal={setTotal}
+                                    setSaveData={setSaveData} />
                             </div>
                         ))}
                        

@@ -18,11 +18,22 @@ function PastReviewPage() {
         ))
     }, []);
     const handleDelete = (e) => {
-        e.preventDefault()
-        const index = e.target.getAttribute('keys')
-        const newData = [...reviewData]
-        newData.splice(index, 1)
-        setReviewData(newData)
+        e.stopPropagation()
+        const configuration = {
+            method: "post",
+            url: "http://localhost:3001/deleteuserreview",
+        };
+        axios(configuration)
+        .then((res) => {
+            const index = e.target.getAttribute('keys')
+            const newData = [...reviewData]
+            newData.splice(index, 1)
+            setReviewData(newData)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+        
     }
     return(
         <div className='mt-1 mw-40'>

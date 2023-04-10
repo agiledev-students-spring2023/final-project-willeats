@@ -120,6 +120,79 @@ describe('Error handling for non-existent routes', () => {
       .get('/nonexistentroute')
       .end((err, res) => {
         expect(res.status).to.equal(404);
+
+        done();
+      });
+  });
+
+  // Failed test for /reviewDetails route
+  it('should return an error message on GET /reviewDetails when the API call fails', (done) => {
+    // Mock the axios.get call to return a 500 error
+    nock('https://my.api.mockaroo.com')
+      .get('/pastreview1234.json?key=3c15f680')
+      .reply(500);
+    chai.request(app)
+      .get('/reviewDetails')
+      .end((err, res) => {
+        expect(err).to.be.null;
+        expect(res).to.have.status(500);
+        expect(res.text).to.equal('Error retrieving reviews');
+        done();
+      });
+  });
+});
+describe('GET /getmenu', () => {
+  // Success test
+  it('should return menu data', async () => {
+    const menuData = [{ name: 'Burger', description: 'Juicy beef patty with lettuce, tomato, and cheese', price: 69 }, { name: 'Pizza', description: 'Thin crust pizza with your choice of toppings', price: 96 }];
+    // Mock the axios.get call to return the menuData
+    nock('https://my.api.mockaroo.com')
+      .get('/menu.json?key=3c15f680')
+      .reply(200, menuData);
+
+    const res = await chai.request(app).get('/getmenu');
+    expect(res.status).to.equal(200);
+    expect(res.body).to.deep.equal(menuData);
+  });
+
+  // Failure test
+  it('should return an error message when the API call fails', async () => {
+    // Mock the axios.get call to return a 500 error
+    nock('https://my.api.mockaroo.com')
+      .get('/menu.json?key=3c15f680')
+      .reply(500);
+
+    const res = await chai.request(app).get('/getmenu');
+    expect(res.status).to.equal(500);
+    expect(res.text).to.equal('An error occured');
+  });
+});
+
+describe('POST /api/edit-menu-items/:id', () => {
+  // Success test
+  it('should update the menu item and return a success message', async () => {
+    const itemId = '123';
+    const updatedItem = { name: 'New Burger', description: 'Juicy beef patty with lettuce, tomato, and cheese', price: 10.99 };
+
+    const res = await chai.request(app).post(`/api/edit-menu-items/${itemId}`).send(updatedItem);
+    expect(res.status).to.equal(200);
+    expect(res.body).to.deep.equal({ message: 'Menu item updated successfully.' });
+    // Add additional assertions here to test the updated data was saved
+  });
+
+  // Success test for /reviewDetails route
+  it('should return past review data on GET /reviewDetails', (done) => {
+    const pastReviewData = [{ name: 'John', review: 'Great food!', rating: 5 }, { name: 'Jane', review: 'Service was a bit slow', rating: 3 }];
+    // Mock the axios.get call to return the pastReviewData
+    nock('https://my.api.mockaroo.com')
+      .get('/pastreview1234.json?key=3c15f680')
+      .reply(200, pastReviewData);
+    chai.request(app)
+      .get('/reviewDetails')
+      .end((err, res) => {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res.body).to.deep.equal(pastReviewData);
         done();
       });
   });
