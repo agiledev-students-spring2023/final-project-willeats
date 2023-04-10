@@ -95,6 +95,21 @@ app.get('/getmenu', async(req,res)=>{
     }
 })
 
+
+app.get('/getrate', async(req,res)=>{
+    try{
+        const response = await axios.get(`${process.env.MOCKAROO_RESTAURANT_FEES_RATES}?key=${process.env.MOCKAROO_API_KEY_4}`);
+        res.json(response.data);
+    }catch(error){
+        console.error(error);
+        res.status(500).send('An error occured');
+    }
+
+})
+
+
+
+
 app.post('/api/delete-menu-item', (req, res) => {
     const id = req.body.id;
     console.log(`Deleting menu item with ID ${id}`);
