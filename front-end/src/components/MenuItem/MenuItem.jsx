@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import '../../bootstrap.css'
 import StarRatings from 'react-star-ratings'
 import { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 // import './MenuItem.css'
 
 
@@ -63,7 +64,18 @@ function MenuItem(props) {
   
   const handleDelete = () => {
     if (window.confirm(`Are you sure you want to delete ${props.name}?`)) {
-      // Handle delete functionality here
+      axios.post('http://localhost:3001/api/delete-menu-item', { id: props.id })
+      .then(response => {
+        // Navigate to the menu page after successful deletion
+        if (response.status === 200) {
+          // Delete the menu item from the UI
+          // You should have a function in the parent component that removes the deleted menu item from the state
+          props.onDelete(props.id);
+        }
+      })
+      .catch(error => {
+        // Handle error here
+      });
     }
   };
 

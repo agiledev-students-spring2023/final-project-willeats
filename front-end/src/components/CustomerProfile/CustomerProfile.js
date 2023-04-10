@@ -55,7 +55,7 @@ function CustomerProfile() {
           <button type="button" className="btn btn-lg btn-outline-primary" onClick={navigateOrder}>My Orders</button>
           <button type="button" className="btn btn-lg btn-outline-primary" onClick={navigateReview}>My Reviews</button>
           <button type="button" className="btn btn-lg btn-outline-primary" onClick={navigateAccount}>Account Settings</button>
-          <button type="button" className="btn btn-lg btn-primary" onClick={navigateScan}>Scan Now</button>
+          <button type="button" className="btn btn-lg btn-primary btn-lg" onClick={navigateScan}>Scan Now</button>
         </div>
         <button className="btn btn-link logout" onClick={navigateHome}>Logout</button>
       </div>
