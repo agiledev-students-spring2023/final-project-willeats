@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams,useLocation } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import SimpleImageSlider from "react-simple-image-slider";
 import './EditSpecifiedItem.css';
 import '../../bootstrap.css';
-import TopBar from '../topBar/TopBar'
 
 import axios from 'axios';
+import TopBar_Mprofile from '../topBar/TopBar-M-profile';
 
 
 function EditSpecifiedItem() {
@@ -55,8 +55,8 @@ function EditSpecifiedItem() {
       description: description,
       price: price,
     };
-  
-  axios.post(`http://localhost:3001/api/edit-menu-items/${id}`, data)
+
+    axios.post(`http://localhost:3001/api/edit-menu-items/${id}`, data)
       .then(response => {
         console.log(response.data);
         navigate('/editmenu'); // redirect back to the menu page after saving
@@ -65,7 +65,7 @@ function EditSpecifiedItem() {
         console.error('Error saving changes:', error);
       });
   };
-  
+
 
   const handleNameClick = () => {
     const nameElement = document.getElementById('name');
@@ -74,7 +74,7 @@ function EditSpecifiedItem() {
     nameEditor.style.display = 'block';
     nameEditor.focus();
   };
-  
+
   const handleNameBlur = () => {
     const nameEditor = document.getElementById('name-editor');
     nameEditor.style.display = 'none';
@@ -82,43 +82,45 @@ function EditSpecifiedItem() {
     nameElement.style.display = 'block';
   };
 
-    return (
-      
-    <div className="edit-specified-item-container">
-        <TopBar/>
-      <div className="image-slider-container">
-        <SimpleImageSlider
-          width={'90%'}
-          height={200}
-          images={images.map(image => ({ url: image }))}
-          navStyle={1}
-          showNavs={true}
-          useGPURender={true}
-          slideDuration={0.5}
-          navWidth={60}
-          navHeight={10}
-          onClickNav={(index) => console.log(`Clicked nav button: ${index}`)}
-        />
-        <button className="edit-images-button">Edit the Images</button>
-      </div>
+  return (
+    <div>
+      <TopBar_Mprofile />
+      <div className="edit-specified-item-container">
 
-      <div className="name-container">
-        <h1 id="name" onClick={handleNameClick}>{name}</h1>
-        <input id="name-editor" type="text" value={name} onChange={handleNameChange} onBlur={handleNameBlur} style={{ display: 'none' }} />
-      </div>
+        <div className="image-slider-container">
+          <SimpleImageSlider
+            width={'90%'}
+            height={200}
+            images={images.map(image => ({ url: image }))}
+            navStyle={1}
+            showNavs={true}
+            useGPURender={true}
+            slideDuration={0.5}
+            navWidth={60}
+            navHeight={10}
+            onClickNav={(index) => console.log(`Clicked nav button: ${index}`)}
+          />
+          <button className="edit-images-button">Edit the Images</button>
+        </div>
 
-      <div className="description-container">
-        <h2>Description</h2>
-        <textarea id="description-editor" value={description} onChange={handleDescriptionChange} className="description-editor" />
-      </div>
+        <div className="name-container">
+          <h1 id="name" onClick={handleNameClick}>{name}</h1>
+          <input id="name-editor" type="text" value={name} onChange={handleNameChange} onBlur={handleNameBlur} style={{ display: 'none' }} />
+        </div>
 
-      <div className="price-container">
-        <h2>Price</h2>
-        <input type="text" value={price} onChange={handlePriceChange} className="price-editor" />
-      </div>
+        <div className="description-container">
+          <h2>Description</h2>
+          <textarea id="description-editor" value={description} onChange={handleDescriptionChange} className="description-editor" />
+        </div>
 
-      <div className="save-button-container">
-        <button className="btn btn-primary save-button-edit-specify" onClick={handleSave}>Save</button>
+        <div className="price-container">
+          <h2>Price</h2>
+          <input type="text" value={price} onChange={handlePriceChange} className="price-editor" />
+        </div>
+
+        <div className="save-button-container">
+          <button className="btn btn-primary save-button-edit-specify" onClick={handleSave}>Save</button>
+        </div>
       </div>
     </div>
   );
