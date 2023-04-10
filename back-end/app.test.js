@@ -207,3 +207,57 @@ describe('POST /api/edit-menu-items/:id', () => {
       });
   });
 });
+
+describe('GET /getuser', () => {
+  // Success test
+  it('should return user data', async () => {
+    const userData = [{ name: 'John', email: 'john@example.com' }, { name: 'Jane', email: 'jane@example.com' }];
+    // Mock the axios.get call to return the userData
+    nock('https://my.api.mockaroo.com')
+      .get(`/user.json?key=${process.env.MOCKAROO_API_KEY_4}`)
+      .reply(200, userData);
+
+    const res = await chai.request(app).get('/getuser');
+    expect(res.status).to.equal(200);
+    expect(res.body).to.deep.equal(userData);
+  });
+
+  // Failure test
+  it('should return an error message when the API call fails', async () => {
+    // Mock the axios.get call to return a 500 error
+    nock('https://my.api.mockaroo.com')
+      .get(`/user.json?key=${process.env.MOCKAROO_API_KEY_4}`)
+      .reply(500);
+
+    const res = await chai.request(app).get('/getuser');
+    expect(res.status).to.equal(500);
+    expect(res.text).to.equal('An error occured');
+  });
+});
+
+describe('GET /getbusiness', () => {
+  // Success test
+  it('should return business data', async () => {
+    const businessData = [{ name: 'Bob\'s Burgers', location: '123 Main St' }, { name: 'Patty\'s Pies', location: '456 Oak Ave' }];
+    // Mock the axios.get call to return the businessData
+    nock('https://my.api.mockaroo.com')
+      .get(`/business.json?key=${process.env.MOCKAROO_API_KEY_4}`)
+      .reply(200, businessData);
+
+    const res = await chai.request(app).get('/getbusiness');
+    expect(res.status).to.equal(200);
+    expect(res.body).to.deep.equal(businessData);
+  });
+
+  // Failure test
+  it('should return an error message when the API call fails', async () => {
+    // Mock the axios.get call to return a 500 error
+    nock('https://my.api.mockaroo.com')
+      .get(`/business.json?key=${process.env.MOCKAROO_API_KEY_4}`)
+      .reply(500);
+
+    const res = await chai.request(app).get('/getbusiness');
+    expect(res.status).to.equal(500);
+    expect(res.text).to.equal('An error occured');
+  });
+});
