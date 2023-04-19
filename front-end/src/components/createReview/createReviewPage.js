@@ -28,7 +28,7 @@ function CreateReviewPage(){
                 formData.append("itemName", ele)
                 formData.append("rating", saveData[i].rating)
                 formData.append ("review", saveData[i].review)
-                formData.append("date", saveData[i].date)
+                // formData.append("date", saveData[i].date)
                 saveData[i].image.forEach((e) => {
                     formData.append("image", e)
                 })
