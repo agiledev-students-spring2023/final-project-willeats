@@ -42,6 +42,3 @@ const reviewSchema = new Schema({
 
 
 
-mongoose.connect("mongodb+srv://ljr:123123123@cluster0.tmtz8nv.mongodb.net/?retryWrites=true&w=majority",{
-    useNewUrlParser: true,
-});
