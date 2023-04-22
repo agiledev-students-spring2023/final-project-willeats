@@ -30,18 +30,18 @@ const upload = multer({ dest: "./public/uploads" })
 const authenticateUser = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
-      return res.sendStatus(401); // Unauthorized
+        return res.sendStatus(401); // Unauthorized
     }
-  
+
     const token = authHeader.split(' ')[1];
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-      if (err) {
-        return res.sendStatus(403); // Forbidden
-      }
-      req.user = user;
-      next();
+        if (err) {
+            return res.sendStatus(403); // Forbidden
+        }
+        req.user = user;
+        next();
     });
-  };
+};
 
 app.get('/userpastreview', (req, resp) => {
 
@@ -184,9 +184,10 @@ app.post('/Login-C', async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = (password === user.password);
+    // const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!user || !isPasswordValid) {
-        return res.status(401).json({ error: 'Invalid email or password'});
+        return res.status(401).json({ error: 'Invalid email or password' });
     }
 
     const token = jwt.sign({ email, role: 'customer' }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -197,13 +198,33 @@ app.post('/Login-M', async (req, res) => {
     const { email, password } = req.body;
 
     const manager = await Restaurant.findOne({ email });
-    const isPasswordValid = await bcrypt.compare(password, manager.password);
+    const isPasswordValid = (password === manager.password);
+    console.log(manager)
+    // const isPasswordValid = await bcrypt.compare(password, manager.password);
     if (!manager || !isPasswordValid) {
-        return res.status(401).json({ error: 'Invalid email or password'});
+        return res.status(401).json({ error: 'Invalid email or password' });
     }
 
     const token = jwt.sign({ email, role: 'manager' }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.json({ token });
 })
+
+app.get('/Sign-C', async (req, res) => {
+    const username = req.query.username;
+    const email = req.query.email;
+    try {
+        const existingUser = await User.findOne({ $or: [{ username: username }, { email: email }] });
+        if (existingUser) {
+            console.log('exist')
+            res.status(200).json({ exists: true, registeredName: existingUser.username });
+        } else {
+            console.log('non')
+            res.status(200).json({ exists: false });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server Error');
+    }
+});
 
 module.exports = app
