@@ -10,7 +10,7 @@ const UserSchema = new Schema({
     password : {type: String, unique: true, required: [true, "Please provide a password!"]},
     order : [{ type: Schema.Types.ObjectId, ref: 'Order' }],
     review : [{type: Schema.Types.ObjectId, ref: 'Review'}],
-    date: { type: Date, default: Date.now },
+    createdate: { type: Date, default: Date.now },
     avater: {type: Buffer},
 });
 
@@ -19,7 +19,9 @@ const RestaurantSchema = new Schema({
     name : {type: String, unique: true, required: true},
     username : {type: String, unique: true, required: true},
     email:{type: String, unique: true, required: true},
-    avatar:{type: Buffer, required: false},    
+    password : {type: String, unique: true, required: [true, "Please provide a password!"]},
+    createdate: { type: Date, default: Date.now },
+    avatar:{type: Buffer},    
 })
 
 const ReviewSchema = new Schema({
