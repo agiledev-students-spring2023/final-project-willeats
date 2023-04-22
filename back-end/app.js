@@ -1,3 +1,5 @@
+const { User,Review,Restaurant,Dish} = require('./db.js');
+
 const express = require("express") // CommonJS import style!
 const app = express() // instantiate an Express object
 const path = require("path")
@@ -107,9 +109,6 @@ app.get('/getrate', async(req,res)=>{
 
 })
 
-
-
-
 app.post('/api/delete-menu-item', (req, res) => {
     const id = req.body.id;
     console.log(`Deleting menu item with ID ${id}`);
@@ -153,6 +152,14 @@ app.get('/reviewDetails', (req, res) => {
         res.status(500).send('Error retrieving reviews');
       });
 });
-
-
+app.get('/testConnection', (req, res) => {
+    Restaurant.find({})
+      .then(restaurants => {
+        return res.json(restaurants);
+      })
+      .catch(err => {
+        console.error(err);
+        res.status(500).json({ error: 'Server error' });
+      });
+  });
 module.exports = app
