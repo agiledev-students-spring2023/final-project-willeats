@@ -117,7 +117,7 @@ typings/
 
 # dotenv environment variables file
 # disabled temporarily
-# .env
+.env
 
 # next.js build output
 .next
