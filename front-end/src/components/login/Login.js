@@ -56,6 +56,7 @@ const Login = () => {
             localStorage.setItem('token', token);
             Navigate(loginPath);
         } catch (error) {
+            alert('Incorrect email or password. Please try again.');
             console.error(error);
         }
     }

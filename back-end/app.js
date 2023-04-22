@@ -183,5 +183,27 @@ app.get('/testConnection', (req, res) => {
 app.post('/Login-C', async (req, res) => {
     const { email, password } = req.body;
 
+    const user = await User.findOne({ email });
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!user || !isPasswordValid) {
+        return res.status(401).json({ error: 'Invalid email or password'});
+    }
+
+    const token = jwt.sign({ email, role: 'customer' }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    res.json({ token });
 })
+
+app.post('/Login-M', async (req, res) => {
+    const { email, password } = req.body;
+
+    const manager = await Restaurant.findOne({ email });
+    const isPasswordValid = await bcrypt.compare(password, manager.password);
+    if (!manager || !isPasswordValid) {
+        return res.status(401).json({ error: 'Invalid email or password'});
+    }
+
+    const token = jwt.sign({ email, role: 'manager' }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    res.json({ token });
+})
+
 module.exports = app
