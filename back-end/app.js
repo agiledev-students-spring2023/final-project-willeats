@@ -1,3 +1,6 @@
+
+const { User, Review, Restaurant, Dish } = require('./db.js');
+
 const express = require("express") // CommonJS import style!
 const app = express() // instantiate an Express object
 const path = require("path")
@@ -7,7 +10,7 @@ const axios = require("axios")
 const multer = require("multer") // middleware to handle HTTP POST requests with file uploads
 // require("dotenv").config({ silent: true }) // load environmental variables from a hidden file named .env
 const morgan = require("morgan") // middleware for nice logging of incoming HTTP requests
-const mongoose = require('mongoose');
+
 /**
  * Typically, all middlewares would be included before routes
  * In this file, however, most middlewares are after most routes
