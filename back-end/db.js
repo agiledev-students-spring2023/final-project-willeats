@@ -4,8 +4,8 @@ const { Schema } = mongoose;
 
 
 const UserSchema = new Schema({
-    _id: Schema.Types.ObjectId,
-    username : {type: String, unique: true, required: true},
+    // _id: Schema.Types.ObjectId,
+    name : {type: String, unique: true, required: true},
     email : {type: String, unique: true, required: [true, "Please provide a email!"]},
     password : {type: String, unique: true, required: [true, "Please provide a password!"]},
     order : [{ type: Schema.Types.ObjectId, ref: 'Order' }],
@@ -15,9 +15,8 @@ const UserSchema = new Schema({
 });
 
 const RestaurantSchema = new Schema({
-    _id: Schema.Types.ObjectId,
+    // _id: Schema.Types.ObjectId,
     name : {type: String, unique: true, required: true},
-    username : {type: String, unique: true, required: true},
     email:{type: String, unique: true, required: true},
     password : {type: String, unique: true, required: [true, "Please provide a password!"]},
     createdate: { type: Date, default: Date.now },

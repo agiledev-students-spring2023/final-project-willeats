@@ -186,8 +186,8 @@ app.post('/Login-C', async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
-    const isPasswordValid = (password === user.password);
-    // const isPasswordValid = await bcrypt.compare(password, user.password);
+    // const isPasswordValid = (password === user.password);
+    const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!user || !isPasswordValid) {
         return res.status(401).json({ error: 'Invalid email or password' });
     }
@@ -200,9 +200,9 @@ app.post('/Login-M', async (req, res) => {
     const { email, password } = req.body;
 
     const manager = await Restaurant.findOne({ email });
-    const isPasswordValid = (password === manager.password);
+    // const isPasswordValid = (password === manager.password);
     console.log(manager)
-    // const isPasswordValid = await bcrypt.compare(password, manager.password);
+    const isPasswordValid = await bcrypt.compare(password, manager.password);
     if (!manager || !isPasswordValid) {
         return res.status(401).json({ error: 'Invalid email or password' });
     }
@@ -212,13 +212,17 @@ app.post('/Login-M', async (req, res) => {
 })
 
 app.get('/Sign-C', async (req, res) => {
-    const username = req.query.username;
+    const name = req.query.name;
     const email = req.query.email;
+    console.log(name)
+    console.log(email)
     try {
-        const existingUser = await User.findOne({ $or: [{ username: username }, { email: email }] });
+        const existingUser = await User.findOne(
+            name != undefined ? { name } : { email }
+        );
         if (existingUser) {
             console.log('exist')
-            res.status(200).json({ exists: true, registeredName: existingUser.username });
+            res.status(200).json({ exists: true, registeredName: existingUser.name });
         } else {
             console.log('non')
             res.status(200).json({ exists: false });
@@ -230,13 +234,15 @@ app.get('/Sign-C', async (req, res) => {
 });
 
 app.get('/Sign-M', async (req, res) => {
-    const username = req.query.username;
+    const name = req.query.name;
     const email = req.query.email;
     try {
-        const existingUser = await Restaurant.findOne({ $or: [{ username: username }, { email: email }] });
+        const existingUser = await Restaurant.findOne(
+            name != undefined ? { name } : { email }
+        );
         if (existingUser) {
             console.log('exist')
-            res.status(200).json({ exists: true, registeredName: existingUser.username });
+            res.status(200).json({ exists: true, registeredName: existingUser.name });
         } else {
             console.log('non')
             res.status(200).json({ exists: false });
@@ -248,6 +254,25 @@ app.get('/Sign-M', async (req, res) => {
 });
 
 app.post('/sign-M', async (req, res) => {
+    try {
+        const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+
+        const manager = new Restaurant({
+            name: req.body.name,
+            email: req.body.email,
+            password: hashedPassword
+        });
+
+        await manager.save();
+        console.log('success')
+        res.json({ success: true });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ success: false, message: 'An error occurred while signing up.' });
+    }
+});
+
+app.post('/Sign-C', async (req, res) => {
     try {
       const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
 
@@ -265,10 +290,11 @@ app.post('/sign-M', async (req, res) => {
       res.status(500).json({ success: false, message: 'An error occurred while signing up.' });
     }
   });
-  
-  // start server
-  app.listen(3001, () => {
-    console.log('Server started on port 3001');
-  });
+
+
+// start server
+app.listen(3002, () => {
+    console.log('Server started on port 3002');
+});
 
 module.exports = app

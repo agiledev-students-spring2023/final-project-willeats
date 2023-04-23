@@ -20,7 +20,7 @@ const ManagerSignUp = () => {
 
   const checkName = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/Sign-M?username=${name}`);
+      const response = await axios.get(`http://localhost:3002/Sign-M?username=${name}`);
       if (response.data.exists) {
         setNameValidationMessage(`${response.data.registeredName} is already registered.`);
         setShowNameValidation(true);
@@ -79,7 +79,7 @@ const ManagerSignUp = () => {
 
   const checkEmail = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/Sign-M?email=${email}`);
+      const response = await axios.get(`http://localhost:3002/Sign-M?email=${email}`);
       if (response.data.exists) {
         setEmailValidationMessage('Email is already registered. Try to log in.');
         setShowEmailValidation(true);
@@ -101,8 +101,7 @@ const ManagerSignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3001/Sign-M', { name, email, password });
-      navigate('/ownerprofile');
+      await axios.post('http://localhost:3002/Sign-M', { name, email, password });
       navigate('/Login');
     } catch (error) {
       console.log(error);
