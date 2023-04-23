@@ -184,11 +184,13 @@ app.get('/testConnection', (req, res) => {
 
 app.post('/Login-C', async (req, res) => {
     const { email, password } = req.body;
-
     const user = await User.findOne({ email });
+    if (!user){
+        return res.status(401).json({ error: 'Invalid email or password' });
+    }
     // const isPasswordValid = (password === user.password);
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!user || !isPasswordValid) {
+    if (!isPasswordValid) {
         return res.status(401).json({ error: 'Invalid email or password' });
     }
 
@@ -198,12 +200,14 @@ app.post('/Login-C', async (req, res) => {
 
 app.post('/Login-M', async (req, res) => {
     const { email, password } = req.body;
-
     const manager = await Restaurant.findOne({ email });
+    if (!manager){
+        return res.status(401).json({ error: 'Invalid email or password' });
+    }
     // const isPasswordValid = (password === manager.password);
     console.log(manager)
     const isPasswordValid = await bcrypt.compare(password, manager.password);
-    if (!manager || !isPasswordValid) {
+    if ( !isPasswordValid) {
         return res.status(401).json({ error: 'Invalid email or password' });
     }
 
