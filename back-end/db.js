@@ -40,6 +40,10 @@ const DishSchema = new Schema({
         type:Schema.Types.ObjectId,
         ref: 'restaurant'
     },
+    name:{
+        type: String,
+        required: true
+    },
     photo: {
       type: Buffer,
       required: false
@@ -58,15 +62,31 @@ const DishSchema = new Schema({
     }]
   });
 
+  const OrderSchema = new Schema({
+    _id: Schema.Types.ObjectId,
+    user: {type: Schema.Types.ObjectId, ref:'User'},
+    restaurant :{
+        type:Schema.Types.ObjectId,
+        ref: 'restaurant'
+    },
+    totalPrice:{
+        type: Number,
+        required: true
+    },
+    dishName: [{type: Schema.Types.ObjectId, ref: 'Dish'}],
+    createdate: { type: Date, default: Date.now },
+  })
+
   const Restaurant = mongoose.model('Restaurant',RestaurantSchema);
   const Dish = mongoose.model('Dish',DishSchema);
   const User = mongoose.model('User', UserSchema);
   const Review = mongoose.model('Review', ReviewSchema);
+  const Order = mongoose.model('Order', OrderSchema)
   mongoose.connect("mongodb+srv://ljr:123123123@cluster0.tmtz8nv.mongodb.net/?retryWrites=true&w=majority",{
     useNewUrlParser: true,
 });
 
-module.exports = { User, Review, Dish, Restaurant };
+module.exports = { User, Review, Dish, Restaurant, Order };
 
 
 
