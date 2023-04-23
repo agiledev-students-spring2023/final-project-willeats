@@ -24,6 +24,9 @@ function MenuItem(props) {
     params.append('star',props.star)
     params.append('id', props.id)
     if (props.menu) {
+      if(JSON.parse(localStorage.getItem('cartItems'))===null){
+        localStorage.setItem("cartItems",JSON.stringify([]))
+      }
       navigate({
         pathname: `/menu/${props.id}`,
         search: params.toString()

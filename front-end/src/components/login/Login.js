@@ -1,14 +1,38 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 import "../../bootstrap.css"
 import "./Login.css"
 import TopBar from '../topBar/TopBar'
 
+axios.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
 const Login = () => {
     const [selected, setSelected] = useState('user')
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     const handleSelected = (type) => {
         setSelected(type)
+    }
+
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+    }
+    
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
     }
 
     const signUpText = (selected === 'user') ? "Don't yet have an account? Sign up!" : "New manager? Sign up for your business!"
@@ -25,14 +49,18 @@ const Login = () => {
         Navigate(signPath)
     }
 
-    const handleLogin = () => {
-        Navigate(loginPath)
+    const handleLogin = async () => {
+        try {
+            const response = await axios.post(`http://localhost:3002/login-${selected === 'user' ? 'C' : 'M'}`, { email, password });
+            const token = response.data.token;
+            localStorage.setItem('token', token);
+            Navigate(loginPath);
+        } catch (error) {
+            alert('Incorrect email or password. Please try again.');
+            console.error(error);
+        }
     }
-
-    const navigateMenu = () => {
-        Navigate('/menu')
-      }
-
+    
     return (
         <div className='login-page'>
             <TopBar/>
@@ -55,6 +83,8 @@ const Login = () => {
                         id="loginEmailInput" 
                         aria-describedby="emailHelp" 
                         placeholder="Enter email"
+                        value={email}
+                        onChange={handleEmailChange}
                     />
                 </div>
 
@@ -65,6 +95,8 @@ const Login = () => {
                         className="form-control" 
                         id="loginPasswordInput" 
                         placeholder="Password"
+                        value={password}
+                        onChange={handlePasswordChange}
                     />
                     <button type="button" className="btn btn-link" onClick={handleSignUp}>
                         {signUpText}
