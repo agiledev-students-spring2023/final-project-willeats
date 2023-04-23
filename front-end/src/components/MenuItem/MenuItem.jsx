@@ -61,6 +61,7 @@ function MenuItem(props) {
     params.append('image', props.image)
     params.append('star',props.star)
     params.append('id', props.id)
+    params.append('type',props.type)
     navigate({pathname:`/editmenu/${props.id}`,
     search:params.toString()});
   }
@@ -125,7 +126,7 @@ function MenuItem(props) {
               </div>
             )}
             <div className='d-flex justify-content-between'>
-                <h3 className="card-text">{props.price}</h3>
+                <h3 className="card-text">{"US$"+props.price}</h3>
                 {props.toCart&&<button className="btn btn-dark" onClick={handleAddToCartClick}>add to cart</button>}
             </div>
 

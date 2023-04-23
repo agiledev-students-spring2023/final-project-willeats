@@ -16,26 +16,43 @@ function EditSpecifiedItem() {
   const [description, setDescription] = useState(new URLSearchParams(location.search).get('description'));
   const [price, setPrice] = useState(new URLSearchParams(location.search).get('price'));
   const [id, setId] = useState(new URLSearchParams(location.search).get('id'));
+  const [type,setType]=useState(new URLSearchParams(location.search).get('type'))
   const [images, setImages] = useState([
     "https://picsum.photos/id/100/300/200",
     "https://picsum.photos/id/101/300/200",
     "https://picsum.photos/id/102/300/200",
   ]);
-  console.log(id)
+  // console.log(id)
   //fetch menu item data from the server using the id
-  useEffect(() => {
-    fetch(`/api/menu-items/${itemId}`)
-      .then(response => response.json())
-      .then(data => {
-        setName(data.name);
-        setDescription(data.description);
-        setPrice(data.price);
-        setImages(data.images);
-      })
-      .catch(error => {
-        console.error('Error fetching menu item data:', error);
-      });
-  }, [itemId]);
+  const [newImages, setNewImages] = useState([]);
+  const handleImageUpload = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.multiple = true;
+
+    input.addEventListener('change', (event) => {
+      const files = event.target.files;
+      const urls = [];
+
+      for (let i = 0; i < files.length; i++) {
+        const url = URL.createObjectURL(files[i]);
+        urls.push(url);
+      }
+      console.log(urls)
+      setNewImages(urls);
+    });
+    console.log(images)
+    input.click();
+  }
+
+  const handleImageSave = () => {
+    setImages([...images, ...newImages]);
+    setNewImages([]);
+    
+  };
+
+  console.log(images)
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -49,22 +66,33 @@ function EditSpecifiedItem() {
     setPrice(event.target.value);
   };
 
+  const handleTypeChange = (event) => {
+    setType(event.target.value);
+  };
+
   const handleSave = () => {
     const data = {
       name: name,
       description: description,
       price: price,
+      type: type
     };
-
-    axios.post(`http://localhost:3001/api/edit-menu-items/${id}`, data)
+  
+    const token = localStorage.getItem('token');
+    
+    axios.post(`http://localhost:3001/api/edit-menu-items/${id}`, data, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
       .then(response => {
         console.log(response.data);
         navigate('/editmenu'); // redirect back to the menu page after saving
       })
       .catch(error => {
-        console.error('Error saving changes:', error);
+        console.log(error)
+        alert('Error saving changes: ' + error.message);
       });
   };
+  
 
 
   const handleNameClick = () => {
@@ -91,7 +119,7 @@ function EditSpecifiedItem() {
           <SimpleImageSlider
             width={'90%'}
             height={200}
-            images={images.map(image => ({ url: image }))}
+            images={[...images, ...newImages].map(image => ({ url: image }))}
             navStyle={1}
             showNavs={true}
             useGPURender={true}
@@ -99,8 +127,10 @@ function EditSpecifiedItem() {
             navWidth={60}
             navHeight={10}
             onClickNav={(index) => console.log(`Clicked nav button: ${index}`)}
+            onClick={handleImageUpload}
           />
           {/* <button className="edit-images-button">Edit the Images</button> */}
+          <button className="edit-images-button" onClick={handleImageSave}>Save Images</button>
         </div>
 
         <div className="name-container">
@@ -116,6 +146,11 @@ function EditSpecifiedItem() {
         <div className="price-container">
           <h2>Price</h2>
           <input type="text" value={price} onChange={handlePriceChange} className="price-editor" />
+        </div>
+
+        <div className="price-container">
+          <h2>Type</h2>
+          <input type="text" value={type} onChange={handleTypeChange} className="price-editor" />
         </div>
 
         <div className="save-button-container">

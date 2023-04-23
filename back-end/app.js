@@ -10,6 +10,8 @@ const multer = require("multer") // middleware to handle HTTP POST requests with
 // require("dotenv").config({ silent: true }) // load environmental variables from a hidden file named .env
 const morgan = require("morgan") // middleware for nice logging of incoming HTTP requests
 const jwt = require('jsonwebtoken');
+const { body, param, validationResult } = require('express-validator');
+const mongoose = require("mongoose")
 /**
  * Typically, all middlewares would be included before routes
  * In this file, however, most middlewares are after most routes
@@ -102,18 +104,6 @@ app.post('/deleteuserreview', (req, resp) => {
     resp.status(200).send({ message: 'delete successfully' })
 })
 
-
-app.get('/getmenu', async (req, res) => {
-    try {
-        const response = await axios.get(`${process.env.MOCKAROO_MENU}?key=${process.env.MOCKAROO_API_KEY_1}`);
-        res.json(response.data);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('An error occured');
-    }
-})
-
-
 app.get('/getrate', async (req, res) => {
     try {
         const response = await axios.get(`${process.env.MOCKAROO_RESTAURANT_FEES_RATES}?key=${process.env.MOCKAROO_API_KEY_4}`);
@@ -143,15 +133,15 @@ app.get('/getname', async (req, res) => {
 })
 
 
-app.post('/api/edit-menu-items/:id', (req, res) => {
-    const itemId = req.params.id;
-    const { name, description, price } = req.body;
+// app.post('/api/edit-menu-items/:id', (req, res) => {
+//     const itemId = req.params.id;
+//     const { name, description, price } = req.body;
 
-    // Do something with the updated data here (e.g. update the menu item in the database)
-    console.log(`Updated menu item ${itemId}: { name: ${name}, description: ${description}, price: ${price} }`);
+//     // Do something with the updated data here (e.g. update the menu item in the database)
+//     console.log(`Updated menu item ${itemId}: { name: ${name}, description: ${description}, price: ${price} }`);
 
-    res.status(200).json({ message: 'Menu item updated successfully.' });
-});
+//     res.status(200).json({ message: 'Menu item updated successfully.' });
+// });
 
 app.get("/", (req, res) => {
     res.send("Blank page")
@@ -224,6 +214,174 @@ app.get('/Sign-C', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).send('Server Error');
+    }
+});
+
+// app.post('/api/edit-menu-items/:id', function(req, res) {
+//     const id = req.params.id;
+//     const {name,type,price,description} = req.body;
+//     console.log(data);
+//     Dish.findByIdAndUpdate(id, {"name":name,"description":description,"price":price,"type":type}, { new: true })
+//       .then(dish => {
+//         if (!dish) {
+//           res.status(404).json({ error: 'Dish not found' });
+//         } else {
+//           console.log("----------------------------",dish)
+//           res.json(dish);
+//         }
+//       })
+//       .catch(err => {
+//         console.error(err);
+//         res.status(500).json({ error: 'Server error' });
+//       });
+//   });
+
+app.post('/api/edit-menu-items/:id',
+    [
+        body('name').notEmpty().withMessage('Name cannot be empty'),
+        body('type').notEmpty().withMessage('Type cannot be empty'),
+        body('price')
+            .notEmpty().withMessage('Price cannot be empty')
+            .toFloat().withMessage('Price must be a number')
+            .isFloat().withMessage('Price must be a decimal number'),
+        body('description').notEmpty().withMessage('Description cannot be empty'),
+    ],
+    function (req, res) {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ error: "invalid input detected" });
+        }
+
+        const authHeader = req.headers.authorization;
+        const token = authHeader && authHeader.split(' ')[1];
+        // console.log(token)
+        const id = req.params.id;
+        console.log(id)
+        const data = req.body;
+
+        if (id !== "null") {
+            Dish.updateOne({ _id: id }, {
+                $set: {
+                    name: data.name,
+                    type: data.type,
+                    price: parseFloat(data.price),
+                    description: data.description
+                }
+            })
+                .then(result => {
+                    if (result.nModified === 0) {
+                        res.status(404).json({ error: 'Dish not found' });
+                    } else {
+                        console.log(result);
+                        res.json({ message: 'Dish updated successfully' });
+                    }
+                })
+                .catch(err => {
+                    console.error("------------------------------------------------", err);
+                    if (err.name === 'CastError') {
+                        res.status(400).json({ error: 'Invalid input data' });
+                    } else if (err.name === 'MongoError' && err.code === 11000) {
+                        res.status(400).json({ error: 'Duplicate dish name' });
+                    } else {
+                        res.status(500).json({ error: 'Server error' });
+                    }
+                });
+        } else {
+            // Verify JWT token and retrieve restaurant ID from payload
+            jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+                if (err) {
+                    return res.status(401).json({ error: 'Unauthorized' });
+                } else {
+                    Restaurant.findOne({ email: decoded.email })
+                        .then(restaurant => {
+                            if (!restaurant) {
+                                res.status(404).json({ error: 'Restaurant not found' });
+                            } else {
+                                const restaurantId = restaurant._id;
+                                const newDish = new Dish({
+                                    _id: new mongoose.Types.ObjectId(),
+                                    name: data.name,
+                                    type: data.type,
+                                    price: parseFloat(data.price),
+                                    description: data.description,
+                                    restaurant: restaurantId,
+                                    reviews: [],
+                                    photo: []
+                                });
+
+                                // Insert new dish into database
+                                newDish.save()
+                                    .then(result => {
+                                        console.log(result);
+                                        res.json({ message: 'Dish added successfully' });
+                                    })
+                                    .catch(err => {
+                                        console.error(err);
+                                        if (err.name === 'MongoError' && err.code === 11000) {
+                                            res.status(400).json({ error: 'Duplicate dish name' });
+                                        } else {
+                                            res.status(500).json({ error: 'Server error' });
+                                        }
+                                    });
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            res.status(500).json({ error: 'Server error' });
+                        });
+
+
+                    // Create new dish object with input data and restaurant ID
+
+                }
+
+            });
+        }
+
+
+
+    });
+
+app.get('/getmenu', function (req, res) {
+    // Extract the JWT token from the request query parameters
+    const token = req.query.token;
+
+    if (!token) {
+        // Handle error if no token is provided
+        res.status(401).json({ error: 'Missing token' });
+    } else {
+        // Verify the JWT token using the secret key
+        jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
+            if (err) {
+                // Handle error if the JWT token is invalid
+                console.error(err);
+                res.status(401).json({ error: 'Invalid token' });
+            } else {
+                // Search for the restaurant by email address
+                Restaurant.findOne({ email: decoded.email })
+                    .then(restaurant => {
+                        if (!restaurant) {
+                            res.status(404).json({ error: 'Restaurant not found' });
+                        } else {
+                            // Find the menu items for the restaurant using the restaurant's _id as a foreign key
+                            Dish.find({ restaurant: restaurant._id })
+                                .then(menu => {
+                                    // Send the menu items as the response
+                                    //console.log(menu)
+                                    res.json(menu);
+                                })
+                                .catch(err => {
+                                    console.error(err);
+                                    res.status(500).json({ error: 'Server error' });
+                                });
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        res.status(500).json({ error: 'Server error' });
+                    });
+            }
+        });
     }
 });
 
