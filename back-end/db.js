@@ -14,8 +14,6 @@ const UserSchema = new Schema({
     avater: {type: Buffer},
 });
 
-<<<<<<< HEAD
-=======
 const RestaurantSchema = new Schema({
     // _id: Schema.Types.ObjectId,
     name : {type: String, unique: true, required: true},
@@ -25,7 +23,6 @@ const RestaurantSchema = new Schema({
     avatar:{type: Buffer},    
 })
 
->>>>>>> 4e15b87cf2f3f690d2d748937bb86fcc8262d19f
 const ReviewSchema = new Schema({
     _id: Schema.Types.ObjectId,
     itemName: {type: String, required: true},
@@ -37,17 +34,6 @@ const ReviewSchema = new Schema({
     image:[{type: Schema.Types.ObjectId, ref: 'ReviewImage'}]
 })
 
-<<<<<<< HEAD
-const RestaurantSchema = new Schema({
-    // _id: Schema.Types.ObjectId,
-    name : {type: String, unique: true, required: true},
-    email:{type: String, unique: true, required: true},
-    password : {type: String, unique: true, required: [true, "Please provide a password!"]},
-    createdate: { type: Date, default: Date.now },
-    avatar:{type: Buffer},    
-})
-=======
->>>>>>> 4e15b87cf2f3f690d2d748937bb86fcc8262d19f
 const DishSchema = new Schema({
     _id: Schema.Types.ObjectId,
     restaurant :{
@@ -81,12 +67,6 @@ const DishSchema = new Schema({
 });
 
 module.exports = { User, Review, Dish, Restaurant };
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> 4e15b87cf2f3f690d2d748937bb86fcc8262d19f
 
 
 
