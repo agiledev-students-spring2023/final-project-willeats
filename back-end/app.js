@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> 4e15b87cf2f3f690d2d748937bb86fcc8262d19f
 const { User, Review, Restaurant, Dish } = require('./db.js');
 
 const express = require("express") // CommonJS import style!
