@@ -10,6 +10,8 @@ const multer = require("multer") // middleware to handle HTTP POST requests with
 // require("dotenv").config({ silent: true }) // load environmental variables from a hidden file named .env
 const morgan = require("morgan") // middleware for nice logging of incoming HTTP requests
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 /**
  * Typically, all middlewares would be included before routes
  * In this file, however, most middlewares are after most routes
@@ -226,5 +228,47 @@ app.get('/Sign-C', async (req, res) => {
         res.status(500).send('Server Error');
     }
 });
+
+app.get('/Sign-M', async (req, res) => {
+    const username = req.query.username;
+    const email = req.query.email;
+    try {
+        const existingUser = await Restaurant.findOne({ $or: [{ username: username }, { email: email }] });
+        if (existingUser) {
+            console.log('exist')
+            res.status(200).json({ exists: true, registeredName: existingUser.username });
+        } else {
+            console.log('non')
+            res.status(200).json({ exists: false });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server Error');
+    }
+});
+
+app.post('/sign-M', async (req, res) => {
+    try {
+      const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+
+      const user = new User({
+        name: req.body.name,
+        email: req.body.email,
+        password: hashedPassword
+      });
+
+      await user.save();
+      console.log('success')
+      res.json({ success: true });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ success: false, message: 'An error occurred while signing up.' });
+    }
+  });
+  
+  // start server
+  app.listen(3001, () => {
+    console.log('Server started on port 3001');
+  });
 
 module.exports = app

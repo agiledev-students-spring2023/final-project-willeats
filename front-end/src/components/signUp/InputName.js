@@ -1,22 +1,45 @@
-import React, { useState } from 'react';
-import "./Input.css"
-import "../../bootstrap.css"
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import './Input.css';
+import '../../bootstrap.css';
 
 function InputName(props) {
   const [name, setName] = useState('');
-  const [validationMessage, setValidationMessage] = useState('');
-  const [showValidation, setShowValidation] = useState(false);
+  const [NameValidationMessage, setNameValidationMessage] = useState('');
+  const [showNameValidation, setShowNameValidation] = useState(false);
+
+
+  const checkName = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3001/Sign-C?username=${name}`);
+      if (response.data.exists) {
+        setNameValidationMessage(`${response.data.registeredName} is already registered.`);
+        setShowNameValidation(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const validateName = () => {
     if (name.length > 20) {
-      setValidationMessage('Name must be less than or equal to 20 characters.');
+      setNameValidationMessage('Name must be less than or equal to 20 characters.');
     } else if (name === '') {
-      setValidationMessage('Name is required.');
+      setNameValidationMessage('Name is required.');
     } else {
-      setValidationMessage('');
+      setNameValidationMessage('');
     }
-    setShowValidation(true);
+    setShowNameValidation(true);
   };
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
+
+  const handleNameBlur = (e) => {
+    validateName()
+    checkName()
+  }
 
   return (
     <div>
@@ -26,23 +49,22 @@ function InputName(props) {
         </label>
         <div className="input-row">
           <input
-            type="text-sign"
+            type="text"
             id="name"
-            className={`form-control ${
-              showValidation && validationMessage
-                ? 'is-invalid'
-                : showValidation && !validationMessage
+            className={`form-control ${showNameValidation && NameValidationMessage
+              ? 'is-invalid'
+              : showNameValidation && !NameValidationMessage
                 ? 'is-valid'
                 : ''
-            }`}
+              }`}
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={handleNameChange}
+            onBlur={handleNameBlur}
           />
-          <button type="button" className="btn btn-primary" onClick={validateName}>
-            Check
-          </button>
         </div>
-        {showValidation && validationMessage && <div className="invalid-feedback">{validationMessage}</div>}
+        {showNameValidation && NameValidationMessage && (
+          <div className="invalid-feedback">{NameValidationMessage}</div>
+        )}
       </div>
     </div>
   );

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import "./Input.css"
-import "../../bootstrap.css"
+import axios from 'axios';
+import './Input.css';
+import '../../bootstrap.css';
 
 function InputEmail() {
   const [email, setEmail] = useState('');
-  const [validationMessage, setValidationMessage] = useState('');
-  const [showValidation, setShowValidation] = useState(false);
+  const [EmailValidationMessage, setEmailValidationMessage] = useState('');
+  const [showEmailValidation, setShowEmailValidation] = useState(false);
 
   const validateEmail = (email) => {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -14,12 +15,33 @@ function InputEmail() {
 
   const validateEmailButton = () => {
     if (!validateEmail(email)) {
-      setValidationMessage('Invalid email address.');
+      setEmailValidationMessage('Invalid email address.');
     } else {
-      setValidationMessage('');
+      setEmailValidationMessage('');
     }
-    setShowValidation(true);
+    setShowEmailValidation(true);
   };
+
+  const checkEmail = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3001/Sign-C?email=${email}`);
+      if (response.data.exists) {
+        setEmailValidationMessage('Email is already registered. Try to log in.');
+        setShowEmailValidation(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handleEmailBlur = (e) => {
+    validateEmailButton();
+    checkEmail();
+  }
 
   return (
     <div>
@@ -27,27 +49,23 @@ function InputEmail() {
         <label htmlFor="email">Email</label>
         <div className="input-row">
           <input
-            type="email-sign"
+            type="email"
             id="email"
             className={`form-control ${
-              showValidation && validationMessage
+              showEmailValidation && EmailValidationMessage
                 ? 'is-invalid'
-                : showValidation && !validationMessage
+                : showEmailValidation && !EmailValidationMessage
                 ? 'is-valid'
                 : ''
             }`}
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleEmailChange}
+            onBlur = {handleEmailBlur}
           />
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={validateEmailButton}
-          >
-            Check
-          </button>
         </div>
-        {showValidation && validationMessage && <div className="invalid-feedback">{validationMessage}</div>}
+        {showEmailValidation && EmailValidationMessage && (
+          <div className="invalid-feedback">{EmailValidationMessage}</div>
+        )}
       </div>
     </div>
   );
