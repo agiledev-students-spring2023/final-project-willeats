@@ -1,4 +1,4 @@
-const { User, Review, Restaurant, Dish } = require('./db.js');
+const { User, Review, Restaurant, Dish, Order } = require('./db.js');
 
 const express = require("express") // CommonJS import style!
 const app = express() // instantiate an Express object
@@ -12,6 +12,9 @@ const morgan = require("morgan") // middleware for nice logging of incoming HTTP
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+const multerS3 = require('multer-s3')
+const { S3Client } = require('@aws-sdk/client-s3')
+
 /**
  * Typically, all middlewares would be included before routes
  * In this file, however, most middlewares are after most routes
@@ -19,6 +22,13 @@ const saltRounds = 10;
  */
 
 require("dotenv").config({ silent: true })
+const s3 = new S3Client({
+    region: process.env.AWS_BUCKET_REGION,
+    credentials: {
+        accessKeyId : process.env.AWS_ACCESS_KEY,
+        secretAccessKey: process.env.AWS_SECRET_KEY
+    }
+})
 // use the morgan middleware to log all incoming http requests
 app.use(morgan("dev")) // morgan has a few logging default styles - dev is a nice concise color-coded style
 app.use(cors())
@@ -27,7 +37,19 @@ app.use(express.json()) // decode JSON-formatted incoming POST data
 app.use(express.urlencoded({ extended: true }))
 app.use("/static", express.static("public"))
 
-const upload = multer({ dest: "./public/uploads" })
+const upload = multer({
+    storage: multerS3({
+      s3: s3,
+      acl: 'public-read-write',
+      bucket: process.env.AWS_BUCKET_NAME,
+      metadata: function (req, file, cb) {
+        cb(null, {fieldName: file.fieldname});
+      },
+      key: function (req, file, cb) {
+        cb(null, Date.now().toString() + '-' + file.originalname)
+      }
+    })
+  })
 
 const authenticateUser = (req, res, next) => {
     const authHeader = req.headers.authorization;
@@ -47,14 +69,21 @@ const authenticateUser = (req, res, next) => {
 
 app.get('/userpastreview', (req, resp) => {
 
-    axios.get(`${process.env.MOCKAROO_PAST_REVIEW}?key=${process.env.MOCKAROO_API_KEY_1}`)
-        .then((res) => {
-            resp.status(200).send(res.data)
-        })
-        .catch((err) => {
-            console.log(err)
-            resp.status(500).send()
-        })
+    // axios.get(`${process.env.MOCKAROO_PAST_REVIEW}?key=${process.env.MOCKAROO_API_KEY_1}`)
+    //     .then((res) => {
+    //         resp.status(200).send(res.data)
+    //     })
+    //     .catch((err) => {
+    //         console.log(err)
+    //         resp.status(500).send()
+    //     })
+    Review.find({}).then(function(err, review){
+        if(!err){
+            resp.status(200).send(review);
+        }else{
+            resp.status(500).send();
+        }
+    })
 });
 
 app.get('/userpastorder', (req, resp) => {
@@ -66,6 +95,23 @@ app.get('/userpastorder', (req, resp) => {
             console.log(err)
             resp.status(500).send()
         })
+    // Order.find({}).populate('user').populate('dish').populate('restaurant').exec(function(err, order){
+    //     if(!err){
+    //         const res = {}
+    //         res.restaurant = order.restaurant.name
+    //         res.id = order.id
+    //         res.date = order.date.getMonth().toString() + '/' + order.date.getDate().toString() + '/' + order.date.getFullYear().toString()
+    //         res.dish = []
+            
+    //         order.dish.forEach(ele => {
+    //             res.dish.push(ele.name)
+                
+    //         })
+    //         resp.status(200).json(res)
+    //     }else{
+    //         resp.status(500).send()
+    //     }
+    // })
 });
 
 app.post('/edituserreview', (req, resp) => {
@@ -74,7 +120,7 @@ app.post('/edituserreview', (req, resp) => {
 });
 
 
-app.post('/createuserreview', upload.array("image"), (req, resp) => {
+app.post('/createuserreview', upload.array("image", 9), (req, resp) => {
     console.log(req.files)
     console.log(req.body)
     resp.status(200).send({ message: 'create successfully' })
@@ -190,11 +236,12 @@ app.post('/Login-C', async (req, res) => {
     }
     // const isPasswordValid = (password === user.password);
     const isPasswordValid = await bcrypt.compare(password, user.password);
+    const userid = user.id
     if (!isPasswordValid) {
         return res.status(401).json({ error: 'Invalid email or password' });
     }
 
-    const token = jwt.sign({ email, role: 'customer' }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ userid ,email, role: 'customer' }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.json({ token });
 })
 
@@ -207,11 +254,12 @@ app.post('/Login-M', async (req, res) => {
     // const isPasswordValid = (password === manager.password);
     console.log(manager)
     const isPasswordValid = await bcrypt.compare(password, manager.password);
+    const managerid = manager.id
     if ( !isPasswordValid) {
         return res.status(401).json({ error: 'Invalid email or password' });
     }
 
-    const token = jwt.sign({ email, role: 'manager' }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ managerid, email, role: 'manager' }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.json({ token });
 })
 
