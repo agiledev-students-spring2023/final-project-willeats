@@ -1,41 +1,45 @@
 import React, { useState } from 'react';
-import "../../bootstrap.css"
-import "./Input.css"
+import '../../bootstrap.css';
+import './Input.css';
 
 function InputPassword() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [validationMessage, setValidationMessage] = useState('');
-  const [showValidation, setShowValidation] = useState(false);
+  const [PasswordValidationMessage, setPasswordValidationMessage] = useState('');
+  const [showPasswordValidation, setShowPasswordValidation] = useState(false);
 
-  const validatePasswords = () => {
+  const validatePasswords = (password, confirmPassword) => {
     if (password !== confirmPassword) {
-      setValidationMessage("Passwords don't match.");
+      setPasswordValidationMessage("Passwords don't match.");
     } else {
-      setValidationMessage('');
+      setPasswordValidationMessage('');
     }
-    setShowValidation(true);
+    setShowPasswordValidation(true);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
   };
 
   return (
-    <>
+    <div>
       <div className="form-group">
         <label htmlFor="password">Password</label>
         <div className="input-row">
           <input
-            type="password-sign"
+            type="password"
             id="password"
             className={`form-control ${
-              showValidation && validationMessage
+              showPasswordValidation && PasswordValidationMessage
                 ? password === ''
                   ? ''
                   : 'is-invalid'
-                : showValidation && !validationMessage
+                : showPasswordValidation && !PasswordValidationMessage
                 ? 'is-valid'
                 : ''
             }`}
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handlePasswordChange}
           />
         </div>
       </div>
@@ -46,30 +50,26 @@ function InputPassword() {
             type="password"
             id="confirm-password"
             className={`form-control ${
-              showValidation && validationMessage
+              showPasswordValidation && PasswordValidationMessage
                 ? confirmPassword === ''
                   ? ''
                   : 'is-invalid'
-                : showValidation && !validationMessage
+                : showPasswordValidation && !PasswordValidationMessage
                 ? 'is-valid'
                 : ''
             }`}
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={(e) => {
+              setConfirmPassword(e.target.value);
+              validatePasswords(password, e.target.value);
+            }}
           />
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={validatePasswords}
-          >
-            Check
-          </button>
         </div>
-        {showValidation && validationMessage && (
-          <div className="invalid-feedback">{validationMessage}</div>
+        {showPasswordValidation && PasswordValidationMessage && (
+          <div className="invalid-feedback">{PasswordValidationMessage}</div>
         )}
       </div>
-    </>
+    </div>
   );
 }
 

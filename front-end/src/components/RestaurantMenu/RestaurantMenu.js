@@ -7,8 +7,6 @@ import '../../bootstrap.css'
 import axios from 'axios';
 import TopBar_Cprofile from '../topBar/TopBar-C-profile';
 
-
-
 function RestaurantMenu() {
   const [cartItems, setCartItems] = useState([]);
   const [count, setCount] = useState(0);
@@ -18,6 +16,7 @@ function RestaurantMenu() {
   const handleAddToCart = (item) => {
     setCartItems([...cartItems, item]);
     localStorage.setItem('cartItems', JSON.stringify([...cartItems, item]));
+    setCount(JSON.parse(localStorage.getItem('cartItems')).length)
   };
 
   useEffect(() => {
@@ -115,7 +114,7 @@ function RestaurantMenu() {
             </div>
           ))}
           <div className="cart-container d-flex flex-row-reverse">
-            <CartIcon count={cartItems.length} />
+            <CartIcon count={count} />
           </div>
         </div>
       
