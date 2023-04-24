@@ -255,47 +255,47 @@ app.post('/Login-M', async (req, res) => {
     res.json({ token });
 })
 
-app.get('/Sign-C', async (req, res) => {
-    const name = req.query.name;
-    const email = req.query.email;
 
-    try {
-        const existingUser = await User.findOne(
-            name != undefined ? { name } : { email }
-        );
-        if (existingUser) {
-            console.log('exist')
-            res.status(200).json({ exists: true, registeredName: existingUser.name });
-        } else {
-            console.log('non')
-            res.status(200).json({ exists: false });
-        }
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Server Error');
-    }
+app.post('/Sign-C', async (req, res) => {
+    try {
+      const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+
+      const user = new User({
+        name: req.body.name,
+        email: req.body.email,
+        password: hashedPassword
+      });
+
+      await user.save();
+      console.log('success')
+      res.json({ success: true });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ success: false, message: 'An error occurred while signing up restuarant.' });
+    }
+  });
+
+
+
+app.post('/Sign-M', async (req, res) => {
+    try {
+        const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+
+        const manager = new Restaurant({
+            name: req.body.name,
+            email: req.body.email,
+            password: hashedPassword
+        });
+
+        await manager.save();
+        console.log('success')
+        res.json({ success: true });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ success: false, message: 'An error occurred while signing up customer.' });
+    }
 });
 
-app.get('/Sign-M', async (req, res) => {
-    const name = req.query.name;
-    const email = req.query.email;
-    
-    try {
-        const existingUser = await Restaurant.findOne(
-            name != undefined ? { name } : { email }
-        );
-        if (existingUser) {
-            console.log('exist')
-            res.status(200).json({ exists: true, registeredName: existingUser.name });
-        } else {
-            console.log('non')
-            res.status(200).json({ exists: false });
-        }
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Server Error');
-    }
-});
 
 app.post('/api/edit-menu-items/:id', upload.single("images[0]"),
     [
@@ -312,6 +312,7 @@ app.post('/api/edit-menu-items/:id', upload.single("images[0]"),
         if (!errors.isEmpty()) {
             return res.status(400).json({ error: "invalid input detected" });
         }
+
 
         const authHeader = req.headers.authorization;
         const token = authHeader && authHeader.split(' ')[1];
@@ -398,9 +399,7 @@ app.post('/api/edit-menu-items/:id', upload.single("images[0]"),
             });
         }
     });
-
-
-
+});
 app.get('/getmenu', function (req, res) {
     // Extract the JWT token from the request query parameters
     const token = req.query.token;
@@ -440,6 +439,7 @@ app.get('/getmenu', function (req, res) {
                     });
             }
         });
+
     }
 });
 
