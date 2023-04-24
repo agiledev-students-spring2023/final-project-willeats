@@ -276,8 +276,29 @@ app.get('/Sign-C', async (req, res) => {
     }
 });
 
+app.get('/Sign-M', async (req, res) => {
+    const name = req.query.name;
+    const email = req.query.email;
+    
+    try {
+        const existingUser = await Restaurant.findOne(
+            name != undefined ? { name } : { email }
+        );
+        if (existingUser) {
+            console.log('exist')
+            res.status(200).json({ exists: true, registeredName: existingUser.name });
+        } else {
+            console.log('non')
+            res.status(200).json({ exists: false });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server Error');
+    }
+});
+
 app.post('/api/edit-menu-items/:id', upload.single("images[0]"),
-[
+    [
     check('name').notEmpty().withMessage('Name cannot be empty'),
     check('type').notEmpty().withMessage('Type cannot be empty'),
     check('price')
@@ -285,7 +306,7 @@ app.post('/api/edit-menu-items/:id', upload.single("images[0]"),
       .toFloat().withMessage('Price must be a number')
       .isFloat().withMessage('Price must be a decimal number'),
     check('description').notEmpty().withMessage('Description cannot be empty'),
-  ],
+   ],
     function (req, res) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -376,9 +397,6 @@ app.post('/api/edit-menu-items/:id', upload.single("images[0]"),
 
             });
         }
-
-
-
     });
 
 
