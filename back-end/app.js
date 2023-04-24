@@ -286,7 +286,7 @@ app.get('/Sign-C', async (req, res) => {
 app.get('/Sign-M', async (req, res) => {
     const name = req.query.name;
     const email = req.query.email;
-    
+
     try {
         const existingUser = await Restaurant.findOne(
             name != undefined ? { name } : { email }
@@ -319,7 +319,7 @@ app.post('/sign-M', async (req, res) => {
         res.json({ success: true });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ success: false, message: 'An error occurred while signing up.' });
+        res.status(500).json({ success: false, message: 'An error occurred while signing up customer.' });
     }
 });
 
@@ -338,7 +338,7 @@ app.post('/Sign-C', async (req, res) => {
       res.json({ success: true });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ success: false, message: 'An error occurred while signing up.' });
+      res.status(500).json({ success: false, message: 'An error occurred while signing up restuarant.' });
     }
   });
 
