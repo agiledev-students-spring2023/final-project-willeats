@@ -9,11 +9,11 @@ const axios = require("axios")
 const multer = require("multer") // middleware to handle HTTP POST requests with file uploads
 // require("dotenv").config({ silent: true }) // load environmental variables from a hidden file named .env
 const morgan = require("morgan") // middleware for nice logging of incoming HTTP requests
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken'); // middleware to write token
 const { body, param, check, validationResult } = require('express-validator');
-const mongoose = require("mongoose")
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
+const mongoose = require("mongoose") 
+const bcrypt = require('bcrypt'); // middleware to encode password
+const saltRounds = 10; // specify password security level
 const multerS3 = require('multer-s3')
 const { S3Client } = require('@aws-sdk/client-s3')
 const bodyParser = require('body-parser');
@@ -399,7 +399,7 @@ app.post('/api/edit-menu-items/:id', upload.single("images[0]"),
             });
         }
     });
-});
+
 app.get('/getmenu', function (req, res) {
     // Extract the JWT token from the request query parameters
     const token = req.query.token;
