@@ -142,8 +142,56 @@ app.get('/getrate', async (req, res) => {
 
 app.post('/api/delete-menu-item', (req, res) => {
     const id = req.body.id;
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(' ')[1];
     console.log(`Deleting menu item with ID ${id}`);
-    res.sendStatus(200);
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        } else {
+            Dish.findByIdAndDelete(id)
+            .then((deletedDocument) => {
+              res.status(200).json({message:`Successfully deleted document with ID: ${deletedDocument._id}`})
+              console.log(`Successfully deleted document with ID: ${deletedDocument._id}`);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+    })    
+});
+
+app.post('/api/delete-menu-category', (req, res) => {
+    const type = req.body.category;
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(' ')[1];
+    console.log(`Deleting menu item with category ${type}`);
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        } else {
+            Restaurant.findOne({ email: decoded.email })
+                    .then(restaurant => {
+                        if (!restaurant) {
+                            res.status(404).json({ error: 'Restaurant not found' });
+                        } else {
+                            // Find the menu items for the restaurant using the restaurant's _id as a foreign key
+                            Dish.deleteMany({ restaurant: restaurant._id, type:type })
+                                .then(result => {
+                                    res.status(200).json(result);
+                                })
+                                .catch(err => {
+                                    console.error(err);
+                                    res.status(500).json({ error: 'Server error' });
+                                });
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        res.status(500).json({ error: 'Server error' });
+                    });
+        }
+    })    
 });
 
 
@@ -231,20 +279,20 @@ app.get('/Sign-C', async (req, res) => {
 });
 
 app.post('/api/edit-menu-items/:id', upload.single("images[0]"),
-// [
-//     check('name').notEmpty().withMessage('Name cannot be empty'),
-//     check('type').notEmpty().withMessage('Type cannot be empty'),
-//     check('price')
-//       .notEmpty().withMessage('Price cannot be empty')
-//       .toFloat().withMessage('Price must be a number')
-//       .isFloat().withMessage('Price must be a decimal number'),
-//     check('description').notEmpty().withMessage('Description cannot be empty'),
-//   ],
+[
+    check('name').notEmpty().withMessage('Name cannot be empty'),
+    check('type').notEmpty().withMessage('Type cannot be empty'),
+    check('price')
+      .notEmpty().withMessage('Price cannot be empty')
+      .toFloat().withMessage('Price must be a number')
+      .isFloat().withMessage('Price must be a decimal number'),
+    check('description').notEmpty().withMessage('Description cannot be empty'),
+  ],
     function (req, res) {
-        // const errors = validationResult(req);
-        // if (!errors.isEmpty()) {
-        //     return res.status(400).json({ error: "invalid input detected" });
-        // }
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ error: "invalid input detected" });
+        }
 
         const authHeader = req.headers.authorization;
         const token = authHeader && authHeader.split(' ')[1];
@@ -335,10 +383,7 @@ app.post('/api/edit-menu-items/:id', upload.single("images[0]"),
 
     });
 
-app.post("/testUploadPic",upload.single('images[0]'),function(req,res){
-    console.log(req.body)
-    console.log(req.file.location)
-})
+
 
 app.get('/getmenu', function (req, res) {
     // Extract the JWT token from the request query parameters

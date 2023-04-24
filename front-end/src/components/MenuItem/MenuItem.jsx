@@ -69,12 +69,14 @@ function MenuItem(props) {
   
   const handleDelete = () => {
     if (window.confirm(`Are you sure you want to delete ${props.name}?`)) {
-      axios.post('http://localhost:3001/api/delete-menu-item', { id: props.id })
+      const token = localStorage.getItem('token');
+      axios.post('http://localhost:3001/api/delete-menu-item', { id: props.id },{headers: { Authorization: `Bearer ${token}` }})
       .then(response => {
         // Navigate to the menu page after successful deletion
         if (response.status === 200) {
           // Delete the menu item from the UI
           // You should have a function in the parent component that removes the deleted menu item from the state
+          navigate(0);
           props.onDelete(props.id);
         }
       })

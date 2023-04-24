@@ -25,6 +25,7 @@ function EditRestaurantMenu() {
   }
 
   const handleDelete = (id) => {
+    console.log(id)
     setMenuItems(menuItems.map(category => ({
       ...category,
       items: category.items.filter(item => item.id !== id),
@@ -86,12 +87,23 @@ function EditRestaurantMenu() {
     })
       .then((willDelete) => {
         if (willDelete) {
-          const newMenuItems = [...menuItems];
-          newMenuItems.splice(categoryIndex, 1);
-          setMenuItems(newMenuItems);
-          swal("Category deleted successfully!", {
-            icon: "success",
-          });
+          const token = localStorage.getItem('token')
+          axios.post(`http://localhost:3001/api/delete-menu-category`, {category:menuItems[categoryIndex].category}, {
+            headers: { Authorization: `Bearer ${token}` }
+          })
+            .then(response => {
+              if(response.status===200){
+                swal("Category deleted successfully!", {
+                  icon: "success",
+                })
+                navigate(0);
+              }
+            })
+            .catch(error => {
+              console.log(error)
+              alert('Error saving changes: ' + error.message);
+            });
+          ;
         } else {
           swal("Deletion cancelled.");
         }

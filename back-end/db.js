@@ -44,13 +44,12 @@ const DishSchema = new Schema({
         type:Schema.Types.ObjectId,
         ref: 'restaurant'
     },
-    name:{
+    type:{
         type: String,
         required: true
     },
     photo: {type: String,
-      required: false}     
-    ,
+      required: false},
     description: {
       type: String,
       required: true
