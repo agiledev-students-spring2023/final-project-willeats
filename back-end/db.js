@@ -31,7 +31,7 @@ const ReviewSchema = new Schema({
     userId: {type: Schema.Types.ObjectId, ref:'User'},
     review: {type: String, required: true},
     date: { type: Date, default: Date.now },
-    image:[{type: Schema.Types.ObjectId, ref: 'ReviewImage'}]
+    image:[{type: String}]
 })
 
 const DishSchema = new Schema({

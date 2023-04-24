@@ -30,12 +30,17 @@ function CreateReviewPage(){
                 formData.append("itemName", ele)
                 formData.append("rating", saveData[i].rating)
                 formData.append ("review", saveData[i].review)
-                formData.append("token", )
+                // formData.append("token", )
                 // formData.append("date", saveData[i].date)
                 saveData[i].image.forEach((e) => {
                     formData.append("image", e)
                 })
-                const newRequest = axios.post("http://localhost:3001/createuserreview", formData)
+                const newRequest = axios.post("http://localhost:3001/createuserreview", formData, {
+                    headers: {
+                        Authorization : token
+                    }
+                      
+                })
                 request.push(newRequest)
             })
             axios.all(request)
