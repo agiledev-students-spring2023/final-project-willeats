@@ -121,9 +121,23 @@ app.post('/edituserreview', (req, resp) => {
 
 
 app.post('/createuserreview', upload.array("image", 9), (req, resp) => {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    if (token == null) return resp.sendStatus(401)
     console.log(req.files)
     console.log(req.body)
+    jwt.verify(token, process.env.JWT_SECRET, (err, tok ) => {
+        
     
+        if (err) return resp.sendStatus(403)
+    
+        
+    
+        next()
+      })
+    const review = new Review({
+
+    })
     resp.status(200).send({ message: 'create successfully' })
 });
 
