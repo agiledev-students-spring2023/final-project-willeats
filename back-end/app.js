@@ -234,7 +234,7 @@ app.post('/Login-C', async (req, res) => {
     if (!user){
         return res.status(401).json({ error: 'Invalid email or password' });
     }
-    
+
     const isPasswordValid = await bcrypt.compare(password, user.password);
     const userid = user.id
     if (!isPasswordValid) {
@@ -265,8 +265,7 @@ app.post('/Login-M', async (req, res) => {
 app.get('/Sign-C', async (req, res) => {
     const name = req.query.name;
     const email = req.query.email;
-    console.log(name)
-    console.log(email)
+
     try {
         const existingUser = await User.findOne(
             name != undefined ? { name } : { email }
@@ -287,6 +286,7 @@ app.get('/Sign-C', async (req, res) => {
 app.get('/Sign-M', async (req, res) => {
     const name = req.query.name;
     const email = req.query.email;
+    
     try {
         const existingUser = await Restaurant.findOne(
             name != undefined ? { name } : { email }
