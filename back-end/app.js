@@ -14,7 +14,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const multerS3 = require('multer-s3')
 const { S3Client } = require('@aws-sdk/client-s3')
-
+const mongoose = require('mongoose');
 /**
  * Typically, all middlewares would be included before routes
  * In this file, however, most middlewares are after most routes
@@ -77,25 +77,7 @@ const authenticateUser = (req, res, next) => {
 
 app.get('/userpastreview', (req, resp) => {
 
-    // axios.get(`${process.env.MOCKAROO_PAST_REVIEW}?key=${process.env.MOCKAROO_API_KEY_1}`)
-    //     .then((res) => {
-    //         resp.status(200).send(res.data)
-    //     })
-    //     .catch((err) => {
-    //         console.log(err)
-    //         resp.status(500).send()
-    //     })
-    Review.find({}).then(function(err, review){
-        if(!err){
-            resp.status(200).send(review);
-        }else{
-            resp.status(500).send();
-        }
-    })
-});
-
-app.get('/userpastorder', (req, resp) => {
-    axios.get(`${process.env.MOCKAROO_USER_REVIEW}?key=${process.env.MOCKAROO_API_KEY_1}`)
+    axios.get(`${process.env.MOCKAROO_PAST_REVIEW}?key=${process.env.MOCKAROO_API_KEY_1}`)
         .then((res) => {
             resp.status(200).send(res.data)
         })
@@ -103,28 +85,117 @@ app.get('/userpastorder', (req, resp) => {
             console.log(err)
             resp.status(500).send()
         })
-    // Order.find({}).populate('user').populate('dish').populate('restaurant').exec(function(err, order){
-    //     if(!err){
-    //         const res = {}
-    //         res.restaurant = order.restaurant.name
-    //         res.id = order.id
-    //         res.date = order.date.getMonth().toString() + '/' + order.date.getDate().toString() + '/' + order.date.getFullYear().toString()
-    //         res.dish = []
-            
-    //         order.dish.forEach(ele => {
-    //             res.dish.push(ele.name)
-                
-    //         })
-    //         resp.status(200).json(res)
+    // const authHeader = req.headers['authorization']
+    // const token = authHeader && authHeader.split(' ')[1]
+    // if (token == null) return resp.sendStatus(401)
+    // jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    //     if(err){
+    //         resp.status(401).json({error: "unauthorized"})
     //     }else{
-    //         resp.status(500).send()
+    //         Review.find({userId: mongoose.Types.ObjectId(decoded.userid)})
+    //         .populate('userId')
+    //         .populate({
+    //             path: 'dishId',
+    //             populate: {path: 'restaurant'}
+    //         })
+    //         .sort({date: -1})
+    //         .exec(function(err, result) {
+    //             if(err){
+    //                 resp.status(500).json({error: "failed to retrieve review"})
+    //             }else{
+    //                 const returnReview = []
+    //                 result.forEach((e) => {
+    //                     const res = {}
+    //                     res.name = e.dishId.restaurant.name
+    //                     res.itemName = e.dishId.name
+    //                     res.review = e.review
+    //                     res.star = e.rating
+    //                     res.date = e.date.getMonth().toString() + '/' + e.date.getDate().toString() + '/' + e.date.getFullYear().toString()
+    //                     res.reviewImage = e.image
+    //                     res.reviewId = e._id
+    //                     //restaurant image
+    //                 })
+    //                 resp.status(500).json(returnReview)
+    //             }
+    //         })
     //     }
+
     // })
+    
 });
 
-app.post('/edituserreview', (req, resp) => {
-    console.log(req.body.saveData)
-    resp.status(200).send({ message: 'edit successfully' })
+app.get('/userpastorder', (req, resp) => {
+    // axios.get(`${process.env.MOCKAROO_USER_REVIEW}?key=${process.env.MOCKAROO_API_KEY_1}`)
+    //     .then((res) => {
+    //         resp.status(200).send(res.data)
+    //     })
+    //     .catch((err) => {
+    //         console.log(err)
+    //         resp.status(500).send()
+    //     })
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    if (token == null) return resp.sendStatus(401)
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if(err){
+            resp.status(401).json({error: "unauthorized"})
+        }else{
+            Order.find({user: mongoose.Types.ObjectId(decoded.userid)})
+            .populate('user')
+            .populate('dish')
+            .populate('restaurant')
+            .sort({date: -1})
+            .exec(function(err, order){
+                if(!err){
+                    const result = []
+                    order.forEach((e) => {
+                        const res = {}
+                        res.name = e.restaurant.name
+                        res.id = e._id
+                        res.date = e.date.getMonth().toString() + '/' + e.date.getDate().toString() + '/' + e.date.getFullYear().toString()
+                        res.itemList = []
+                        e.dish.forEach(ele => {
+                            res.itemList.push(ele.name)
+                        })
+                        result.push(res)
+                    })
+                    resp.status(200).json(result)
+                }else{
+                    resp.status(500).json({error: 'failed to find order'})
+                }
+            })
+        }
+    })
+});
+
+app.post('/edituserreview', upload.array("image", 9), (req, resp) => {
+    console.log(req.body)
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    if (token == null) return resp.sendStatus(401)
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if(err){
+            resp.status(401).json({error: "unauthorized"})
+        }else{
+            const img = JSON.parse(req.body.preimage)
+            if(req.files){
+                req.files.forEach((e) => {
+                    img.push(e.location)
+                })
+            }
+            Review.findByIdAndUpdate(req.body.id, 
+                                    {rating: req.body.rating, 
+                                    review: req.body.review,
+                                    image: img},
+                                    function(err, result){
+                                        if(err){
+                                            resp.status(500).json({error: "edit review failed"})
+                                        }else{
+                                            resp.status(200).json({message: "successfully edit review"})
+                                        }
+                                    })
+        }
+    })
 });
 
 
@@ -148,16 +219,16 @@ app.post('/createuserreview', upload.array("image", 9), (req, resp) => {
                     itemName : req.body.itemName,
                     review: req.body.review,
                     dishId: dish.id,
-                    userId: decoded.userid,
-                    image: img,
+                    userId: mongoose.Types.ObjectId(decoded.userid),
+                    image: [...img],
                     rating: parseInt(req.body.rating)
                 })
-                review.save(function(err, result){
-                    if(err){
-                        resp.status(500).json({error: "save database error"})
-                    }else{
-                        resp.status(200).send({success: "save database success"})
-                    }
+                review.save()
+                .then((result) => {
+                    resp.status(200).send({success: "save database success"})
+                })
+                .catch(err => {
+                    resp.status(500).json({error: "save database error"})
                 })
             })
             .catch((err) => {
@@ -165,12 +236,6 @@ app.post('/createuserreview', upload.array("image", 9), (req, resp) => {
                 resp.status(500).json({error: "no such dish"})
             })
         }
-    
-
-    
-        
-    
-        next()
       })
     resp.status(200).send({ message: 'create successfully' })
 });
@@ -198,6 +263,23 @@ app.get('/getbuisness', async (req, res) => {
 })
 
 app.post('/deleteuserreview', (req, resp) => {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    if (token == null) return resp.sendStatus(401)
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if(err){
+            resp.status(401).json({error: "unauthorized"})
+        }else{
+            Review.findOneAndDelete({_id : req.body.id, userId: mongoose.Types.ObjectId(decoded.userid)})
+            .exec(function(err, result) {
+                if(err){
+                    resp.status(500).send({message: "delete review failed"})
+                }else{
+                    resp.status(200).send({message: "delete review successfully"})
+                }
+            })
+        }
+    })
     resp.status(200).send({ message: 'delete successfully' })
 })
 

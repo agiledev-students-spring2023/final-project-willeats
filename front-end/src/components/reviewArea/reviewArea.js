@@ -16,10 +16,11 @@ function ReviewArea(props){
       const editData = {}
       editData.rating = rating ? 0 : rating
       editData.review = review
+      editData.preimage = [...preimage]
       editData.image = [...image]
-      const current = new Date();
-      const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`
-      editData.date = date
+      // const current = new Date();
+      // const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`
+      // editData.date = date
       // const formData = new FormData()
       // formData.append("itemName", props.name)
       // formData.append("rating", rating ? 0 : rating)

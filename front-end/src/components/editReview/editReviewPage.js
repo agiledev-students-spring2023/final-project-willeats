@@ -23,16 +23,29 @@ function EditReviewPage() {
 
     useEffect(() => {
         if(save && saveData){
+            const token = localStorage.getItem("token")
             saveData[0].itemName = new URLSearchParams(location.search).get('itemName')
-            axios(configuration)
-            .then((res) =>{
-                console.log(res.data.message)
-                setSave(false)
-                navigate(-1)//add pop up 
+            const returnObject = saveData[0]
+            const formData = new FormData()
+            formData.append("rating", returnObject.rating)
+            formData.append("review", returnObject.review)
+            formData.append("preimage", JSON.stringify(returnObject.preimage))
+            formData.append("id", new URLSearchParams(location.search).get('id'))
+            returnObject.image.forEach((e) => {
+                formData.append("image", e)
             })
-            .catch((err) =>{
-                console.log(err)
+            axios.post("http://localhost:3001/edituserreview", formData, {
+                headers: {Authorization: `Bearer ${token}`}
             })
+            // axios(configuration)
+            // .then((res) =>{
+            //     console.log(res.data.message)
+            //     setSave(false)
+            //     navigate(-1)//add pop up 
+            // })
+            // .catch((err) =>{
+            //     console.log(err)
+            // })
         }
     },[saveData]);
 

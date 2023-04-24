@@ -36,10 +36,7 @@ function CreateReviewPage(){
                     formData.append("image", e)
                 })
                 const newRequest = axios.post("http://localhost:3001/createuserreview", formData, {
-                    headers: {
-                        Authorization : token
-                    }
-                      
+                    headers: {Authorization: `Bearer ${token}`}  
                 })
                 request.push(newRequest)
             })
