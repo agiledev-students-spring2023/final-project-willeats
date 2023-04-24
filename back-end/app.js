@@ -28,7 +28,7 @@ require("dotenv").config({ silent: true })
 const s3 = new S3Client({
     region: process.env.AWS_BUCKET_REGION,
     credentials: {
-        accessKeyId : process.env.AWS_ACCESS_KEY,
+        accessKeyId: process.env.AWS_ACCESS_KEY,
         secretAccessKey: process.env.AWS_SECRET_KEY
     }
 })
@@ -43,17 +43,17 @@ app.use("/static", express.static("public"))
 
 const upload = multer({
     storage: multerS3({
-      s3: s3,
-      acl: 'public-read-write',
-      bucket: process.env.AWS_BUCKET_NAME,
-      metadata: function (req, file, cb) {
-        cb(null, {fieldName: file.fieldname});
-      },
-      key: function (req, file, cb) {
-        cb(null, Date.now().toString() + '-' + file.originalname)
-      }
+        s3: s3,
+        acl: 'public-read-write',
+        bucket: process.env.AWS_BUCKET_NAME,
+        metadata: function (req, file, cb) {
+            cb(null, { fieldName: file.fieldname });
+        },
+        key: function (req, file, cb) {
+            cb(null, Date.now().toString() + '-' + file.originalname)
+        }
     })
-  })
+})
 
 const authenticateUser = (req, res, next) => {
     const authHeader = req.headers.authorization;
@@ -72,10 +72,10 @@ const authenticateUser = (req, res, next) => {
 };
 
 app.get('/userpastreview', (req, resp) => {
-    Review.find({}).then(function(err, review){
-        if(!err){
+    Review.find({}).then(function (err, review) {
+        if (!err) {
             resp.status(200).send(review);
-        }else{
+        } else {
             console.log(err)
             resp.status(500).send();
         }
@@ -150,15 +150,15 @@ app.post('/api/delete-menu-item', (req, res) => {
             return res.status(401).json({ error: 'Unauthorized' });
         } else {
             Dish.findByIdAndDelete(id)
-            .then((deletedDocument) => {
-              res.status(200).json({message:`Successfully deleted document with ID: ${deletedDocument._id}`})
-              console.log(`Successfully deleted document with ID: ${deletedDocument._id}`);
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+                .then((deletedDocument) => {
+                    res.status(200).json({ message: `Successfully deleted document with ID: ${deletedDocument._id}` })
+                    console.log(`Successfully deleted document with ID: ${deletedDocument._id}`);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         }
-    })    
+    })
 });
 
 app.post('/api/delete-menu-category', (req, res) => {
@@ -171,27 +171,27 @@ app.post('/api/delete-menu-category', (req, res) => {
             return res.status(401).json({ error: 'Unauthorized' });
         } else {
             Restaurant.findOne({ email: decoded.email })
-                    .then(restaurant => {
-                        if (!restaurant) {
-                            res.status(404).json({ error: 'Restaurant not found' });
-                        } else {
-                            // Find the menu items for the restaurant using the restaurant's _id as a foreign key
-                            Dish.deleteMany({ restaurant: restaurant._id, type:type })
-                                .then(result => {
-                                    res.status(200).json(result);
-                                })
-                                .catch(err => {
-                                    console.error(err);
-                                    res.status(500).json({ error: 'Server error' });
-                                });
-                        }
-                    })
-                    .catch(err => {
-                        console.error(err);
-                        res.status(500).json({ error: 'Server error' });
-                    });
+                .then(restaurant => {
+                    if (!restaurant) {
+                        res.status(404).json({ error: 'Restaurant not found' });
+                    } else {
+                        // Find the menu items for the restaurant using the restaurant's _id as a foreign key
+                        Dish.deleteMany({ restaurant: restaurant._id, type: type })
+                            .then(result => {
+                                res.status(200).json(result);
+                            })
+                            .catch(err => {
+                                console.error(err);
+                                res.status(500).json({ error: 'Server error' });
+                            });
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    res.status(500).json({ error: 'Server error' });
+                });
         }
-    })    
+    })
 });
 
 
@@ -224,7 +224,7 @@ app.get('/reviewDetails', (req, res) => {
 app.post('/Login-C', async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
-    if (!user){
+    if (!user) {
         return res.status(401).json({ error: 'Invalid email or password' });
     }
 
@@ -234,20 +234,20 @@ app.post('/Login-C', async (req, res) => {
         return res.status(401).json({ error: 'Invalid email or password' });
     }
 
-    const token = jwt.sign({ userid ,email, role: 'customer' }, process.env.JWT_SECRET, { expiresIn: '24h' });
+    const token = jwt.sign({ userid, email, role: 'customer' }, process.env.JWT_SECRET, { expiresIn: '24h' });
     res.json({ token });
 })
 
 app.post('/Login-M', async (req, res) => {
     const { email, password } = req.body;
     const manager = await Restaurant.findOne({ email });
-    if (!manager){
+    if (!manager) {
         return res.status(401).json({ error: 'Invalid email or password' });
     }
 
     const isPasswordValid = await bcrypt.compare(password, manager.password);
     const managerid = manager.id
-    if ( !isPasswordValid) {
+    if (!isPasswordValid) {
         return res.status(401).json({ error: 'Invalid email or password' });
     }
 
@@ -257,56 +257,56 @@ app.post('/Login-M', async (req, res) => {
 
 
 app.post('/Sign-C', async (req, res) => {
-    try {
-      const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+    try {
+        const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
 
-      const user = new User({
-        name: req.body.name,
-        email: req.body.email,
-        password: hashedPassword
-      });
+        const user = new User({
+            name: req.body.name,
+            email: req.body.email,
+            password: hashedPassword
+        });
 
-      await user.save();
-      console.log('success')
-      res.json({ success: true });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ success: false, message: 'An error occurred while signing up restuarant.' });
-    }
-  });
+        await user.save();
+        console.log('success')
+        res.json({ success: true });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ success: false, message: 'An error occurred while signing up restuarant.' });
+    }
+});
 
 
 
 app.post('/Sign-M', async (req, res) => {
-    try {
-        const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+    try {
+        const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
 
-        const manager = new Restaurant({
-            name: req.body.name,
-            email: req.body.email,
-            password: hashedPassword
-        });
+        const manager = new Restaurant({
+            name: req.body.name,
+            email: req.body.email,
+            password: hashedPassword
+        });
 
-        await manager.save();
-        console.log('success')
-        res.json({ success: true });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ success: false, message: 'An error occurred while signing up customer.' });
-    }
+        await manager.save();
+        console.log('success')
+        res.json({ success: true });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ success: false, message: 'An error occurred while signing up customer.' });
+    }
 });
 
 
 app.post('/api/edit-menu-items/:id', upload.single("images[0]"),
     [
-    check('name').notEmpty().withMessage('Name cannot be empty'),
-    check('type').notEmpty().withMessage('Type cannot be empty'),
-    check('price')
-      .notEmpty().withMessage('Price cannot be empty')
-      .toFloat().withMessage('Price must be a number')
-      .isFloat().withMessage('Price must be a decimal number'),
-    check('description').notEmpty().withMessage('Description cannot be empty'),
-   ],
+        check('name').notEmpty().withMessage('Name cannot be empty'),
+        check('type').notEmpty().withMessage('Type cannot be empty'),
+        check('price')
+            .notEmpty().withMessage('Price cannot be empty')
+            .toFloat().withMessage('Price must be a number')
+            .isFloat().withMessage('Price must be a decimal number'),
+        check('description').notEmpty().withMessage('Description cannot be empty'),
+    ],
     function (req, res) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -329,7 +329,7 @@ app.post('/api/edit-menu-items/:id', upload.single("images[0]"),
                     type: data.type,
                     price: parseFloat(data.price),
                     description: data.description,
-                    photo:req.file.location
+                    photo: req.file.location
                 }
             })
                 .then(result => {
