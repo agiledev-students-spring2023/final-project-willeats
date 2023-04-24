@@ -36,24 +36,26 @@ const ReviewSchema = new Schema({
 
 const DishSchema = new Schema({
     _id: Schema.Types.ObjectId,
+    name:{
+      type:String,
+      required:true
+    },
     restaurant :{
         type:Schema.Types.ObjectId,
         ref: 'restaurant'
     },
-    name:{
+    type:{
         type: String,
         required: true
     },
-    photo: {
-      type: Buffer,
-      required: false
-    },
+    photo: {type: String,
+      required: false},
     description: {
       type: String,
       required: true
     },
     price: {
-      type: Number,
+      type: String,
       required: true
     },
     review: [{
