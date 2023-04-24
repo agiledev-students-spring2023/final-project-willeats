@@ -48,7 +48,15 @@ const upload = multer({
       key: function (req, file, cb) {
         cb(null, Date.now().toString() + '-' + file.originalname)
       }
-    })
+    }),
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
+          cb(null, true);
+        } else {
+          cb(null, false);
+          return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+        }
+    }
   })
 
 const authenticateUser = (req, res, next) => {
@@ -126,18 +134,44 @@ app.post('/createuserreview', upload.array("image", 9), (req, resp) => {
     if (token == null) return resp.sendStatus(401)
     console.log(req.files)
     console.log(req.body)
-    jwt.verify(token, process.env.JWT_SECRET, (err, tok ) => {
-        
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded ) => {
+        if(err){
+            resp.status(401).json({error: "unauthorized"})
+        }else{
+            Dish.findOne({name: req.body.itemName})
+            .then((dish) => {
+                const img = []
+                req.files.forEach((e) => {
+                    img.push(e.location)
+                })
+                const review = new Review({
+                    itemName : req.body.itemName,
+                    review: req.body.review,
+                    dishId: dish.id,
+                    userId: decoded.userid,
+                    image: img,
+                    rating: parseInt(req.body.rating)
+                })
+                review.save(function(err, result){
+                    if(err){
+                        resp.status(500).json({error: "save database error"})
+                    }else{
+                        resp.status(200).send({success: "save database success"})
+                    }
+                })
+            })
+            .catch((err) => {
+                console.log(err)
+                resp.status(500).json({error: "no such dish"})
+            })
+        }
     
-        if (err) return resp.sendStatus(403)
+
     
         
     
         next()
       })
-    const review = new Review({
-
-    })
     resp.status(200).send({ message: 'create successfully' })
 });
 
