@@ -5,6 +5,7 @@ import ReviewArea from '../reviewArea/reviewArea';
 import './createReviewPage.css'
 import PageBackButton from '../pagebackButton/PageBackButton'; 
 import axios from 'axios'
+
 function CreateReviewPage(){
     const navigate = useNavigate()
     const location = useLocation()
@@ -19,6 +20,7 @@ function CreateReviewPage(){
 
     useEffect(() => {
         if(save && saveData.length === reviewed.length){
+            const token = localStorage.getItem("token")
             console.log(saveData)
             console.log(save)
             const request = []
@@ -28,6 +30,7 @@ function CreateReviewPage(){
                 formData.append("itemName", ele)
                 formData.append("rating", saveData[i].rating)
                 formData.append ("review", saveData[i].review)
+                formData.append("token", )
                 // formData.append("date", saveData[i].date)
                 saveData[i].image.forEach((e) => {
                     formData.append("image", e)
