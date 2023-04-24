@@ -17,14 +17,15 @@ function EditSpecifiedItem() {
   const [price, setPrice] = useState(new URLSearchParams(location.search).get('price'));
   const [id, setId] = useState(new URLSearchParams(location.search).get('id'));
   const [type,setType]=useState(new URLSearchParams(location.search).get('type'))
-  const [images, setImages] = useState([
-    "https://picsum.photos/id/100/300/200",
-    "https://picsum.photos/id/101/300/200",
-    "https://picsum.photos/id/102/300/200",
-  ]);
+  const [images, setImages] = useState(
+    new URLSearchParams(location.search).get('image')
+      ? new URLSearchParams(location.search).get('image').split(',')
+      : ["https://picsum.photos/200/200"]
+  );
   // console.log(id)
   //fetch menu item data from the server using the id
   const [newImages, setNewImages] = useState([]);
+  const [imageFiles, setImageFiles] = useState([]);
   const handleImageUpload = () => {
     const input = document.createElement('input');
     input.type = 'file';
@@ -41,15 +42,16 @@ function EditSpecifiedItem() {
       }
       console.log(urls)
       setNewImages(urls);
+      setImageFiles(files);
     });
     console.log(images)
     input.click();
   }
 
   const handleImageSave = () => {
-    setImages([...images, ...newImages]);
-    setNewImages([]);
-    
+    console.log("newImages:",newImages)
+    setImages(newImages);
+    setNewImages([]);    
   };
 
   console.log(images)
@@ -71,12 +73,14 @@ function EditSpecifiedItem() {
   };
 
   const handleSave = () => {
-    const data = {
-      name: name,
-      description: description,
-      price: price,
-      type: type
-    };
+    const data = new FormData();
+    data.append('name', name);
+    data.append('description', description);
+    data.append('price', price);
+    data.append('type', type);
+    for (let i = 0; i < imageFiles.length; i++) {
+      data.append(`images[${i}]`, imageFiles[i]);
+    }
   
     const token = localStorage.getItem('token');
     
@@ -117,11 +121,11 @@ function EditSpecifiedItem() {
 
         <div className="image-slider-container">
           <SimpleImageSlider
+          key={images.join("")}
             width={'90%'}
             height={200}
-            images={[...images, ...newImages].map(image => ({ url: image }))}
+            images={images.map(image => ({ url: image }))}
             navStyle={1}
-            showNavs={true}
             useGPURender={true}
             slideDuration={0.5}
             navWidth={60}

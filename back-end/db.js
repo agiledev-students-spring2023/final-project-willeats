@@ -4,20 +4,19 @@ const { Schema } = mongoose;
 
 
 const UserSchema = new Schema({
-    _id: Schema.Types.ObjectId,
-    username : {type: String, unique: true, required: true},
+    // _id: Schema.Types.ObjectId,
+    name : {type: String, unique: true, required: true},
     email : {type: String, unique: true, required: [true, "Please provide a email!"]},
     password : {type: String, unique: true, required: [true, "Please provide a password!"]},
     order : [{ type: Schema.Types.ObjectId, ref: 'Order' }],
     review : [{type: Schema.Types.ObjectId, ref: 'Review'}],
-    createdate: { type: Date, default: Date.now },
+    date: { type: Date, default: Date.now },
     avater: {type: Buffer},
 });
 
 const RestaurantSchema = new Schema({
-    _id: Schema.Types.ObjectId,
+    // _id: Schema.Types.ObjectId,
     name : {type: String, unique: true, required: true},
-    username : {type: String, unique: true, required: true},
     email:{type: String, unique: true, required: true},
     password : {type: String, unique: true, required: [true, "Please provide a password!"]},
     createdate: { type: Date, default: Date.now },
@@ -45,14 +44,13 @@ const DishSchema = new Schema({
         type:Schema.Types.ObjectId,
         ref: 'restaurant'
     },
-    type:{
-        type:String,
-        required:true
+    name:{
+        type: String,
+        required: true
     },
-    photo: [{
-      type: Buffer,
-      required: false
-    }],
+    photo: {type: String,
+      required: false}     
+    ,
     description: {
       type: String,
       required: true
@@ -67,15 +65,31 @@ const DishSchema = new Schema({
     }]
   });
 
+  const OrderSchema = new Schema({
+    _id: Schema.Types.ObjectId,
+    user: {type: Schema.Types.ObjectId, ref:'User'},
+    restaurant :{
+        type:Schema.Types.ObjectId,
+        ref: 'restaurant'
+    },
+    totalPrice:{
+        type: Number,
+        required: true
+    },
+    dishName: [{type: Schema.Types.ObjectId, ref: 'Dish'}],
+    createdate: { type: Date, default: Date.now },
+  })
+
   const Restaurant = mongoose.model('Restaurant',RestaurantSchema);
   const Dish = mongoose.model('Dish',DishSchema);
   const User = mongoose.model('User', UserSchema);
   const Review = mongoose.model('Review', ReviewSchema);
+  const Order = mongoose.model('Order', OrderSchema)
   mongoose.connect("mongodb+srv://ljr:123123123@cluster0.tmtz8nv.mongodb.net/?retryWrites=true&w=majority",{
     useNewUrlParser: true,
 });
 
-module.exports = { User, Review, Dish, Restaurant };
+module.exports = { User, Review, Dish, Restaurant, Order };
 
 
 

@@ -59,6 +59,7 @@ function MenuItem(props) {
     params.append('description',props.description)
     params.append('price',props.price)
     params.append('image', props.image)
+    console.log(props.image)
     params.append('star',props.star)
     params.append('id', props.id)
     params.append('type',props.type)

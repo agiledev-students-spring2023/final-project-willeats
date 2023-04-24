@@ -1,4 +1,4 @@
-const { User, Review, Restaurant, Dish } = require('./db.js');
+const { User, Review, Restaurant, Dish, Order } = require('./db.js');
 
 const express = require("express") // CommonJS import style!
 const app = express() // instantiate an Express object
@@ -10,8 +10,14 @@ const multer = require("multer") // middleware to handle HTTP POST requests with
 // require("dotenv").config({ silent: true }) // load environmental variables from a hidden file named .env
 const morgan = require("morgan") // middleware for nice logging of incoming HTTP requests
 const jwt = require('jsonwebtoken');
-const { body, param, validationResult } = require('express-validator');
+const { body, param, check, validationResult } = require('express-validator');
 const mongoose = require("mongoose")
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const multerS3 = require('multer-s3')
+const { S3Client } = require('@aws-sdk/client-s3')
+const bodyParser = require('body-parser');
+
 /**
  * Typically, all middlewares would be included before routes
  * In this file, however, most middlewares are after most routes
@@ -19,15 +25,35 @@ const mongoose = require("mongoose")
  */
 
 require("dotenv").config({ silent: true })
+const s3 = new S3Client({
+    region: process.env.AWS_BUCKET_REGION,
+    credentials: {
+        accessKeyId : process.env.AWS_ACCESS_KEY,
+        secretAccessKey: process.env.AWS_SECRET_KEY
+    }
+})
 // use the morgan middleware to log all incoming http requests
 app.use(morgan("dev")) // morgan has a few logging default styles - dev is a nice concise color-coded style
 app.use(cors())
 // use express's builtin body-parser middleware to parse any data included in a request
 app.use(express.json()) // decode JSON-formatted incoming POST data
 app.use(express.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/static", express.static("public"))
 
-const upload = multer({ dest: "./public/uploads" })
+const upload = multer({
+    storage: multerS3({
+      s3: s3,
+      acl: 'public-read-write',
+      bucket: process.env.AWS_BUCKET_NAME,
+      metadata: function (req, file, cb) {
+        cb(null, {fieldName: file.fieldname});
+      },
+      key: function (req, file, cb) {
+        cb(null, Date.now().toString() + '-' + file.originalname)
+      }
+    })
+  })
 
 const authenticateUser = (req, res, next) => {
     const authHeader = req.headers.authorization;
@@ -46,15 +72,14 @@ const authenticateUser = (req, res, next) => {
 };
 
 app.get('/userpastreview', (req, resp) => {
-
-    axios.get(`${process.env.MOCKAROO_PAST_REVIEW}?key=${process.env.MOCKAROO_API_KEY_1}`)
-        .then((res) => {
-            resp.status(200).send(res.data)
-        })
-        .catch((err) => {
+    Review.find({}).then(function(err, review){
+        if(!err){
+            resp.status(200).send(review);
+        }else{
             console.log(err)
-            resp.status(500).send()
-        })
+            resp.status(500).send();
+        }
+    })
 });
 
 app.get('/userpastorder', (req, resp) => {
@@ -74,7 +99,7 @@ app.post('/edituserreview', (req, resp) => {
 });
 
 
-app.post('/createuserreview', upload.array("image"), (req, resp) => {
+app.post('/createuserreview', upload.array("image", 9), (req, resp) => {
     console.log(req.files)
     console.log(req.body)
     resp.status(200).send({ message: 'create successfully' })
@@ -132,17 +157,6 @@ app.get('/getname', async (req, res) => {
     }
 })
 
-
-// app.post('/api/edit-menu-items/:id', (req, res) => {
-//     const itemId = req.params.id;
-//     const { name, description, price } = req.body;
-
-//     // Do something with the updated data here (e.g. update the menu item in the database)
-//     console.log(`Updated menu item ${itemId}: { name: ${name}, description: ${description}, price: ${price} }`);
-
-//     res.status(200).json({ message: 'Menu item updated successfully.' });
-// });
-
 app.get("/", (req, res) => {
     res.send("Blank page")
 })
@@ -159,54 +173,53 @@ app.get('/reviewDetails', (req, res) => {
         });
 });
 
-app.get('/testConnection', (req, res) => {
-    Restaurant.find({})
-        .then(restaurants => {
-            return res.json(restaurants);
-        })
-        .catch(err => {
-            console.error(err);
-            res.status(500).json({ error: 'Server error' });
-        });
-});
-
 app.post('/Login-C', async (req, res) => {
     const { email, password } = req.body;
-
     const user = await User.findOne({ email });
-    const isPasswordValid = (password === user.password);
-    // const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!user || !isPasswordValid) {
+    if (!user){
+        return res.status(401).json({ error: 'Invalid email or password' });
+    }
+    // const isPasswordValid = (password === user.password);
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const userid = user.id
+    if (!isPasswordValid) {
         return res.status(401).json({ error: 'Invalid email or password' });
     }
 
-    const token = jwt.sign({ email, role: 'customer' }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ userid ,email, role: 'customer' }, process.env.JWT_SECRET, { expiresIn: '24h' });
     res.json({ token });
 })
 
 app.post('/Login-M', async (req, res) => {
     const { email, password } = req.body;
-
     const manager = await Restaurant.findOne({ email });
-    const isPasswordValid = (password === manager.password);
+    if (!manager){
+        return res.status(401).json({ error: 'Invalid email or password' });
+    }
+    // const isPasswordValid = (password === manager.password);
     console.log(manager)
-    // const isPasswordValid = await bcrypt.compare(password, manager.password);
-    if (!manager || !isPasswordValid) {
+    const isPasswordValid = await bcrypt.compare(password, manager.password);
+    const managerid = manager.id
+    if ( !isPasswordValid) {
         return res.status(401).json({ error: 'Invalid email or password' });
     }
 
-    const token = jwt.sign({ email, role: 'manager' }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ managerid, email, role: 'manager' }, process.env.JWT_SECRET, { expiresIn: '24h' });
     res.json({ token });
 })
 
 app.get('/Sign-C', async (req, res) => {
-    const username = req.query.username;
+    const name = req.query.name;
     const email = req.query.email;
+    console.log(name)
+    console.log(email)
     try {
-        const existingUser = await User.findOne({ $or: [{ username: username }, { email: email }] });
+        const existingUser = await User.findOne(
+            name != undefined ? { name } : { email }
+        );
         if (existingUser) {
             console.log('exist')
-            res.status(200).json({ exists: true, registeredName: existingUser.username });
+            res.status(200).json({ exists: true, registeredName: existingUser.name });
         } else {
             console.log('non')
             res.status(200).json({ exists: false });
@@ -217,40 +230,21 @@ app.get('/Sign-C', async (req, res) => {
     }
 });
 
-// app.post('/api/edit-menu-items/:id', function(req, res) {
-//     const id = req.params.id;
-//     const {name,type,price,description} = req.body;
-//     console.log(data);
-//     Dish.findByIdAndUpdate(id, {"name":name,"description":description,"price":price,"type":type}, { new: true })
-//       .then(dish => {
-//         if (!dish) {
-//           res.status(404).json({ error: 'Dish not found' });
-//         } else {
-//           console.log("----------------------------",dish)
-//           res.json(dish);
-//         }
-//       })
-//       .catch(err => {
-//         console.error(err);
-//         res.status(500).json({ error: 'Server error' });
-//       });
-//   });
-
-app.post('/api/edit-menu-items/:id',
-    [
-        body('name').notEmpty().withMessage('Name cannot be empty'),
-        body('type').notEmpty().withMessage('Type cannot be empty'),
-        body('price')
-            .notEmpty().withMessage('Price cannot be empty')
-            .toFloat().withMessage('Price must be a number')
-            .isFloat().withMessage('Price must be a decimal number'),
-        body('description').notEmpty().withMessage('Description cannot be empty'),
-    ],
+app.post('/api/edit-menu-items/:id', upload.single("images[0]"),
+// [
+//     check('name').notEmpty().withMessage('Name cannot be empty'),
+//     check('type').notEmpty().withMessage('Type cannot be empty'),
+//     check('price')
+//       .notEmpty().withMessage('Price cannot be empty')
+//       .toFloat().withMessage('Price must be a number')
+//       .isFloat().withMessage('Price must be a decimal number'),
+//     check('description').notEmpty().withMessage('Description cannot be empty'),
+//   ],
     function (req, res) {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ error: "invalid input detected" });
-        }
+        // const errors = validationResult(req);
+        // if (!errors.isEmpty()) {
+        //     return res.status(400).json({ error: "invalid input detected" });
+        // }
 
         const authHeader = req.headers.authorization;
         const token = authHeader && authHeader.split(' ')[1];
@@ -258,6 +252,7 @@ app.post('/api/edit-menu-items/:id',
         const id = req.params.id;
         console.log(id)
         const data = req.body;
+        console.log(req.body.price)
 
         if (id !== "null") {
             Dish.updateOne({ _id: id }, {
@@ -265,7 +260,8 @@ app.post('/api/edit-menu-items/:id',
                     name: data.name,
                     type: data.type,
                     price: parseFloat(data.price),
-                    description: data.description
+                    description: data.description,
+                    photo:req.file.location
                 }
             })
                 .then(result => {
@@ -306,7 +302,7 @@ app.post('/api/edit-menu-items/:id',
                                     description: data.description,
                                     restaurant: restaurantId,
                                     reviews: [],
-                                    photo: []
+                                    photo: req.file.location
                                 });
 
                                 // Insert new dish into database
@@ -330,9 +326,6 @@ app.post('/api/edit-menu-items/:id',
                             res.status(500).json({ error: 'Server error' });
                         });
 
-
-                    // Create new dish object with input data and restaurant ID
-
                 }
 
             });
@@ -341,6 +334,11 @@ app.post('/api/edit-menu-items/:id',
 
 
     });
+
+app.post("/testUploadPic",upload.single('images[0]'),function(req,res){
+    console.log(req.body)
+    console.log(req.file.location)
+})
 
 app.get('/getmenu', function (req, res) {
     // Extract the JWT token from the request query parameters
@@ -366,8 +364,7 @@ app.get('/getmenu', function (req, res) {
                             // Find the menu items for the restaurant using the restaurant's _id as a foreign key
                             Dish.find({ restaurant: restaurant._id })
                                 .then(menu => {
-                                    // Send the menu items as the response
-                                    //console.log(menu)
+                                    console.log(menu)
                                     res.json(menu);
                                 })
                                 .catch(err => {

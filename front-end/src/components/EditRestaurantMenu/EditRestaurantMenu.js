@@ -58,7 +58,7 @@ function EditRestaurantMenu() {
             name: item.name,
             price: item.price,
             description: item.description,
-            imageSrc: "https://picsum.photos/200/300",
+            imageSrc: item.photo,
             star: item.star,
             id: item._id,
             type:item.type
