@@ -18,6 +18,8 @@ const multerS3 = require('multer-s3')
 const { S3Client } = require('@aws-sdk/client-s3')
 const bodyParser = require('body-parser');
 
+
+
 /**
  * Typically, all middlewares would be included before routes
  * In this file, however, most middlewares are after most routes
@@ -32,6 +34,23 @@ const s3 = new S3Client({
         secretAccessKey: process.env.AWS_SECRET_KEY
     }
 })
+
+
+
+// Connect to MongoDB database
+mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+});
+
+const db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', function() {
+    console.log('Connected to MongoDB database!');
+});
+
+
+
 // use the morgan middleware to log all incoming http requests
 app.use(morgan("dev")) // morgan has a few logging default styles - dev is a nice concise color-coded style
 app.use(cors())
@@ -82,15 +101,19 @@ app.get('/userpastreview', (req, resp) => {
     })
 });
 
-app.get('/userpastorder', (req, resp) => {
-    axios.get(`${process.env.MOCKAROO_USER_REVIEW}?key=${process.env.MOCKAROO_API_KEY_1}`)
-        .then((res) => {
-            resp.status(200).send(res.data)
-        })
-        .catch((err) => {
-            console.log(err)
-            resp.status(500).send()
-        })
+app.get('/userpastorder/:userId', async (req, res) => {
+    const { userId } = req.params;
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        const orders = await Order.find({ user: userId });
+        res.status(200).send(orders);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred');
+    }
 });
 
 app.post('/edituserreview', (req, resp) => {
@@ -104,23 +127,24 @@ app.post('/createuserreview', upload.array("image", 9), (req, resp) => {
     console.log(req.body)
     resp.status(200).send({ message: 'create successfully' })
 });
+
 app.get('/getuser', async (req, res) => {
     try {
-        const response = await axios.get(`${process.env.MOCKAROO_USER}?key=${process.env.MOCKAROO_API_KEY_4}`);
-        res.json(response.data);
+        const users = await User.find({});
+        res.status(200).send(users);
     } catch (error) {
         console.error(error);
-        res.status(500).send('An error occured');
+        res.status(500).send('An error occurred');
     }
 })
 
 app.get('/getbuisness', async (req, res) => {
     try {
-        const response = await axios.get(`${process.env.MOCKAROO_BUSINESS}?key=${process.env.MOCKAROO_API_KEY_4}`);
-        res.json(response.data);
+        const restaurants = await Restaurant.find({});
+        res.status(200).send(restaurants);
     } catch (error) {
         console.error(error);
-        res.status(500).send('An error occured');
+        res.status(500).send('An error occurred');
     }
 
 })
@@ -131,13 +155,12 @@ app.post('/deleteuserreview', (req, resp) => {
 
 app.get('/getrate', async (req, res) => {
     try {
-        const response = await axios.get(`${process.env.MOCKAROO_RESTAURANT_FEES_RATES}?key=${process.env.MOCKAROO_API_KEY_4}`);
-        res.json(response.data);
+        const rates = await Restaurant.find({}, 'deliveryFee taxRate');
+        res.status(200).send(rates);
     } catch (error) {
         console.error(error);
-        res.status(500).send('An error occured');
+        res.status(500).send('An error occurred');
     }
-
 })
 
 app.post('/api/delete-menu-item', (req, res) => {
@@ -197,11 +220,11 @@ app.post('/api/delete-menu-category', (req, res) => {
 
 app.get('/getname', async (req, res) => {
     try {
-        const response = await axios.get(`${process.env.MOCKAROO_RESTAURANT_NAME}?key=${process.env.MOCKAROO_API_KEY_1}`);
-        res.json(response.data);
+        const restaurants = await Restaurant.find({}, 'name');
+        res.status(200).send(restaurants);
     } catch (error) {
         console.error(error);
-        res.status(500).send('An error occured');
+        res.status(500).send('An error occurred');
     }
 })
 
@@ -209,16 +232,18 @@ app.get("/", (req, res) => {
     res.send("Blank page")
 })
 
-app.get('/reviewDetails', (req, res) => {
-    axios
-        .get(`${process.env.MOCKAROO_PAST_REVIEW}?key=${process.env.MOCKAROO_API_KEY_1}`)
-        .then((response) => {
-            res.json(response.data);
-        })
-        .catch((error) => {
-            console.log(error);
-            res.status(500).send('Error retrieving reviews');
-        });
+app.get('/reviewDetails/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const review = await Review.findById(id);
+        if (!review) {
+            return res.status(404).send('Review not found');
+        }
+        res.status(200).send(review);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred');
+    }
 });
 
 app.post('/Login-C', async (req, res) => {
