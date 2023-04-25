@@ -20,8 +20,10 @@ const RestaurantSchema = new Schema({
     email:{type: String, unique: true, required: true},
     password : {type: String, unique: true, required: [true, "Please provide a password!"]},
     createdate: { type: Date, default: Date.now },
-    avatar:{type: Buffer},    
-})
+    avatar:{type: Buffer},
+    deliveryFee: { type: Number, required: true, default: 2.99 }, // reasonable default delivery fee of $2.99
+    taxRate: { type: Number, required: true, default: 8.825 } // nyc default tax rate of 8.825%
+});
 
 const ReviewSchema = new Schema({
     _id: Schema.Types.ObjectId,
@@ -89,20 +91,3 @@ const DishSchema = new Schema({
 });
 
 module.exports = { User, Review, Dish, Restaurant, Order };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
