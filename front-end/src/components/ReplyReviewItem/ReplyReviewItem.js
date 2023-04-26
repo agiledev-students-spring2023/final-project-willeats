@@ -77,14 +77,14 @@ function ReplyReviewItem() {
                         <div className="card-body">
                             <h5 className="card-title">{name}</h5>
                             <StarRatings
-                                rating={4}
+                                rating={parseFloat(rating)}
                                 numberOfStars={5}
                                 name='rating'
                                 starDimension="20px"
                                 starSpacing="10px"
                             />
                             <p className="card-text">{description}</p>
-                            <h3 className="card-text">{price}</h3>
+                            <h3 className="card-text">{'$'+price}</h3>
                         </div>
                     </div>
                     <div className='sort-btn'>

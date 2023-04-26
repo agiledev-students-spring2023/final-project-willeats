@@ -7,7 +7,7 @@
     padding: 5px 10px;
     float: right;
     max-width: 150px;
-    background-color: orange; /* add a background-color to set the button color to orange */
+    background-color: rgb(206, 124, 30); /* add a background-color to set the button color to orange */
     border-radius: 20px; /* add a border-radius to make the button more circular */
   }
   

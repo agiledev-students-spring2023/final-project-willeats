@@ -20,7 +20,8 @@ const RestaurantSchema = new Schema({
     email:{type: String, unique: true, required: true},
     password : {type: String, unique: true, required: [true, "Please provide a password!"]},
     createdate: { type: Date, default: Date.now },
-    avatar:{type: Buffer},    
+    avatar:{type: String, required:false}, 
+    background:{type:String,required:false}   
 })
 
 const ReviewSchema = new Schema({

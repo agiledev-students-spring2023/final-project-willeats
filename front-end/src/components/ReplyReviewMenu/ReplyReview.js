@@ -37,6 +37,7 @@ function ReplyReviews() {
               imageSrc: item.photo,
               star: item.star,
               id: item._id,
+              rating:item.rating
             });
             return acc;
           }, {})
@@ -75,7 +76,7 @@ function ReplyReviews() {
                 price={item.price}
                 description={item.description}
                 image={item.imageSrc}
-                star = {item.star}
+                rating = {item.rating}
                 id={item.id}
                 toCart={false}
                 reply = {true}
