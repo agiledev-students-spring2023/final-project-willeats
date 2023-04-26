@@ -19,7 +19,6 @@ const multerS3 = require('multer-s3')
 const bodyParser = require('body-parser');
 
 const { S3Client } = require('@aws-sdk/client-s3')
-const mongoose = require('mongoose');
 /**
  * Typically, all middlewares would be included before routes
  * In this file, however, most middlewares are after most routes
