@@ -19,6 +19,7 @@ const multerS3 = require('multer-s3')
 const bodyParser = require('body-parser');
 
 const { S3Client } = require('@aws-sdk/client-s3')
+
 /**
  * Typically, all middlewares would be included before routes
  * In this file, however, most middlewares are after most routes
@@ -582,25 +583,7 @@ app.get('/userpastorder', (req, resp) => {
         });
     });
 
-    app.get('/Profile-M-Email', (req, res) => {
-        const authHeader = req.headers.authorization;
 
-        if (!authHeader) {
-            return res.sendStatus(401); // Unauthorized
-        }
-        const token = authHeader.split(' ')[1];
-        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-            if (err) {
-                return res.sendStatus(403); // Forbidden
-            }
-            const managerid = decoded.managerid;
-            console.log(managerid)
-            const manager = Restaurant.findById(managerid).then(manager => {
-                res.status(200).send({ email: manager.email });
-            })
-            console.log(manager.email);
-        });
-    });
 
     app.post('/Profile-M-Email', (req, res) => {
         const authHeader = req.headers.authorization;
