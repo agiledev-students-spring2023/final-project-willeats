@@ -372,7 +372,7 @@ app.post('/Profile-C-Email', (req, res) => {
 
 app.get('/Profile-M-Email', (req, res) => {
     const authHeader = req.headers.authorization;
-    
+
     if (!authHeader) {
         return res.sendStatus(401); // Unauthorized
     }
@@ -418,6 +418,59 @@ app.post('/Profile-M-Email', (req, res) => {
     });
 });
 
+app.post('/profile-image-C', upload.single('image'), (req, res) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.sendStatus(401); // Unauthorized
+    }
+    const token = authHeader.split(' ')[1];
+    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+        if (err) {
+            return res.sendStatus(403); // Forbidden
+        }
+        try {
+            const user = await User.findById(decoded.userid);
+            if (!user) {
+                return res.sendStatus(404); // Not Found
+            }
+            console.log('11111');
+            user.avatar = req.file.location; // Set the profileImage property of the user document to the path of the uploaded file
+            await user.save(); // Save the updated user document to the database
+            console.log('2222');
+
+
+            res.status(200).send({ imageUrl: req.file.location });
+        } catch (error) {
+            console.error(error);
+            res.sendStatus(500); // Internal Server Error
+        }
+    });
+});
+
+app.post('/profile-image-M', upload.single('image'), (req, res) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.sendStatus(401); // Unauthorized
+    }
+    const token = authHeader.split(' ')[1];
+    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+        if (err) {
+            return res.sendStatus(403); // Forbidden
+        }
+        try {
+            const manager = await Restaurant.findById(decoded.managerid);
+            if (!manager) {
+                return res.sendStatus(404); // Not Found
+            }
+            manager.avatar = req.file.location; // Set the profileImage property of the user document to the path of the uploaded file
+            await manager.save(); // Save the updated user document to the database
+            res.status(200).send({ imageUrl: req.file.location });
+        } catch (error) {
+            console.error(error);
+            res.sendStatus(500); // Internal Server Error
+        }
+    });
+});
 
 app.post('/api/edit-menu-items/:id', upload.single("images[0]"),
     [
