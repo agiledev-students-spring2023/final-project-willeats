@@ -13,8 +13,11 @@ function ReplyReviews() {
  
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
     axios
-      .get("https://my.api.mockaroo.com/menu.json?key=3c15f680")
+      .get("http://localhost:3001/getmenu",{params: {
+        token: token
+      }})
       .then((response) => {
         let data = response.data
         console.log(data)
@@ -31,9 +34,10 @@ function ReplyReviews() {
               name: item.name,
               price: item.price,
               description: item.description,
-              imageSrc: "https://picsum.photos/200/300",
+              imageSrc: item.photo,
               star: item.star,
-              id: item.id.$oid,
+              id: item._id,
+              rating:item.rating
             });
             return acc;
           }, {})
@@ -72,7 +76,7 @@ function ReplyReviews() {
                 price={item.price}
                 description={item.description}
                 image={item.imageSrc}
-                star = {item.star}
+                rating = {item.rating}
                 id={item.id}
                 toCart={false}
                 reply = {true}

@@ -30,7 +30,17 @@ function ReviewCard(props) {
     }
 
     const handleClick=()=>{
-        navigate('/reviewDetails')
+        const params = new URLSearchParams()
+        params.append('review', props.review)
+        props.reviewImage.map((e) =>{
+            params.append('image', e)
+        })
+        params.append('mainName', props.mainName)
+        params.append('itemName', props.itemName)
+        params.append('star', props.star)
+        params.append('id', props.id)
+        params.append('date',props.date)
+        navigate({pathname: '/reviewDetails', search: params.toString()})
     }
 
     const changeEdit = (e) => {
@@ -43,7 +53,25 @@ function ReviewCard(props) {
         params.append('mainName', props.mainName)
         params.append('itemName', props.itemName)
         params.append('star', props.star)
+        if(props.id){
+            params.append('id', props.id)
+        }
         navigate({pathname: '/usereditreview', search: params.toString()})
+    }
+
+    const handleReply=(e)=>{
+        e.stopPropagation()
+        const params = new URLSearchParams()
+        params.append('review', props.review)
+        props.reviewImage.map((e) =>{
+            params.append('image', e)
+        })
+        params.append('mainName', props.mainName)
+        params.append('itemName', props.itemName)
+        params.append('star', props.star)
+        params.append('id', props.id)
+        params.append('date',props.date)
+        navigate({pathname: '/replyUser', search: params.toString()})
     }
 
     
@@ -55,10 +83,12 @@ function ReviewCard(props) {
 
                 </div>
                 {!props.order && <div className="col-3 d-flex flex-row-reverse">
-                    {/* add handle event, justify if the review is user's
-                    <button type="button" className="btn btn-link float-right" onClick={props.handleDelete} >Delete</button>
-                    <button type="button" className="btn btn-link float-right" onClick={changeEdit}>Edit</button>
-                    {props.reply && <button type="button" className="btn btn-link float-right">Reply</button>} */}
+
+                    {/* add handle event, justify if the review is user's */}
+                    {props.isUser ?  <button type="button" className="btn btn-link float-right" onClick={props.handleDelete} >Delete</button> : <></>}
+                    {props.isUser ? <button type="button" className="btn btn-link float-right" onClick={changeEdit}>Edit</button> : <></>}
+                    {props.reply && <button type="button" className="btn btn-link float-right">Reply</button>}
+
                 </div>}
             </div>
             <div className="row " onClick={handleClick}>

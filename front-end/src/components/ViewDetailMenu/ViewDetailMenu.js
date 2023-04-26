@@ -11,23 +11,23 @@ import CartIcon from '../CartIcon/CartIcon';
 import axios from 'axios'
 import PageBackButton from '../pagebackButton/PageBackButton';
 import LoadMoreButton from '../loadMoreButton/loadMoreButton';
+import { el } from 'date-fns/locale';
 
 
 function ViewDetailMenu() {
     const navigate = useNavigate();
     const location = useLocation();
     const [images, setImages] = useState([
-        "https://picsum.photos/id/100/500/200",
-        "https://picsum.photos/id/101/500/200",
-        "https://picsum.photos/id/102/500/200",
+        new URLSearchParams(location.search).get('image').split(',')
     ]);
     const [name, setName] = useState('French Toast');
-    const [description, setDescription] = useState("A toast is a simple and versatile dish that can be eaten any time of the day. It's a dish that typically consists of toasted bread that is then topped with a variety of spreads or toppings. One of the most popular toppings for a toast is butter");
+    const [description, setDescription] = useState("");
     const [price, setPrice] = useState('$15');
-    const [rating, setRatings] = useState(4);
+    const [rating, setRatings] = useState(new URLSearchParams(location.search).get('star'));
     const [count,setCount]=useState(JSON.parse(localStorage.getItem('cartItems')).length);
     const [reviews, setReviews] = useState()
-
+    const [id, setId] = useState(new URLSearchParams(location.search).get('id'));
+    console.log(rating)
     useEffect(() => {
         const cartItems = JSON.parse(localStorage.getItem('cartItems'));
         if (cartItems) {
@@ -36,7 +36,10 @@ function ViewDetailMenu() {
       }, []);
 
       useEffect(() => {
-        axios.get("https://my.api.mockaroo.com/pastreview1234.json?key=3c15f680")
+        const token = localStorage.getItem('token');
+        axios.get(`http://localhost:3001/getReview/${id}`,{
+            headers: { Authorization: `Bearer ${token}` }
+        })
         .then((response)=>{
             const data = response.data
             console.log(data)
@@ -87,7 +90,6 @@ function ViewDetailMenu() {
                             height={200}
                             images={images.map(image => ({ url: image }))}
                             navStyle={1}
-                            showNavs={true}
                             useGPURender={true}
                             slideDuration={0.5}
                             navWidth={60}
@@ -99,7 +101,7 @@ function ViewDetailMenu() {
                         <div className="card-body">
                             <h5 className="card-title">{new URLSearchParams(location.search).get('name')}</h5>
                             <StarRatings
-                                rating={parseInt(new URLSearchParams(location.search).get('star'))}
+                                rating={parseFloat(rating)}
                                 starRatedColor="yellow"
                                 numberOfStars={5}
                                 name='rating'
@@ -128,7 +130,8 @@ function ViewDetailMenu() {
                             date={element.date} 
                             star={element.star}
                             image={element.restImage}
-                            reviewImage={element.reviewImage}
+                            reviewImage={element.image}
+                            isUser={element.isUser}
                         />
                     ))}
                 </div>

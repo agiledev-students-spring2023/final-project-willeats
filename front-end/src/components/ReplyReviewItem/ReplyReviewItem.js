@@ -14,28 +14,26 @@ function ReplyReviewItem() {
     const navigate = useNavigate();
     const location = useLocation();
     const [images, setImages] = useState([
-        "https://picsum.photos/200/300",
-        "https://picsum.photos/200/200",
-        "https://picsum.photos/400/400",
+        new URLSearchParams(location.search).get('image').split(',')
     ]);
     const [reviews, setReviews] = useState()
     const [name, setName] = useState(new URLSearchParams(location.search).get('name'));
     const [description, setDescription] = useState(new URLSearchParams(location.search).get('description'));
     const [price, setPrice] = useState(new URLSearchParams(location.search).get('price'));
     const [rating, setRatings] = useState(parseInt(new URLSearchParams(location.search).get('star')));
-
+    const [id, setId] = useState(new URLSearchParams(location.search).get('id'));
+    console.log(id)
 
     useEffect(() => {
-        axios.get("https://my.api.mockaroo.com/pastreview1234.json?key=3c15f680")
+        const token = localStorage.getItem('token');
+        axios.get(`http://localhost:3001/getReview/${id}`)
         .then((response)=>{
             const data = response.data
             console.log(data)
             setReviews(data)
         }).catch((err)=>{
             console.log(err)
-        })
-            
-        
+        })        
     },[])
 
 
@@ -79,21 +77,22 @@ function ReplyReviewItem() {
                         <div className="card-body">
                             <h5 className="card-title">{name}</h5>
                             <StarRatings
-                                rating={rating}
+                                rating={parseFloat(rating)}
                                 numberOfStars={5}
                                 name='rating'
                                 starDimension="20px"
                                 starSpacing="10px"
                             />
                             <p className="card-text">{description}</p>
-                            <h3 className="card-text">{price}</h3>
+                            <h3 className="card-text">{'$'+price}</h3>
                         </div>
                     </div>
                     <div className='sort-btn'>
                     <button type="button" className="btn btn-link" onClick={()=>sortReviewsByDate('MM/dd/yyyy')}>Sort by Date</button>
                     </div>
                     <div className='row d-flex justify-content-center'>
-                    { reviews && reviews.map((element, index) => (
+                    { reviews && reviews.length===0? <h3>No reviews was post for this item..</h3>
+                    :reviews && reviews.map((element, index) => (
                         <ReviewCard 
                             mainName={element.name} 
                             itemName={element.itemName} 
@@ -101,17 +100,18 @@ function ReplyReviewItem() {
                             key={index} 
                             keys={index}
                             date={element.date} 
-                            star={element.star}
+                            star={element.rating}
                             image={element.restImage}
-                            reviewImage={element.reviewImage}
+                            reviewImage={element.image}
                             reply={true}
+                            id={element._id}
                            />
                     ))}
                         
                     </div>
                     <div>
                     <div className='d-flex justify-content-center mt-3'>  
-                    <LoadMoreButton url={'https://my.api.mockaroo.com/pastreview1234.json?key=3c15f680'} data={reviews} setdata={setReviews} />
+
                     </div>                  
                     </div>
                 </div>
