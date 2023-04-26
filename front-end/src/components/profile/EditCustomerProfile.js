@@ -14,7 +14,7 @@ const EditCustomerProfile = () => {
     <div className="customer-profile text-center">
       <TopBar/>
 
-      <ProfileImage/>
+      <ProfileImage business={false}/>
 
       <EditName business={false}/>
 
