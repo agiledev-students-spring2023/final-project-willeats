@@ -11,7 +11,7 @@ const UserSchema = new Schema({
     order : [{ type: Schema.Types.ObjectId, ref: 'Order' }],
     review : [{type: Schema.Types.ObjectId, ref: 'Review'}],
     date: { type: Date, default: Date.now },
-    avater: {type: String},
+    avatar: {type: String},
 });
 
 const RestaurantSchema = new Schema({
