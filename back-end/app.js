@@ -82,6 +82,7 @@ app.get('/userpastreview', (req, resp) => {
     })
 });
 
+
 app.get('/userpastorder', (req, resp) => {
     axios.get(`${process.env.MOCKAROO_USER_REVIEW}?key=${process.env.MOCKAROO_API_KEY_1}`)
         .then((res) => {
@@ -220,6 +221,8 @@ app.get('/reviewDetails', (req, res) => {
             res.status(500).send('Error retrieving reviews');
         });
 });
+
+
 
 app.post('/Login-C', async (req, res) => {
     const { email, password } = req.body;
@@ -442,5 +445,58 @@ app.get('/getmenu', function (req, res) {
 
     }
 });
+
+app.get('/getReview/:id', (req, res) => {
+    const dishId = req.params.id;
+    Review.find({ dishId }).populate('userId') // use populate to include the referenced user object
+      .then((reviews) => {
+        const reviewsWithDateString = reviews.map((review) => {
+          const reviewCopy = { ...review._doc };
+          const date = reviewCopy.date.toLocaleDateString("en-US", { month: '2-digit', day: '2-digit', year: 'numeric' });
+          reviewCopy.date = date;
+          console.log(reviewCopy)
+          reviewCopy.name = reviewCopy.userId.name; // add user's name to the review object
+          //delete reviewCopy.userId; // remove the userId field from the review object
+          return reviewCopy;
+        });
+        res.json(reviewsWithDateString);
+        console.log(`Reviews for dish ${dishId}:`, reviewsWithDateString);
+      })
+      .catch((err) => {
+        res.status(500).json({ error: "server error" });
+        console.error(err);
+      });
+  });
+
+  app.post('/api/sendReply', async (req, res) => {
+    try {
+      const { reviewId, replyText } = req.body;
+      const review = await Review.findById(reviewId);
+  
+      if (!review) {
+        return res.status(404).json({ message: 'Review not found' });
+      }
+  
+      review.reply = replyText;
+      await review.save();
+  
+      return res.status(200).json({ message: 'Reply sent successfully' });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
+  app.get('/getReviewById/:id', async (req, res) => {
+    try {
+        const  reviewId  = req.params.id;
+        console.log("-------------------------------",reviewId)
+        const review = await Review.findById(reviewId);
+        return res.status(200).json(review);
+      } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: 'Internal server error' });
+      }
+  });
 
 module.exports = app
