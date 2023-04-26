@@ -43,7 +43,7 @@ function EditReviewPage() {
             .catch((err) => {
                 console.log(err)
                 setSave(false)
-                alert()
+                alert(err.response.data)
             })
             // axios(configuration)
             // .then((res) =>{
