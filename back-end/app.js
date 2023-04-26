@@ -456,6 +456,8 @@ app.get('/reviewDetails/:id', async (req, res) => {
     }
 });
 
+
+
 app.post('/Login-C', async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
@@ -635,47 +637,190 @@ app.post('/api/edit-menu-items/:id', upload.single("images[0]"),
         }
     });
 
-app.get('/getmenu', function (req, res) {
-    // Extract the JWT token from the request query parameters
-    const token = req.query.token;
-
-    if (!token) {
-        // Handle error if no token is provided
-        res.status(401).json({ error: 'Missing token' });
-    } else {
-        // Verify the JWT token using the secret key
-        jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
+    app.get('/getmenu', function (req, res) {
+        // Extract the JWT token from the request query parameters
+        const token = req.query.token;
+      
+        if (!token) {
+          // Handle error if no token is provided
+          res.status(401).json({ error: 'Missing token' });
+        } else {
+          // Verify the JWT token using the secret key
+          jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
             if (err) {
-                // Handle error if the JWT token is invalid
-                console.error(err);
-                res.status(401).json({ error: 'Invalid token' });
+              // Handle error if the JWT token is invalid
+              console.error(err);
+              res.status(401).json({ error: 'Invalid token' });
             } else {
-                // Search for the restaurant by email address
-                Restaurant.findOne({ email: decoded.email })
-                    .then(restaurant => {
-                        if (!restaurant) {
-                            res.status(404).json({ error: 'Restaurant not found' });
-                        } else {
-                            // Find the menu items for the restaurant using the restaurant's _id as a foreign key
-                            Dish.find({ restaurant: restaurant._id })
-                                .then(menu => {
-                                    console.log(menu)
-                                    res.json(menu);
-                                })
-                                .catch(err => {
-                                    console.error(err);
-                                    res.status(500).json({ error: 'Server error' });
-                                });
-                        }
-                    })
-                    .catch(err => {
+              // Search for the restaurant by email address
+              Restaurant.findOne({ email: decoded.email })
+                .then(restaurant => {
+                  if (!restaurant) {
+                    res.status(404).json({ error: 'Restaurant not found' });
+                  } else {
+                    // Find the menu items for the restaurant using the restaurant's _id as a foreign key
+                    Dish.find({ restaurant: restaurant._id })
+                      .then(menu => {
+                        // Loop through each dish in the menu and calculate its average rating
+                        const menuWithRating = menu.map(async function (dish) {
+                          const reviews = await Review.find({ _id: { $in: dish.review } });
+                          let totalRating = 0;
+                          for (let j = 0; j < reviews.length; j++) {
+                            totalRating += reviews[j].rating;
+                          }
+                          const averageRating = reviews.length > 0 ? totalRating / reviews.length : 1;
+                          return { ...dish._doc, rating: averageRating };
+                        });
+      
+                        // Wait for all the promises in the menuWithRating array to resolve and return the updated menu
+                        Promise.all(menuWithRating).then(updatedMenu => {
+                          console.log(updatedMenu);
+                          res.json(updatedMenu);
+                        }).catch(err => {
+                          console.error(err);
+                          res.status(500).json({ error: 'Server error' });
+                        });
+                      })
+                      .catch(err => {
                         console.error(err);
                         res.status(500).json({ error: 'Server error' });
-                    });
+                      });
+                  }
+                })
+                .catch(err => {
+                  console.error(err);
+                  res.status(500).json({ error: 'Server error' });
+                });
             }
-        });
+          });
+      
+        }
+      });
+      
 
+app.get('/getReview/:id', (req, res) => {
+    const dishId = req.params.id;
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(' ')[1];
+    // console.log(typeof(token))
+    
+    Review.find({ dishId }).populate('userId') // use populate to include the referenced user object
+      .then((reviews) => {
+        const reviewsWithDateString = reviews.map((review) => {
+          const reviewCopy = { ...review._doc };
+          const date = reviewCopy.date.toLocaleDateString("en-US", { month: '2-digit', day: '2-digit', year: 'numeric' });
+          reviewCopy.date = date;
+          //console.log(reviewCopy)
+          reviewCopy.name = reviewCopy.userId.name; // add user's name to the review object
+          //delete reviewCopy.userId; // remove the userId field from the review object
+          let isUser;
+          if (token === null || token === "null") {
+              isUser = false;
+            } else {
+              jwt.verify(token, process.env.JWT_SECRET, function (err, decoded){
+                  if(!err){
+                     if(decoded.userid===reviewCopy.userId._id.toString()){
+                        isUser=true;
+                     }else{
+                        isUser=false;
+                     }
+                  }else{
+                    isUser=false;
+                  }
+              })
+          }
+          reviewCopy.isUser=isUser
+          return reviewCopy;
+        });
+        console.log(reviewsWithDateString.length)
+        res.json(reviewsWithDateString);
+        //console.log(`Reviews for dish ${dishId}:`, reviewsWithDateString);
+      })
+      .catch((err) => {
+        res.status(500).json({ error: "server error" });
+        console.error(err);
+      });
+  });
+
+  app.post('/api/sendReply', async (req, res) => {
+    try {
+      const { reviewId, replyText } = req.body;
+      const review = await Review.findById(reviewId);
+  
+      if (!review) {
+        return res.status(404).json({ message: 'Review not found' });
+      }
+  
+      review.reply = replyText;
+      await review.save();
+  
+      return res.status(200).json({ message: 'Reply sent successfully' });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: 'Internal server error' });
     }
+  });
+
+  app.get('/getReviewById/:id', async (req, res) => {
+    try {
+        const  reviewId  = req.params.id;
+        console.log("-------------------------------",reviewId)
+        const review = await Review.findById(reviewId);
+        return res.status(200).json(review);
+      } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: 'Internal server error' });
+      }
+  });
+
+  app.get('/getMenuById/:id', async function (req, res) {
+    try {
+      const restaurantId = req.params.id;
+      console.log("-------------------------------", restaurantId);
+      const menu = await Dish.find({ restaurant: restaurantId });
+      console.log(menu);
+      
+      // Create a new copy of the menu array with the rating property appended to each dish
+      const menuWithRating = menu.map(async function (dish) {
+        const reviews = await Review.find({ _id: { $in: dish.review } });
+        // console.log(reviews)
+        let totalRating = 0;
+        for (let j = 0; j < reviews.length; j++) {
+          
+          totalRating += reviews[j].rating;
+        }
+        // console.log('----',totalRating)
+        const averageRating = reviews.length > 0 ? totalRating / reviews.length : 1;
+        return { ...dish._doc, rating: averageRating };
+      });
+      
+      // Wait for all the promises in the menuWithRating array to resolve and return the updated menu
+      const updatedMenu = await Promise.all(menuWithRating);
+    //   console.log(updatedMenu)
+      return res.status(200).json(updatedMenu);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+  
+  
+
+app.get('/getRestaurantInfo/:id', async function (req, res) {
+    const  restaurantId  = req.params.id;
+    try {
+        const  restaurantId  = req.params.id;
+        console.log("-------------------------------",restaurantId)
+        const info = await Restaurant.findById(restaurantId);
+        console.log(info)
+        return res.status(200).json(info);
+      } catch (error) {
+        console.log(error);
+        console.log(restaurantId)
+        return res.status(500).json({ message: 'Internal server error' });
+      }
 });
+
+
 
 module.exports = app

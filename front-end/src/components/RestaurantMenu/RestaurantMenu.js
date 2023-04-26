@@ -11,7 +11,8 @@ function RestaurantMenu() {
   const [cartItems, setCartItems] = useState([]);
   const [count, setCount] = useState(0);
   const [menuItems, setMenuItems] = useState();
-  const [restaurantName, setRestaurantName] = useState('')
+  const [restaurant, setRestaurant] = useState({})
+  const [restaurantId, setRestaurantId]=useState('6444893a4f71daabbde15f35')
 
   const handleAddToCart = (item) => {
     setCartItems([...cartItems, item]);
@@ -28,13 +29,13 @@ function RestaurantMenu() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/getmenu")
+      .get(`http://localhost:3001/getMenuById/${restaurantId}`)
       .then((response) => {
         let data = response.data
         console.log(data)
         data = Object.values(
           data.reduce((acc, item) => {
-            const category = item.category;
+            const category = item.type;
             if (!acc[category]) {
               acc[category] = {
                 category: category,
@@ -45,15 +46,16 @@ function RestaurantMenu() {
               name: item.name,
               price: item.price,
               description: item.description,
-              imageSrc: "https://picsum.photos/200/300",
+              imageSrc: item.photo,
               star: item.star,
-              id: item.id.$oid,
+              id: item._id,
+              rating:item.rating
             });
             return acc;
           }, {})
         );
         setMenuItems(data);
-        console.log(response.data);
+        console.log(response.data[0].rating);
 
       })
       .catch((error) => {
@@ -63,11 +65,11 @@ function RestaurantMenu() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/getname")
+      .get(`http://localhost:3001/getRestaurantInfo/${restaurantId}`)
       .then((response) => {
         const data = response.data
-
-        setRestaurantName(data[0].name);
+        console.log(data)
+        setRestaurant(data);
       })
       .catch((error) => {
         console.error(error);
@@ -81,10 +83,10 @@ function RestaurantMenu() {
             <TopBar_Cprofile />
           </div>
           <Header
-            name={restaurantName}
+            name={restaurant.name}
             rating={4}
-            logoSrc="https://picsum.photos/200/200"
-            backgroundSrc="https://picsum.photos/1500/500"
+            logoSrc={restaurant.avatar}
+            backgroundSrc={restaurant.background}
           />
           {menuItems && menuItems.map((category, index) => (
             <div key={index}>
@@ -101,7 +103,7 @@ function RestaurantMenu() {
                     price={item.price}
                     description={item.description}
                     image={item.imageSrc}
-                    star={item.star}
+                    rating={item.rating} 
                     id={item.id}
                     toCart={true}
                     edit={false}

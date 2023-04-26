@@ -21,7 +21,7 @@ function MenuItem(props) {
     params.append('description',props.description)
     params.append('price',props.price)
     params.append('image',props.image)
-    params.append('star',props.star)
+    params.append('star', props.rating)
     params.append('id', props.id)
     if (props.menu) {
       if(JSON.parse(localStorage.getItem('cartItems'))===null){
@@ -60,13 +60,13 @@ function MenuItem(props) {
     params.append('price',props.price)
     params.append('image', props.image)
     console.log(props.image)
-    params.append('star',props.star)
+    params.append('star',props.rating)
     params.append('id', props.id)
     params.append('type',props.type)
     navigate({pathname:`/editmenu/${props.id}`,
     search:params.toString()});
   }
-  
+  //console.log(props.rating)
   const handleDelete = () => {
     if (window.confirm(`Are you sure you want to delete ${props.name}?`)) {
       const token = localStorage.getItem('token');
@@ -109,9 +109,9 @@ function MenuItem(props) {
         <div className="col">
           <p className='fw-bold fs-4 mb-0'>{props.name}</p>
           <div className='row'>
-            {props.star && <div className='col-8'>
+            {props.rating && <div className='col-8'>
               <StarRatings
-                rating={props.star}
+                rating={props.rating}
                 starDimension="20px"
                 starSpacing="4px" />
             </div>}

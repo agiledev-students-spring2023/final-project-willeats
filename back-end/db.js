@@ -11,7 +11,7 @@ const UserSchema = new Schema({
     order : [{ type: Schema.Types.ObjectId, ref: 'Order' }],
     review : [{type: Schema.Types.ObjectId, ref: 'Review'}],
     date: { type: Date, default: Date.now },
-    avater: {type: Buffer},
+    avater: {type: String},
 });
 
 const RestaurantSchema = new Schema({
@@ -20,10 +20,13 @@ const RestaurantSchema = new Schema({
     email:{type: String, unique: true, required: true},
     password : {type: String, unique: true, required: [true, "Please provide a password!"]},
     createdate: { type: Date, default: Date.now },
-    avatar:{type: Buffer},
+
+    avatar:{type: String, required:false}, 
+    background:{type:String,required:false}   
     deliveryFee: { type: Number, required: true, default: 2.99 }, // reasonable default delivery fee of $2.99
     taxRate: { type: Number, required: true, default: 8.825 } // nyc default tax rate of 8.825%
 });
+
 
 const ReviewSchema = new Schema({
     // _id: Schema.Types.ObjectId,
@@ -33,7 +36,10 @@ const ReviewSchema = new Schema({
     userId: {type: Schema.Types.ObjectId, ref:'User'},
     review: {type: String, required: true},
     date: { type: Date, default: Date.now },
-    image:[{type: String}]
+
+    image:[{type:String}],
+    reply:{type:String, required:false}
+
 })
 
 const DishSchema = new Schema({
