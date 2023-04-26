@@ -19,7 +19,7 @@ const multerS3 = require('multer-s3')
 const bodyParser = require('body-parser');
 
 const { S3Client } = require('@aws-sdk/client-s3')
-const mongoose = require('mongoose');
+
 /**
  * Typically, all middlewares would be included before routes
  * In this file, however, most middlewares are after most routes
@@ -209,6 +209,7 @@ app.get('/userpastorder', (req, resp) => {
             }
         }
     })
+})
 
 app.get('/userpastorder/:userId', async (req, res) => {
     const { userId } = req.params;
@@ -535,19 +536,25 @@ app.post('/Sign-M', async (req, res) => {
 
 
 app.post('/api/edit-menu-items/:id', upload.single("images[0]"),
-    [
-        check('name').notEmpty().withMessage('Name cannot be empty'),
-        check('type').notEmpty().withMessage('Type cannot be empty'),
-        check('price')
-            .notEmpty().withMessage('Price cannot be empty')
-            .toFloat().withMessage('Price must be a number')
-            .isFloat().withMessage('Price must be a decimal number'),
-        check('description').notEmpty().withMessage('Description cannot be empty'),
-    ],
+[
+    check('name').custom(value => {
+        if (value === null || value.trim() === '' || value === 'null') {
+            throw new Error('Name cannot be empty');
+        }
+        return true;
+    }),
+    check('type').notEmpty().withMessage('Type cannot be empty'),
+    check('price')
+        .notEmpty().withMessage('Price cannot be empty')
+        .toFloat().withMessage('Price must be a number')
+        .isFloat().withMessage('Price must be a decimal number'),
+    check('description').notEmpty().withMessage('Description cannot be empty'),
+],
+
     function (req, res) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ error: "invalid input detected" });
+            return res.status(400).send({ error: "invalid input detected" });
         }
 
 

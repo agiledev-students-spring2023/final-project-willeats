@@ -93,7 +93,7 @@ function EditSpecifiedItem() {
       })
       .catch(error => {
         console.log(error)
-        alert('Error saving changes: ' + error.message);
+        alert('Error saving changes: ' + error.response.data.error);
       });
   };
   
