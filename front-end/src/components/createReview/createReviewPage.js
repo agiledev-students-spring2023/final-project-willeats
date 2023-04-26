@@ -47,6 +47,9 @@ function CreateReviewPage(){
             }))
             .catch(err => {
                 console.log(err)
+                setSave(false)
+                alert(`${err.response.data}`)
+                
             })
             // axios.post("http://localhost:3001/createuserreview", formData)
             //         .then((res) => {
@@ -60,7 +63,7 @@ function CreateReviewPage(){
             //             console.log(err)
             //         })
         }
-    },[saveData]);
+    },[saveData, save]);
 
     // useEffect(() => {
     //     console.log(total)
