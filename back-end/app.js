@@ -735,21 +735,7 @@ app.get('/userpastorder', (req, resp) => {
         });
     });
 
-    app.post('/api/edit-menu-items/:id', upload.single("images[0]"),
-        [
-            check('name').notEmpty().withMessage('Name cannot be empty'),
-            check('type').notEmpty().withMessage('Type cannot be empty'),
-            check('price')
-                .notEmpty().withMessage('Price cannot be empty')
-                .toFloat().withMessage('Price must be a number')
-                .isFloat().withMessage('Price must be a decimal number'),
-            check('description').notEmpty().withMessage('Description cannot be empty'),
-        ],
-        function (req, res) {
-            const errors = validationResult(req);
-            if (!errors.isEmpty()) {
-                return res.status(400).json({ error: "invalid input detected" });
-            }
+ 
 app.post('/api/edit-menu-items/:id', upload.single("images[0]"),
 [
     check('name').custom(value => {
