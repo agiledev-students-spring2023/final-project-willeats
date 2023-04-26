@@ -418,6 +418,54 @@ app.post('/Profile-M-Email', (req, res) => {
     });
 });
 
+app.get('/profile-image-C', (req, res) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.sendStatus(401); // Unauthorized
+    }
+    const token = authHeader.split(' ')[1];
+    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+      if (err) {
+        return res.sendStatus(403); // Forbidden
+      }
+      try {
+        const user = await User.findById(decoded.userid);
+        if (!user || !user.avatar) {
+          // Return a default avatar image URL if the user or the avatar URL is not found
+          return res.status(200).send({ imageUrl: 'not successful' });
+        }
+        res.status(200).send({ imageUrl: user.avatar });
+      } catch (error) {
+        console.error(error);
+        res.sendStatus(500); // Internal Server Error
+      }
+    });
+  });
+
+app.get('/profile-image-M', (req, res) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.sendStatus(401); // Unauthorized
+    }
+    const token = authHeader.split(' ')[1];
+    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+      if (err) {
+        return res.sendStatus(403); // Forbidden
+      }
+      try {
+        const manager = await Restaurant.findById(decoded.managerid);
+        if (!manager || !manager.avatar) {
+          // Return a default avatar image URL if the user or the avatar URL is not found
+          return res.status(200).send({ imageUrl: 'https://example.com/default-avatar.png' });
+        }
+        res.status(200).send({ imageUrl: manager.avatar });
+      } catch (error) {
+        console.error(error);
+        res.sendStatus(500); // Internal Server Error
+      }
+    });
+  });
+
 app.post('/profile-image-C', upload.single('image'), (req, res) => {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
@@ -463,6 +511,7 @@ app.post('/profile-image-M', upload.single('image'), (req, res) => {
                 return res.sendStatus(404); // Not Found
             }
             manager.avatar = req.file.location; // Set the profileImage property of the user document to the path of the uploaded file
+            
             await manager.save(); // Save the updated user document to the database
             res.status(200).send({ imageUrl: req.file.location });
         } catch (error) {
