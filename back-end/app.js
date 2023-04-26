@@ -15,11 +15,9 @@ const mongoose = require("mongoose")
 const bcrypt = require('bcrypt'); // middleware to encode password
 const saltRounds = 10; // specify password security level
 const multerS3 = require('multer-s3')
-
-const bodyParser = require('body-parser');
-
+const { body, check , validationResult} = require('express-validator');
 const { S3Client } = require('@aws-sdk/client-s3')
-const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 /**
  * Typically, all middlewares would be included before routes
  * In this file, however, most middlewares are after most routes
@@ -209,7 +207,7 @@ app.get('/userpastorder', (req, resp) => {
             }
         }
     })
-
+})
 app.get('/userpastorder/:userId', async (req, res) => {
     const { userId } = req.params;
     try {
@@ -226,97 +224,107 @@ app.get('/userpastorder/:userId', async (req, res) => {
 
 });
 
-app.post('/edituserreview', upload.array("image", 9), (req, resp) => {
+app.post('/edituserreview',  upload.array("image", 9), (req, resp) => {
     console.log(req.body)
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
-    if (token == null) return resp.sendStatus(401)
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-        if(err){
-            resp.status(401).json({message: "unauthorized"})
-        }else{
-            if (decoded.role === 'customer') {
-                let img = JSON.parse(req.body.preimage)
-                const regex = new RegExp('blob');
-                const newImg = []
-                img.forEach((e) => {
-                    if(!regex.test(e)){
-                        newImg.push(e)
+    
+        const authHeader = req.headers['authorization']
+        const token = authHeader && authHeader.split(' ')[1]
+        if (token == null) return resp.sendStatus(401)
+        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+            if (err) {
+                resp.status(401).json({ message: "unauthorized" })
+            } else {
+                if (decoded.role === 'customer') {
+                    let img = JSON.parse(req.body.preimage)
+                    const regex = new RegExp('blob');
+                    const newImg = []
+                    img.forEach((e) => {
+                        if (!regex.test(e)) {
+                            newImg.push(e)
+                        }
+                    })
+                    console.log(newImg)
+                    if (req.files) {
+                        req.files.forEach((e) => {
+                            newImg.push(e.location)
+                        })
                     }
-                })
-                console.log(newImg)
-                if (req.files) {
-                    req.files.forEach((e) => {
-                        newImg.push(e.location)
-                    })
+                    console.log(newImg)
+                    Review.findByIdAndUpdate(req.body.id,
+                        {
+                            rating: parseInt(req.body.rating),
+                            review: req.body.review,
+                            image: newImg
+                        })
+                        .then((result) => {
+                            resp.status(200).json({ message: "successfully edit review" })
+                        })
+                        .catch(err => {
+                            resp.status(500).json({ message: "edit review failed" })
+                        })
+
+                } else {
+                    resp.redirect('/')
                 }
-                console.log(newImg)
-                Review.findByIdAndUpdate(req.body.id,
-                    {
-                        rating: parseInt(req.body.rating),
-                        review: req.body.review,
-                        image: newImg
-                    })
-                    .then((result) => {
-                        resp.status(200).json({ message: "successfully edit review" })
-                    })
-                    .catch(err => {
-                        resp.status(500).json({ message: "edit review failed" })
-                    })
-                
-            }else{
-                resp.redirect('/')
             }
-        }
     })
+    
+    
 });
 
 
-app.post('/createuserreview', upload.array("image", 9), (req, resp) => {
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
-    if (token == null) return resp.sendStatus(401)
-    console.log(req.files)
-    console.log(req.body)
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded ) => {
-        if(err){
-            resp.status(401).json({error: "unauthorized"})
-        }else{
-            if(decoded.role === 'customer'){
-                Dish.findOne({ name: req.body.itemName })
-                    .then((dish) => {
-                        const img = []
-                        req.files.forEach((e) => {
-                            img.push(e.location)
-                        })
-                        console.log(img)
-                        const review = new Review({
-        
-                            itemName: req.body.itemName,
-                            review: req.body.review,
-                            dishId: dish.id,
-                            userId: new mongoose.Types.ObjectId(decoded.userid),
-                            image: [...img],
-                            rating: parseInt(req.body.rating)
-                        })
-                        review.save()
-                            .then((result) => {
-                                resp.status(200).send({ success: "save database success" })
+app.post('/createuserreview', check('review').notEmpty().withMessage('review should not be null'), upload.array("image", 9), (req, resp) => {
+    var err = validationResult(req);
+    if(!err.isEmpty()){
+        console.log(err.mapped())
+        resp.status(400).send(err.mapped().review.msg)
+    }else{
+        const authHeader = req.headers['authorization']
+        const token = authHeader && authHeader.split(' ')[1]
+        if (token == null) return resp.sendStatus(401)
+        console.log(req.files)
+        console.log(req.body)
+        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+            if (err) {
+                resp.status(401).json({ error: "unauthorized" })
+            } else {
+                if (decoded.role === 'customer') {
+                    Dish.findOne({ name: req.body.itemName })
+                        .then((dish) => {
+                            const img = []
+                            req.files.forEach((e) => {
+                                img.push(e.location)
                             })
-                            .catch(err => {
-                                console.log(err)
-                                resp.status(500).json({ error: "save database error" })
+                            console.log(img)
+                            const review = new Review({
+
+                                itemName: req.body.itemName,
+                                review: req.body.review,
+                                dishId: dish.id,
+                                userId: new mongoose.Types.ObjectId(decoded.userid),
+                                image: [...img],
+                                rating: parseInt(req.body.rating)
                             })
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                        resp.status(500).json({ error: "no such dish" })
-                    })
-        }else{
-            resp.redirect('/')
-        }
+                            review.save()
+                                .then((result) => {
+                                    resp.status(200).send({ success: "save database success" })
+                                })
+                                .catch(err => {
+                                    console.log(err)
+                                    resp.status(500).json({ error: "save database error" })
+                                })
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                            resp.status(500).json({ error: "no such dish" })
+                        })
+                } else {
+                    resp.redirect('/')
+                }
+            }
+        })
     }
-      })
+    
     // resp.status(200).send({ message: 'create successfully' })
 });
 
