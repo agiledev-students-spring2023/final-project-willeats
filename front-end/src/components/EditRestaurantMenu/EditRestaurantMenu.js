@@ -20,12 +20,12 @@ function EditRestaurantMenu() {
     // params.append('description',description)
     // params.append('price',price)
     // params.append('image',image)
-    // params.append('star',star)
     navigate({pathname:`/editmenu/${'1'}`,
     search:params.toString()});
   }
 
   const handleDelete = (id) => {
+    console.log(id)
     setMenuItems(menuItems.map(category => ({
       ...category,
       items: category.items.filter(item => item.id !== id),
@@ -33,38 +33,47 @@ function EditRestaurantMenu() {
   };
 
   useEffect(() => {
-    axios
-      .get("https://my.api.mockaroo.com/menu.json?key=3c15f680")
-      .then((response) => {
-        let data = response.data
-        console.log(data)
-        data = Object.values(
-          data.reduce((acc, item) => {
-            const category = item.category;
-            if (!acc[category]) {
-              acc[category] = {
-                category: category,
-                items: [],
-              };
-            }
-            acc[category].items.push({
-              name: item.name,
-              price: item.price,
-              description: item.description,
-              imageSrc: "https://picsum.photos/200/300",
-              star: item.star,
-              id: item.id.$oid,
-            });
-            return acc;
-          }, {})
-        );
-        setMenuItems(data);
-        console.log(response.data);
+    // Retrieve the JWT token from local storage
+    const token = localStorage.getItem('token');
 
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    // Make a request to the backend API to fetch the menu items
+    axios.get('http://localhost:3001/getmenu', {
+      params: {
+        token: token
+      }
+    })
+    .then((response) => {
+      // Set the menu items in the state
+      let data = response.data
+      console.log(data)
+      data = Object.values(
+        data.reduce((acc, item) => {
+          const category = item.type;
+          if (!acc[category]) {
+            acc[category] = {
+              category: category,
+              items: [],
+            };
+          }
+          acc[category].items.push({
+            name: item.name,
+            price: item.price,
+            description: item.description,
+            imageSrc: item.photo,
+            star: item.star,
+            id: item._id,
+            type:item.type
+          });
+          return acc;
+        }, {})
+      );
+      setMenuItems(data);
+      console.log(data);
+    })
+    .catch(error => {
+      // Handle error response
+      console.error(error);
+    });
   }, []);
 
 
@@ -78,12 +87,23 @@ function EditRestaurantMenu() {
     })
       .then((willDelete) => {
         if (willDelete) {
-          const newMenuItems = [...menuItems];
-          newMenuItems.splice(categoryIndex, 1);
-          setMenuItems(newMenuItems);
-          swal("Category deleted successfully!", {
-            icon: "success",
-          });
+          const token = localStorage.getItem('token')
+          axios.post(`http://localhost:3001/api/delete-menu-category`, {category:menuItems[categoryIndex].category}, {
+            headers: { Authorization: `Bearer ${token}` }
+          })
+            .then(response => {
+              if(response.status===200){
+                swal("Category deleted successfully!", {
+                  icon: "success",
+                })
+                navigate(0);
+              }
+            })
+            .catch(error => {
+              console.log(error)
+              alert('Error saving changes: ' + error.message);
+            });
+          ;
         } else {
           swal("Deletion cancelled.");
         }
@@ -121,20 +141,20 @@ function EditRestaurantMenu() {
                     image={item.imageSrc}
                     star={item.star}
                     id={item.id}
+                    type={item.type}
                     edit={true}
                     toCart={false}
                     onDelete={handleDelete}
                   />
                 ))}
               </div>
-              <div className="add-btn d-flex justify-content-center align-items-center">
+            </div>
+          ))}
+          <div className="add-btn d-flex justify-content-center align-items-center">
                 <button type="button" className="btn btn-secondary w-100" onClick={handleEdit}>
                   + ADD ITEM
                 </button>
               </div>
-
-            </div>
-          ))}
         </div>
       
 

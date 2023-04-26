@@ -59,20 +59,24 @@ function MenuItem(props) {
     params.append('description',props.description)
     params.append('price',props.price)
     params.append('image', props.image)
+    console.log(props.image)
     params.append('star',props.star)
     params.append('id', props.id)
+    params.append('type',props.type)
     navigate({pathname:`/editmenu/${props.id}`,
     search:params.toString()});
   }
   
   const handleDelete = () => {
     if (window.confirm(`Are you sure you want to delete ${props.name}?`)) {
-      axios.post('http://localhost:3001/api/delete-menu-item', { id: props.id })
+      const token = localStorage.getItem('token');
+      axios.post('http://localhost:3001/api/delete-menu-item', { id: props.id },{headers: { Authorization: `Bearer ${token}` }})
       .then(response => {
         // Navigate to the menu page after successful deletion
         if (response.status === 200) {
           // Delete the menu item from the UI
           // You should have a function in the parent component that removes the deleted menu item from the state
+          navigate(0);
           props.onDelete(props.id);
         }
       })
@@ -125,7 +129,7 @@ function MenuItem(props) {
               </div>
             )}
             <div className='d-flex justify-content-between'>
-                <h3 className="card-text">{props.price}</h3>
+                <h3 className="card-text">{"US$"+props.price}</h3>
                 {props.toCart&&<button className="btn btn-dark" onClick={handleAddToCartClick}>add to cart</button>}
             </div>
 
