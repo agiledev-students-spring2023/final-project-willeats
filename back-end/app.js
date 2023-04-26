@@ -11,7 +11,7 @@ const multer = require("multer") // middleware to handle HTTP POST requests with
 const morgan = require("morgan") // middleware for nice logging of incoming HTTP requests
 const jwt = require('jsonwebtoken'); // middleware to write token
 const { body, param, check, validationResult } = require('express-validator');
-const mongoose = require("mongoose") 
+const mongoose = require("mongoose")
 const bcrypt = require('bcrypt'); // middleware to encode password
 const saltRounds = 10; // specify password security level
 const multerS3 = require('multer-s3')
@@ -45,7 +45,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-db.once('open', function() {
+db.once('open', function () {
     console.log('Connected to MongoDB database!');
 });
 
@@ -319,6 +319,103 @@ app.post('/Sign-M', async (req, res) => {
         console.log(error);
         res.status(500).json({ success: false, message: 'An error occurred while signing up customer.' });
     }
+});
+
+app.get('/Profile-C-Email', (req, res) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.sendStatus(401); // Unauthorized
+    }
+    const token = authHeader.split(' ')[1];
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) {
+            return res.sendStatus(403); // Forbidden
+        }
+        const userid = decoded.userid;
+        const user = User.findById(userid).then(user => {
+            res.status(200).send({ email: user.email });
+        })
+        console.log(user.email);
+
+
+    });
+});
+
+app.post('/Profile-C-Email', (req, res) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.sendStatus(401); // Unauthorized
+    }
+    const token = authHeader.split(' ')[1];
+    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+        if (err) {
+            return res.sendStatus(403); // Forbidden
+        }
+        try {
+            const result = await User.findOneAndUpdate(
+                { _id: decoded.userid },
+                { email: req.body.email },
+                { new: true }
+            );
+            console.log(decoded.userId);
+
+            if (!result) {
+                return res.sendStatus(404); // Not Found
+            }
+            res.status(200).send({ email: result.email });
+        } catch (error) {
+            console.error(error);
+            res.sendStatus(500); // Internal Server Error
+        }
+    });
+});
+
+app.get('/Profile-M-Email', (req, res) => {
+    const authHeader = req.headers.authorization;
+    
+    if (!authHeader) {
+        return res.sendStatus(401); // Unauthorized
+    }
+    const token = authHeader.split(' ')[1];
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) {
+            return res.sendStatus(403); // Forbidden
+        }
+        const managerid = decoded.managerid;
+        console.log(managerid)
+        const manager = Restaurant.findById(managerid).then(manager => {
+            res.status(200).send({ email: manager.email });
+        })
+        console.log(manager.email);
+    });
+});
+
+app.post('/Profile-M-Email', (req, res) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.sendStatus(401); // Unauthorized
+    }
+    const token = authHeader.split(' ')[1];
+    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+        if (err) {
+            return res.sendStatus(403); // Forbidden
+        }
+        try {
+            const result = await Restaurant.findOneAndUpdate(
+                { _id: decoded.managerid },
+                { email: req.body.email },
+                { new: true }
+            );
+
+            if (!result) {
+                return res.sendStatus(404); // Not Found
+            }
+            res.status(200).send({ email: result.email });
+        } catch (error) {
+            console.error(error);
+            res.sendStatus(500); // Internal Server Error
+        }
+    });
 });
 
 

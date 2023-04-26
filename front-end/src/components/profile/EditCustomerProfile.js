@@ -21,8 +21,6 @@ const EditCustomerProfile = () => {
       <EditEmail business={false}/>
 
       <EditPassword/>
-
-      <SaveButton/>
     </div>
   );
 };
