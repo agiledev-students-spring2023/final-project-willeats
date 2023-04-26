@@ -26,14 +26,14 @@ const RestaurantSchema = new Schema({
 });
 
 const ReviewSchema = new Schema({
-    _id: Schema.Types.ObjectId,
+    // _id: Schema.Types.ObjectId,
     itemName: {type: String, required: true},
     dishId: { type: Schema.Types.ObjectId, ref: 'Dish' },
     rating: {type: Number, required: true},
     userId: {type: Schema.Types.ObjectId, ref:'User'},
     review: {type: String, required: true},
     date: { type: Date, default: Date.now },
-    image:[{type: Schema.Types.ObjectId, ref: 'ReviewImage'}]
+    image:[{type: String}]
 })
 
 const DishSchema = new Schema({
@@ -44,7 +44,7 @@ const DishSchema = new Schema({
     },
     restaurant :{
         type:Schema.Types.ObjectId,
-        ref: 'restaurant'
+        ref: 'Restaurant'
     },
     type:{
         type: String,
@@ -71,14 +71,14 @@ const DishSchema = new Schema({
     user: {type: Schema.Types.ObjectId, ref:'User'},
     restaurant :{
         type:Schema.Types.ObjectId,
-        ref: 'restaurant'
+        ref: 'Restaurant'
     },
     totalPrice:{
         type: Number,
         required: true
     },
-    dishName: [{type: Schema.Types.ObjectId, ref: 'Dish'}],
-    createdate: { type: Date, default: Date.now },
+    dish: [{type: Schema.Types.ObjectId, ref: 'Dish'}],
+    date: { type: Date, default: Date.now },
   })
 
   const Restaurant = mongoose.model('Restaurant',RestaurantSchema);
