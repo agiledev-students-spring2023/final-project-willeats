@@ -10,11 +10,11 @@ function ReviewArea(props){
   const [rating, setRating] = useState(parseInt(new URLSearchParams(location.search).get('star')))
   const [preimage, setPreimage] = useState(new URLSearchParams(location.search).getAll('image')) //preview
   const [image, setImage] = useState([])
-  
+  const [preimageLength, setPreimageLength] = useState(new URLSearchParams(location.search).getAll('image').length)
   useEffect(() => {
     if(props.save){
       const editData = {}
-      editData.rating = rating ? 0 : rating
+      editData.rating = rating ? rating: 0
       editData.review = review
       editData.preimage = [...preimage]
       editData.image = [...image]
@@ -58,12 +58,18 @@ function ReviewArea(props){
     }
   }
 
-  const handleImageClick = (index) => {
+  const handleImageClick = (e, index) => {
     
     let newImage = [...image]
     let newPreimage = [...preimage]
-    newImage.splice(index, 1)
-    newPreimage.splice(index, 1)
+    console.log(index)
+    if(index > preimageLength){
+      newImage.splice(index - preimageLength, 1)
+      newPreimage.splice(index, 1)
+    }else{
+      setPreimageLength(preimageLength - 1)
+      newPreimage.splice(index, 1)
+    }
     setImage(newImage)
     setPreimage(newPreimage)
   }

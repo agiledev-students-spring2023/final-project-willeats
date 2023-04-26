@@ -43,7 +43,9 @@ function ReviewCard(props) {
         params.append('mainName', props.mainName)
         params.append('itemName', props.itemName)
         params.append('star', props.star)
-        params.append('id', props.id)
+        if(props.id){
+            params.append('id', props.id)
+        }
         navigate({pathname: '/usereditreview', search: params.toString()})
     }
 
@@ -57,8 +59,8 @@ function ReviewCard(props) {
                 </div>
                 {!props.order && <div className="col-3 d-flex flex-row-reverse">
                     {/* add handle event, justify if the review is user's */}
-                    <button type="button" className="btn btn-link float-right" onClick={props.handleDelete} >Delete</button>
-                    <button type="button" className="btn btn-link float-right" onClick={changeEdit}>Edit</button>
+                    {props.isUser ?  <button type="button" className="btn btn-link float-right" onClick={props.handleDelete} >Delete</button> : <></>}
+                    {props.isUser ? <button type="button" className="btn btn-link float-right" onClick={changeEdit}>Edit</button> : <></>}
                     {props.reply && <button type="button" className="btn btn-link float-right">Reply</button>}
                 </div>}
             </div>

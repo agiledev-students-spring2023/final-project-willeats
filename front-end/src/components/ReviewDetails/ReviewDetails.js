@@ -26,7 +26,7 @@ const ReviewDetails = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3001/userpastreview')
+      .get('http://localhost:3002/userpastreview')
       .then((res) => {
         setReviewData(res.data[0]);
         console.log(res.data[0]);

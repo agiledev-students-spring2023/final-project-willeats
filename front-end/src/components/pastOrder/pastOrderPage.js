@@ -12,7 +12,10 @@ function PastOrderPage(props){
     const [reviewData, setReviewData] = useState([])
 
     useEffect(() => {
-        axios.get('http://localhost:3001/userpastorder')
+        const token = localStorage.getItem("token")
+        axios.get('http://localhost:3002/userpastorder',{
+            headers: {Authorization: `Bearer ${token}`}
+        })
         .then((res) => {
             setReviewData(res.data)
             console.log(res.data)
