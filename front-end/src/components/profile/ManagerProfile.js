@@ -5,7 +5,6 @@ import ProfileImage from '../signUp/ProfileImage';
 import EditName from './EditName';
 import EditEmail from './EditEmail';
 import EditPassword from './EditPassword';
-import SaveButton from './SaveButton';
 import TopBar from '../topBar/TopBar';
 
 const ManagerProfile = () => {
@@ -21,8 +20,6 @@ const ManagerProfile = () => {
       <EditEmail business={true}/>
 
       <EditPassword/>
-
-      <SaveButton/>
     </div>
   );
 };
