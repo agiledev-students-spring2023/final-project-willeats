@@ -20,20 +20,26 @@ const RestaurantSchema = new Schema({
     email:{type: String, unique: true, required: true},
     password : {type: String, unique: true, required: [true, "Please provide a password!"]},
     createdate: { type: Date, default: Date.now },
+
     avatar:{type: String, required:false}, 
     background:{type:String,required:false}   
-})
+    deliveryFee: { type: Number, required: true, default: 2.99 }, // reasonable default delivery fee of $2.99
+    taxRate: { type: Number, required: true, default: 8.825 } // nyc default tax rate of 8.825%
+});
+
 
 const ReviewSchema = new Schema({
-    _id: Schema.Types.ObjectId,
+    // _id: Schema.Types.ObjectId,
     itemName: {type: String, required: true},
     dishId: { type: Schema.Types.ObjectId, ref: 'Dish' },
     rating: {type: Number, required: true},
     userId: {type: Schema.Types.ObjectId, ref:'User'},
     review: {type: String, required: true},
     date: { type: Date, default: Date.now },
+
     image:[{type:String}],
     reply:{type:String, required:false}
+
 })
 
 const DishSchema = new Schema({
@@ -77,8 +83,8 @@ const DishSchema = new Schema({
         type: Number,
         required: true
     },
-    dishName: [{type: Schema.Types.ObjectId, ref: 'Dish'}],
-    createdate: { type: Date, default: Date.now },
+    dish: [{type: Schema.Types.ObjectId, ref: 'Dish'}],
+    date: { type: Date, default: Date.now },
   })
 
   const Restaurant = mongoose.model('Restaurant',RestaurantSchema);
@@ -91,20 +97,3 @@ const DishSchema = new Schema({
 });
 
 module.exports = { User, Review, Dish, Restaurant, Order };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

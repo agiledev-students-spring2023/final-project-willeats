@@ -9,7 +9,10 @@ function PastReviewPage() {
 
     const [reviewData, setReviewData] = useState([])
     useEffect(() => {
-        axios.get('http://localhost:3001/userpastreview')
+        const token = localStorage.getItem("token")
+        axios.get('http://localhost:3002/userpastreview', {
+            headers: {Authorization: `Bearer ${token}`}
+        })
         .then((res) => {
             setReviewData(res.data)
         })
@@ -19,9 +22,14 @@ function PastReviewPage() {
     }, []);
     const handleDelete = (e) => {
         e.stopPropagation()
+        const token = localStorage.getItem("token")
         const configuration = {
             method: "post",
-            url: "http://localhost:3001/deleteuserreview",
+            url: "http://localhost:3002/deleteuserreview",
+            headers: {Authorization: `Bearer ${token}`},
+            data: {
+                id : e.target.getAttribute('id')
+            }
         };
         axios(configuration)
         .then((res) => {
@@ -54,11 +62,13 @@ function PastReviewPage() {
                                 review={element.review} 
                                 key={index} 
                                 keys={index}
+                                id={element.reviewId}
                                 date={element.date} 
                                 star={element.star}
                                 image={element.restImage}
                                 reviewImage={element.reviewImage}
-                                handleDelete={handleDelete} />
+                                handleDelete={handleDelete}
+                                isUser={element.isUser} />
                         ))}
                     </div>
                     <div className='d-flex justify-content-center mt-2'>

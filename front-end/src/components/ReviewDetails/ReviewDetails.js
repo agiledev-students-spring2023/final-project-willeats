@@ -35,11 +35,13 @@ const ReviewDetails = () => {
   const [reply, setReply] = useState('')
 
   useEffect(() => {
+
     // Send a GET request to retrieve the review document using its ID
     axios.get(`http://localhost:3001/getReviewById/${id}`)
       .then(response => {
         // console.log(response.data.reply)
         setReply(response.data.reply)
+
       })
       .catch(error => {
         console.log(error);
