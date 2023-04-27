@@ -353,6 +353,24 @@ app.get('/getuser', extractToken, async (req, res) => {
   }
 });
 
+// Route to get restaurant data
+app.get('/getbuisness', extractToken, async (req, res) => {
+    try {
+      const token = req.token;
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const restaurant = await Restaurant.findOne({ email: decoded.email });
+      if (!restaurant) {
+        return res.status(404).json({ error: 'Restaurant not found' });
+      }
+      // If the restaurant is found, return the whole restaurant object
+      res.json(restaurant);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Server error' });
+    }
+  });
+  
+
     app.get('/qr-code/:id', async (req, res) => {
         const { id } = req.params;
       

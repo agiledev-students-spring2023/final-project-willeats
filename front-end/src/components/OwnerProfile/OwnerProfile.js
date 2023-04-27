@@ -12,7 +12,7 @@ function OwnerProfile() {
   useEffect(() => {
     axios.get('http://localhost:3001/getbuisness')
       .then((res) => {
-        setUserData(res.data[0])
+        setUserData(res.data)
       })
       .catch((err) => (
         console.log(err)
