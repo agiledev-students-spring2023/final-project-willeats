@@ -15,7 +15,7 @@ const mongoose = require("mongoose")
 const bcrypt = require('bcrypt'); // middleware to encode password
 const saltRounds = 10; // specify password security level
 const multerS3 = require('multer-s3')
-const { body, check , validationResult} = require('express-validator');
+
 const { S3Client } = require('@aws-sdk/client-s3')
 const bodyParser = require('body-parser');
 /**

@@ -34,7 +34,7 @@ function EditReviewPage() {
             returnObject.image.forEach((e) => {
                 formData.append("image", e)
             })
-            axios.post("http://localhost:3002/edituserreview", formData, {
+            axios.post("http://localhost:3001/edituserreview", formData, {
                 headers: {Authorization: `Bearer ${token}`}
             })
             .then((res) => {
