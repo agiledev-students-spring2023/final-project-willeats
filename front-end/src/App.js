@@ -33,6 +33,7 @@ import CustomerProfile from './components/CustomerProfile/CustomerProfile';
 import OwnerProfile from './components/OwnerProfile/OwnerProfile';
 import OrderFinished from './components/OrderFinished/OrderFinished';
 import ReplyUser from './components/replyUser/ReplyUser';
+import QRScanner from "./components/QRScanner/QRScanner";
 
 
 function App() {
@@ -62,6 +63,7 @@ function App() {
           <Route path='/checkout' element={<OrderFinished/>} />
           <Route path='/reviewDetails' element={<ReviewDetails/>} />
           <Route path='/replyUser' element={<ReplyUser/>} />
+          <Route path="/qr-scanner" element={<QRScanner />} />
         </Routes>
       </Router>
 

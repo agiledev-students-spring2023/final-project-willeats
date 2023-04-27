@@ -7,22 +7,18 @@ import backgroundImage from "../../image/food-image.jpg";
 import mockProfileImg from "../../image/random-profile.jpg";
 import defaultProfileImg from "../../image/default-profile-image.svg";
 
-
 function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const profileImage = isLoggedIn ? mockProfileImg : defaultProfileImg;
-
-  const Navigate = useNavigate()
+  const Navigate = useNavigate();
 
   const navigateLogin = () => {
-    Navigate('/Login')
+    Navigate('/Login');
   }
 
   const navigateMenu = () => {
-    Navigate('/menu')
+    Navigate('/qr-scanner');
   }
-
-  
 
   return (
     <div className="container"> 
