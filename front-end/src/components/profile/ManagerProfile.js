@@ -19,7 +19,7 @@ const ManagerProfile = () => {
 
       <EditEmail business={true}/>
 
-      <EditPassword/>
+      <EditPassword business={true}/>
     </div>
   );
 };

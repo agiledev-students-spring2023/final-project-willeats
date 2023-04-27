@@ -20,7 +20,7 @@ const EditCustomerProfile = () => {
 
       <EditEmail business={false}/>
 
-      <EditPassword/>
+      <EditPassword business={false}/>
     </div>
   );
 };
