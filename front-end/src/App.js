@@ -34,6 +34,8 @@ import OwnerProfile from './components/OwnerProfile/OwnerProfile';
 import OrderFinished from './components/OrderFinished/OrderFinished';
 import ReplyUser from './components/replyUser/ReplyUser';
 import QRScanner from "./components/QRScanner/QRScanner";
+import QRCodeGenerator from './components/QRCodeGenerator/QRCodeGenerator';
+
 
 
 function App() {
@@ -64,6 +66,7 @@ function App() {
           <Route path='/reviewDetails' element={<ReviewDetails/>} />
           <Route path='/replyUser' element={<ReplyUser/>} />
           <Route path="/qr-scanner" element={<QRScanner />} />
+          <Route path="/qr-code/:id" element={<QRCodeGenerator />} />
         </Routes>
       </Router>
 

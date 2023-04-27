@@ -15,6 +15,7 @@ const mongoose = require("mongoose")
 const bcrypt = require('bcrypt'); // middleware to encode password
 const saltRounds = 10; // specify password security level
 const multerS3 = require('multer-s3')
+const QRCode = require('qrcode');
 
 const bodyParser = require('body-parser');
 
@@ -344,6 +345,21 @@ app.get('/userpastorder', (req, resp) => {
 
     })
 
+    app.get('/qr-code/:id', async (req, res) => {
+        const { id } = req.params;
+      
+        try {
+          const restaurant = await Restaurant.findOne({ id: id });
+          const qrCodeData = { restaurantId: restaurant.id };
+      
+          const qrCodeImage = await QRCode.toDataURL(JSON.stringify(qrCodeData));
+          res.json({ qrCodeImage });
+        } catch (err) {
+          console.error(err);
+          res.status(500).send('Internal server error');
+        }
+      });
+      
     app.post('/deleteuserreview', (req, resp) => {
         const authHeader = req.headers['authorization']
         const token = authHeader && authHeader.split(' ')[1]
