@@ -733,6 +733,105 @@ app.get('/userpastorder', (req, resp) => {
         });
     });
 
+    app.get('/Profile-C-Name', (req, res) => {
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            return res.sendStatus(401); // Unauthorized
+        }
+        const token = authHeader.split(' ')[1];
+        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+            if (err) {
+                return res.sendStatus(403); // Forbidden
+            }
+            const userid = decoded.userid;
+            const user = User.findById(userid).then(user => {
+                res.status(200).send({ name: user.name });
+            })
+            console.log(user.name);
+
+
+        });
+    });
+
+    app.post('/Profile-C-Name', (req, res) => {
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            return res.sendStatus(401); // Unauthorized
+        }
+        const token = authHeader.split(' ')[1];
+        jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+            if (err) {
+                return res.sendStatus(403); // Forbidden
+            }
+            try {
+                const result = await User.findOneAndUpdate(
+                    { _id: decoded.userid },
+                    { name: req.body.name },
+                    { new: true }
+                );
+                console.log(decoded.userId);
+
+                if (!result) {
+                    return res.sendStatus(404); // Not Found
+                }
+                res.status(200).send({ name: result.name });
+            } catch (error) {
+                console.error(error);
+                res.sendStatus(500); // Internal Server Error
+            }
+        });
+    });
+
+    app.get('/Profile-M-Name', (req, res) => {
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            return res.sendStatus(401); // Unauthorized
+        }
+        const token = authHeader.split(' ')[1];
+        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+            if (err) {
+                return res.sendStatus(403); // Forbidden
+            }
+            const managerid = decoded.managerid;
+            const manager = Restaurant.findById(managerid).then(manager => {
+                res.status(200).send({ name: manager.name });
+            })
+            console.log(manager.name);
+
+
+        });
+    });
+
+    app.post('/Profile-M-Name', (req, res) => {
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            return res.sendStatus(401); // Unauthorized
+        }
+        const token = authHeader.split(' ')[1];
+        jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+            if (err) {
+                return res.sendStatus(403); // Forbidden
+            }
+            try {
+                const result = await Restaurant.findOneAndUpdate(
+                    { _id: decoded.managerid },
+                    { name: req.body.name },
+                    { new: true }
+                );
+                console.log(decoded.managerid);
+
+                if (!result) {
+                    return res.sendStatus(404); // Not Found
+                }
+                res.status(200).send({ name: result.name });
+            } catch (error) {
+                console.error(error);
+                res.sendStatus(500); // Internal Server Error
+            }
+        });
+    });
+
+
     app.post('/api/edit-menu-items/:id', upload.single("images[0]"),
         [
             check('name').notEmpty().withMessage('Name cannot be empty'),
