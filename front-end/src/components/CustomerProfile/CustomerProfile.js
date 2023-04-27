@@ -12,7 +12,7 @@ function CustomerProfile() {
   useEffect(() => {
       axios.get('http://localhost:3001/getuser')
       .then((res) => {
-        setUserData(res.data[0])
+        setUserData(res.data)
       })
       .catch((err) => (
           console.log(err)
