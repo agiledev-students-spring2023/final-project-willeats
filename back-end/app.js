@@ -15,10 +15,13 @@ const mongoose = require("mongoose")
 const bcrypt = require('bcrypt'); // middleware to encode password
 const saltRounds = 10; // specify password security level
 const multerS3 = require('multer-s3')
+const QRCode = require('qrcode');
 
 const bodyParser = require('body-parser');
 
-const { S3Client } = require('@aws-sdk/client-s3')
+const { S3Client } = require('@aws-sdk/client-s3');
+const { log } = require('console');
+
 /**
  * Typically, all middlewares would be included before routes
  * In this file, however, most middlewares are after most routes
@@ -210,7 +213,7 @@ app.get('/userpastorder', (req, resp) => {
     })
 })
 
-    app.get('/userpastorder/:userId', async (req, res) => {
+    app.get('/userpastorder', async (req, res) => {
         const { userId } = req.params;
         try {
             const user = await User.findById(userId);
@@ -321,27 +324,67 @@ app.get('/userpastorder', (req, resp) => {
     });
 
 
-    app.get('/getuser', async (req, res) => {
+    // Middleware function to extract JWT token from Authorization header
+const extractToken = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.sendStatus(401);
+    }
+    const token = authHeader.split(' ')[1];
+    req.token = token;
+    next();
+  };
+
+app.get('/getuser', extractToken, async (req, res) => {
+  try {
+    const token = req.token;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.userid);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    // If the user is found, return the whole user object
+    console.log(user);
+    res.json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Route to get restaurant data
+app.get('/getbuisness', extractToken, async (req, res) => {
+    try {
+      const token = req.token;
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const restaurant = await Restaurant.findOne({ email: decoded.email });
+      if (!restaurant) {
+        return res.status(404).json({ error: 'Restaurant not found' });
+      }
+      // If the restaurant is found, return the whole restaurant object
+      res.json(restaurant);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Server error' });
+    }
+  });
+  
+
+    app.get('/qr-code/:id', async (req, res) => {
+        const { id } = req.params;
+      
         try {
-            const users = await User.find({});
-            res.status(200).send(users);
-        } catch (error) {
-            console.error(error);
-            res.status(500).send('An error occurred');
+          const restaurant = await Restaurant.findOne({ id: id });
+          const qrCodeData = { restaurantId: restaurant.id };
+      
+          const qrCodeImage = await QRCode.toDataURL(JSON.stringify(qrCodeData));
+          res.json({ qrCodeImage });
+        } catch (err) {
+          console.error(err);
+          res.status(500).send('Internal server error');
         }
-    })
-
-    app.get('/getbuisness', async (req, res) => {
-        try {
-            const restaurants = await Restaurant.find({});
-            res.status(200).send(restaurants);
-        } catch (error) {
-            console.error(error);
-            res.status(500).send('An error occurred');
-        }
-
-    })
-
+      });
+      
     app.post('/deleteuserreview', (req, resp) => {
         const authHeader = req.headers['authorization']
         const token = authHeader && authHeader.split(' ')[1]

@@ -1,18 +1,18 @@
-import { React, useState, useEffect } from 'react'
+import { React, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../../bootstrap.css'
+import QRCode from 'react-qr-code'; // Import the QRCode component
+import '../../bootstrap.css';
 import TopBar from '../topBar/TopBar';
-import './OwnerProfile.css'
+import './OwnerProfile.css';
 import axios from 'axios';
 
 function OwnerProfile() {
 
-
-  const [userData, setUserData] = useState([])
+  const [userData, setUserData] = useState([]);
   useEffect(() => {
     axios.get('http://localhost:3001/getbuisness')
       .then((res) => {
-        setUserData(res.data[0])
+        setUserData(res.data)
       })
       .catch((err) => (
         console.log(err)
@@ -20,23 +20,28 @@ function OwnerProfile() {
   }, []);
 
   const name = userData.name;
-  console.log(userData)
-  const navigate = useNavigate()
+  const id = userData.id; // Extract the user's ID from the userData object
+  console.log(userData);
+  const navigate = useNavigate();
 
   const navigateProfile = () => {
-    navigate('/Profile-M')
+    navigate('/Profile-M');
   }
 
   const navigateHome = () => {
-    navigate('/')
+    navigate('/');
   }
 
   const navigateMenu = () => {
-    navigate('/editmenu')
+    navigate('/editmenu');
   }
 
   const navigateReview = () => {
-    navigate('/replymenu')
+    navigate('/replymenu');
+  }
+
+  const navigateQRCode = () => {
+    navigate(`/qr-code/${userData.id}`); // navigate to the QRCodeGenerator component with the user ID as a parameter
   }
 
   return (
@@ -65,6 +70,7 @@ function OwnerProfile() {
             <button className="btn btn-lg btn-outline-primary" onClick={navigateMenu}>Manage Menu</button>
             <button className="btn btn-lg btn-outline-primary" onClick={navigateReview}>View Reviews</button>
             <button className="btn btn-lg btn-outline-primary" onClick={navigateProfile}>Account Settings</button>
+            <button className="btn btn-lg btn-outline-primary" onClick={navigateQRCode}>Access QR code</button>
           </div>
           <button className="btn btn-link" onClick={navigateHome}>Logout</button>
         </div>
