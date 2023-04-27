@@ -213,7 +213,6 @@ app.get('/userpastorder', (req, resp) => {
     })
 })
 
-
     app.get('/userpastorder', async (req, res) => {
         const { userId } = req.params;
         try {
@@ -626,7 +625,25 @@ app.get('/getbuisness', extractToken, async (req, res) => {
         });
     });
 
+    app.get('/Profile-M-Email', (req, res) => {
+        const authHeader = req.headers.authorization;
 
+        if (!authHeader) {
+            return res.sendStatus(401); // Unauthorized
+        }
+        const token = authHeader.split(' ')[1];
+        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+            if (err) {
+                return res.sendStatus(403); // Forbidden
+            }
+            const managerid = decoded.managerid;
+            console.log(managerid)
+            const manager = Restaurant.findById(managerid).then(manager => {
+                res.status(200).send({ email: manager.email });
+            })
+            console.log(manager.email);
+        });
+    });
 
     app.post('/Profile-M-Email', (req, res) => {
         const authHeader = req.headers.authorization;
@@ -759,199 +776,106 @@ app.get('/getbuisness', extractToken, async (req, res) => {
         });
     });
 
- 
-app.post('/api/edit-menu-items/:id', upload.single("images[0]"),
-[
-    check('name').custom(value => {
-        if (value === null || value.trim() === '' || value === 'null') {
-            throw new Error('Name cannot be empty');
+    app.get('/Profile-C-Name', (req, res) => {
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            return res.sendStatus(401); // Unauthorized
         }
-        return true;
-    }),
-    check('type').notEmpty().withMessage('Type cannot be empty'),
-    check('price')
-        .notEmpty().withMessage('Price cannot be empty')
-        .toFloat().withMessage('Price must be a number')
-        .isFloat().withMessage('Price must be a decimal number'),
-    check('description').notEmpty().withMessage('Description cannot be empty'),
-],
-
-    function (req, res) {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).send({ error: "invalid input detected" });
-        }
-
-
-            const authHeader = req.headers.authorization;
-            const token = authHeader && authHeader.split(' ')[1];
-            // console.log(token)
-            const id = req.params.id;
-            console.log(id)
-            const data = req.body;
-            console.log(req.body.price)
-
-            if (id !== "null") {
-                Dish.updateOne({ _id: id }, {
-                    $set: {
-                        name: data.name,
-                        type: data.type,
-                        price: parseFloat(data.price),
-                        description: data.description,
-                        photo: req.file.location
-                    }
-                })
-                    .then(result => {
-                        if (result.nModified === 0) {
-                            res.status(404).json({ error: 'Dish not found' });
-                        } else {
-                            console.log(result);
-                            res.json({ message: 'Dish updated successfully' });
-                        }
-                    })
-                    .catch(err => {
-                        console.error("------------------------------------------------", err);
-                        if (err.name === 'CastError') {
-                            res.status(400).json({ error: 'Invalid input data' });
-                        } else if (err.name === 'MongoError' && err.code === 11000) {
-                            res.status(400).json({ error: 'Duplicate dish name' });
-                        } else {
-                            res.status(500).json({ error: 'Server error' });
-                        }
-                    });
-            } else {
-                // Verify JWT token and retrieve restaurant ID from payload
-                jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-                    if (err) {
-                        return res.status(401).json({ error: 'Unauthorized' });
-                    } else {
-                        Restaurant.findOne({ email: decoded.email })
-                            .then(restaurant => {
-                                if (!restaurant) {
-                                    res.status(404).json({ error: 'Restaurant not found' });
-                                } else {
-                                    const restaurantId = restaurant._id;
-                                    const newDish = new Dish({
-                                        _id: new mongoose.Types.ObjectId(),
-                                        name: data.name,
-                                        type: data.type,
-                                        price: parseFloat(data.price),
-                                        description: data.description,
-                                        restaurant: restaurantId,
-                                        reviews: [],
-                                        photo: req.file.location
-                                    });
-
-                                    // Insert new dish into database
-                                    newDish.save()
-                                        .then(result => {
-                                            console.log(result);
-                                            res.json({ message: 'Dish added successfully' });
-                                        })
-                                        .catch(err => {
-                                            console.error(err);
-                                            if (err.name === 'MongoError' && err.code === 11000) {
-                                                res.status(400).json({ error: 'Duplicate dish name' });
-                                            } else {
-                                                res.status(500).json({ error: 'Server error' });
-                                            }
-                                        });
-                                }
-                            })
-                            .catch(err => {
-                                console.error(err);
-                                res.status(500).json({ error: 'Server error' });
-                            });
-
-                    }
-
-                });
-            }
-        });
-
-    app.get('/getmenu', function (req, res) {
-        // Extract the JWT token from the request query parameters
-        const token = req.query.token;
-      
-        if (!token) {
-            // Handle error if no token is provided
-            res.status(401).json({ error: 'Missing token' });
-        } else {
-          // Verify the JWT token using the secret key
-          jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
+        const token = authHeader.split(' ')[1];
+        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
             if (err) {
-              // Handle error if the JWT token is invalid
-              console.error(err);
-              res.status(401).json({ error: 'Invalid token' });
-            } else {
-              // Search for the restaurant by email address
-              Restaurant.findOne({ email: decoded.email })
-                .then(restaurant => {
-                  if (!restaurant) {
-                    res.status(404).json({ error: 'Restaurant not found' });
-                  } else {
-                    // Find the menu items for the restaurant using the restaurant's _id as a foreign key
-                    Dish.find({ restaurant: restaurant._id })
-                      .then(menu => {
-                        // Loop through each dish in the menu and calculate its average rating
-                        const menuWithRating = menu.map(async function (dish) {
-                          const reviews = await Review.find({ _id: { $in: dish.review } });
-                          let totalRating = 0;
-                          for (let j = 0; j < reviews.length; j++) {
-                            totalRating += reviews[j].rating;
-                          }
-                          const averageRating = reviews.length > 0 ? totalRating / reviews.length : 1;
-                          return { ...dish._doc, rating: averageRating };
-                        });
-      
-                        // Wait for all the promises in the menuWithRating array to resolve and return the updated menu
-                        Promise.all(menuWithRating).then(updatedMenu => {
-                          console.log(updatedMenu);
-                          res.json(updatedMenu);
-                        }).catch(err => {
-                          console.error(err);
-                          res.status(500).json({ error: 'Server error' });
-                        });
-                      })
-                      .catch(err => {
-                        console.error(err);
-                        res.status(500).json({ error: 'Server error' });
-                      });
-                  }
-                })
-                .catch(err => {
-                  console.error(err);
-                  res.status(500).json({ error: 'Server error' });
-                });
+                return res.sendStatus(403); // Forbidden
             }
-          });
-      
-        }
-      });
-      
+            const userid = decoded.userid;
+            const user = User.findById(userid).then(user => {
+                res.status(200).send({ name: user.name });
+            })
+            console.log(user.name);
 
 
-app.post('/Sign-M', async (req, res) => {
-    try {
-        const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
-
-        const manager = new Restaurant({
-            name: req.body.name,
-            email: req.body.email,
-            password: hashedPassword
         });
+    });
 
-        await manager.save();
-        console.log('success')
-        res.json({ success: true });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ success: false, message: 'An error occurred while signing up customer.' });
-    }
-});
+    app.post('/Profile-C-Name', (req, res) => {
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            return res.sendStatus(401); // Unauthorized
+        }
+        const token = authHeader.split(' ')[1];
+        jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+            if (err) {
+                return res.sendStatus(403); // Forbidden
+            }
+            try {
+                const result = await User.findOneAndUpdate(
+                    { _id: decoded.userid },
+                    { name: req.body.name },
+                    { new: true }
+                );
+                console.log(decoded.userId);
+
+                if (!result) {
+                    return res.sendStatus(404); // Not Found
+                }
+                res.status(200).send({ name: result.name });
+            } catch (error) {
+                console.error(error);
+                res.sendStatus(500); // Internal Server Error
+            }
+        });
+    });
+
+    app.get('/Profile-M-Name', (req, res) => {
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            return res.sendStatus(401); // Unauthorized
+        }
+        const token = authHeader.split(' ')[1];
+        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+            if (err) {
+                return res.sendStatus(403); // Forbidden
+            }
+            const managerid = decoded.managerid;
+            const manager = Restaurant.findById(managerid).then(manager => {
+                res.status(200).send({ name: manager.name });
+            })
+            console.log(manager.name);
 
 
-app.post('/api/edit-menu-items/:id', upload.single("images[0]"),
+        });
+    });
+
+    app.post('/Profile-M-Name', (req, res) => {
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            return res.sendStatus(401); // Unauthorized
+        }
+        const token = authHeader.split(' ')[1];
+        jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+            if (err) {
+                return res.sendStatus(403); // Forbidden
+            }
+            try {
+                const result = await Restaurant.findOneAndUpdate(
+                    { _id: decoded.managerid },
+                    { name: req.body.name },
+                    { new: true }
+                );
+                console.log(decoded.managerid);
+
+                if (!result) {
+                    return res.sendStatus(404); // Not Found
+                }
+                res.status(200).send({ name: result.name });
+            } catch (error) {
+                console.error(error);
+                res.sendStatus(500); // Internal Server Error
+            }
+        });
+    });
+
+
+    app.post('/api/edit-menu-items/:id', upload.single("images[0]"),
 [
     check('name').custom(value => {
         if (value === null || value.trim() === '' || value === 'null') {
@@ -1010,6 +934,66 @@ app.post('/api/edit-menu-items/:id', upload.single("images[0]"),
                         res.status(500).json({ error: 'Server error' });
                     }
                 });
+        } else {
+            // Verify the JWT token using the secret key
+            jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
+                if (err) {
+                    // Handle error if the JWT token is invalid
+                    console.error(err);
+                    res.status(401).json({ error: 'Invalid token' });
+                } else {
+                    // Search for the restaurant by email address
+                    Restaurant.findOne({ email: decoded.email })
+                        .then(restaurant => {
+                            if (!restaurant) {
+                                res.status(404).json({ error: 'Restaurant not found' });
+                            } else {
+                                // Find the menu items for the restaurant using the restaurant's _id as a foreign key
+                                Dish.find({ restaurant: restaurant._id })
+                                    .then(menu => {
+                                        // Loop through each dish in the menu and calculate its average rating
+                                        const menuWithRating = menu.map(async function (dish) {
+                                            const reviews = await Review.find({ _id: { $in: dish.review } });
+                                            let totalRating = 0;
+                                            for (let j = 0; j < reviews.length; j++) {
+                                                totalRating += reviews[j].rating;
+                                            }
+                                            const averageRating = reviews.length > 0 ? totalRating / reviews.length : 1;
+                                            return { ...dish._doc, rating: averageRating };
+                                        });
+
+                                        // Wait for all the promises in the menuWithRating array to resolve and return the updated menu
+                                        Promise.all(menuWithRating).then(updatedMenu => {
+                                            console.log(updatedMenu);
+                                            res.json(updatedMenu);
+                                        }).catch(err => {
+                                            console.error(err);
+                                            res.status(500).json({ error: 'Server error' });
+                                        });
+                                    })
+                                    .catch(err => {
+                                        console.error(err);
+                                        res.status(500).json({ error: 'Server error' });
+                                    });
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            res.status(500).json({ error: 'Server error' });
+                        });
+                }
+            });
+
+        }
+    });
+
+    app.get('/getmenu', function (req, res) {
+        // Extract the JWT token from the request query parameters
+        const token = req.query.token;
+
+        if (!token) {
+            // Handle error if no token is provided
+            res.status(401).json({ error: 'Missing token' });
         } else {
             // Verify the JWT token using the secret key
             jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
