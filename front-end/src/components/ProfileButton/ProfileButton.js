@@ -7,17 +7,17 @@ import './ProfileButton.css';
 function ProfileButton() {
   const [avatar, setAvatar] = useState('');
   const [role, setRole] = useState('');
+  const [path, setPath] = useState('')
   const navigate = useNavigate();
-
+  const [token, setToken] = useState(localStorage.getItem("token"))
   useEffect(() => {
     fetchAvatar();
+    // navigateProfile();
   }, []);
 
   const fetchAvatar = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/topbar-avatar', {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      });
+      const response = await axios.get('http://localhost:3001/topbar-avatar');
 
       if (response.status !== 200) {
         throw new Error('Failed to fetch user avatar');
@@ -26,24 +26,38 @@ function ProfileButton() {
       const { role, avatar } = response.data;
       setRole(role);
       setAvatar(avatar);
+      if (role === 'manager') {
+        setPath('/ownerprofile');
+      } else {
+        setPath('/customerprofile');
+      }
     } catch (error) {
       console.error(error);
+      setAvatar('https://willeats-bucket.s3.amazonaws.com/guest.jpg');
+      console.log(avatar)
       // Handle error appropriately (e.g., show a default avatar)
     }
   };
 
   const getProfilePath = () => {
+    console.log(role)
     // Determine profile path based on user role
     if (role === 'manager') {
-      return '/ownerprofile';
+      setPath('/ownerprofile');
     } else {
-      return '/customerprofile';
+      setPath('/customerprofile');
     }
   };
 
   const navigateProfile = () => {
-    const profilePath = getProfilePath(); // Determine profile path based on user role
-    navigate(profilePath);
+    if (token) {
+      console.log(token)
+      // const profilePath = getProfilePath(); 
+      console.log(path)// Determine profile path based on user role
+      navigate(path);
+    } else {
+      navigate('/Login');
+    }
   };
 
   return (

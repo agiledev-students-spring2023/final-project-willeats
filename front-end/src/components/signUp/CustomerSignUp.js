@@ -21,7 +21,7 @@ const CustomerSignUp = () => {
 
   const checkName = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/Sign-C?username=${name}`);
+      const response = await axios.get(`http://localhost:3001/check-name-c?username=${name}`);
       if (response.data.exists) {
         setNameValidationMessage(`${response.data.registeredName} is already registered.`);
         setShowNameValidation(true);
@@ -80,7 +80,7 @@ const CustomerSignUp = () => {
 
   const checkEmail = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/Sign-C?email=${email}`);
+      const response = await axios.get(`http://localhost:3001/check-email-c?email=${email}`);
       if (response.data.exists) {
         setEmailValidationMessage('Email is already registered. Try to log in.');
         setShowEmailValidation(true);

@@ -20,7 +20,7 @@ function EditSpecifiedItem() {
   const [images, setImages] = useState(
     new URLSearchParams(location.search).get('image')
       ? new URLSearchParams(location.search).get('image').split(',')
-      : ["https://picsum.photos/200/200"]
+      : ["https://willeats-bucket.s3.us-east-1.amazonaws.com/1682550700197-WIN_20211217_12_34_23_Pro.jpg"]
   );
   // console.log(id)
   //fetch menu item data from the server using the id
@@ -50,10 +50,8 @@ function EditSpecifiedItem() {
 
   const handleImageSave = () => {
     console.log("newImages:",newImages)
-    if(newImages.length!==0){
-      setImages(newImages);
-      setNewImages([]); 
-    }       
+    setImages(newImages);
+    setNewImages([]);    
   };
 
   console.log(images)
@@ -140,8 +138,16 @@ function EditSpecifiedItem() {
         </div>
 
         <div className="name-container">
-          <h1 id="name" onClick={handleNameClick}>{name}</h1>
-          <input id="name-editor" type="text" value={name} onChange={handleNameChange} onBlur={handleNameBlur} style={{ display: 'none' }} />
+          {/* <h1 id="name" onClick={handleNameClick}>{name}</h1> */}
+          <input
+  id="name-editor"
+  type="text"
+  value={name}
+  onChange={handleNameChange}
+  placeholder="Name"
+  className="custom-name-input" // Add the custom class here
+/>
+
         </div>
 
         <div className="description-container">

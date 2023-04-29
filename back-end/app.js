@@ -584,6 +584,70 @@ app.post('/Login-M', async (req, res) => {
     res.json({ token });
 })
 
+app.get('/check-name-c', async (req, res) => {
+    const name = req.query.username;
+    
+    try {
+      const existingUser = await User.findOne({ name });
+      if (existingUser) {
+        res.json({ exists: true, registeredName: existingUser.name });
+      } else {
+        res.json({ exists: false });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ success: false, message: 'An error occurred while checking the name availability.' });
+    }
+  });
+  
+  app.get('/check-email-c', async (req, res) => {
+    const email = req.query.email;
+  
+    try {
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        res.json({ exists: true });
+      } else {
+        res.json({ exists: false });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ success: false, message: 'An error occurred while checking the email availability.' });
+    }
+  });
+
+app.get('/check-name-m', async (req, res) => {
+    const name = req.query.managername;
+    
+    try {
+      const existingUser = await Restaurant.findOne({ name });
+      if (existingUser) {
+        res.json({ exists: true, registeredName: existingUser.name });
+      } else {
+        res.json({ exists: false });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ success: false, message: 'An error occurred while checking the name availability.' });
+    }
+  });
+  
+  app.get('/check-email-m', async (req, res) => {
+    const email = req.query.email;
+  
+    try {
+      const existingUser = await Restaurant.findOne({ email });
+      if (existingUser) {
+        res.json({ exists: true });
+      } else {
+        res.json({ exists: false });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ success: false, message: 'An error occurred while checking the email availability.' });
+    }
+  });
+
 
 app.post('/Sign-C', async (req, res) => {
     try {
@@ -1046,7 +1110,8 @@ app.get('/topbar-avatar', (req, res) => {
         }
         userModel.findById(userId)
             .then(user => {
-                const role = user.role; // Assuming role is stored in the user document
+                
+                console.log(role+ 'haha-----------------------------') // Assuming role is stored in the user document
                 res.status(200).send({ role: role, avatar: user.avatar });
             })
             .catch(error => {

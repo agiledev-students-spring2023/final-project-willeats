@@ -41,6 +41,11 @@ function CustomerProfile() {
     navigate('/')
   }
 
+  const handleLogOut = () => {
+    navigateHome();
+    localStorage.clear();
+  }
+
   return (
     <div>
       <TopBar/>
@@ -57,7 +62,7 @@ function CustomerProfile() {
           <button type="button" className="btn btn-lg btn-outline-primary" onClick={navigateAccount}>Account Settings</button>
           <button type="button" className="btn btn-lg btn-primary btn-lg" onClick={navigateScan}>Scan Now</button>
         </div>
-        <button className="btn btn-link logout" onClick={navigateHome}>Logout</button>
+        <button className="btn btn-link logout" onClick={handleLogOut}>Logout</button>
       </div>
     </div>
   );
