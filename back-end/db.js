@@ -66,14 +66,10 @@ const DishSchema = new Schema({
       type: String,
       required: true
     },
-    review: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Review'
-    }]
   });
 
   const OrderSchema = new Schema({
-    _id: Schema.Types.ObjectId,
+    // _id: Schema.Types.ObjectId,
     user: {type: Schema.Types.ObjectId, ref:'User'},
     restaurant :{
         type:Schema.Types.ObjectId,
@@ -83,7 +79,11 @@ const DishSchema = new Schema({
         type: Number,
         required: true
     },
-    dish: [{type: Schema.Types.ObjectId, ref: 'Dish'}],
+    dish: [{
+      name: String,
+      quantity: Number,
+      price: Number
+    }],
     date: { type: Date, default: Date.now },
   })
 

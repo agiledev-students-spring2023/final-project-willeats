@@ -13,6 +13,7 @@ function RestaurantMenu() {
   const [menuItems, setMenuItems] = useState();
   const [restaurant, setRestaurant] = useState({})
   const [restaurantId, setRestaurantId]=useState('6444893a4f71daabbde15f35')
+  const [restaurantRating, setRestaurantRating] = useState(0);
 
   const handleAddToCart = (item) => {
     setCartItems([...cartItems, item]);
@@ -32,6 +33,9 @@ function RestaurantMenu() {
       .get(`http://localhost:3001/getMenuById/${restaurantId}`)
       .then((response) => {
         let data = response.data
+        let totalRating = data.map(obj => obj.rating).reduce((acc, val) => acc + val, 0);
+        setRestaurantRating(totalRating/data.length)
+        console.log("----------------",restaurantRating)
         console.log(data)
         data = Object.values(
           data.reduce((acc, item) => {
@@ -84,7 +88,7 @@ function RestaurantMenu() {
           </div>
           <Header
             name={restaurant.name}
-            rating={4}
+            rating={restaurantRating}
             logoSrc={restaurant.avatar}
             backgroundSrc={restaurant.background}
           />
@@ -109,7 +113,7 @@ function RestaurantMenu() {
                     edit={false}
                     reply = {false}
                     menu = {true}
-                    onAddToCart={() => handleAddToCart({ name: item.name, price: item.price, description: item.description })}
+                    onAddToCart={() => handleAddToCart({ id:item.id,name: item.name, price: item.price, description: item.description })}
                   />
                 ))}
               </div>

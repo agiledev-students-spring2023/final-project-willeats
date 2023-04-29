@@ -50,8 +50,10 @@ function EditSpecifiedItem() {
 
   const handleImageSave = () => {
     console.log("newImages:",newImages)
-    setImages(newImages);
-    setNewImages([]);    
+    if(newImages.length!==0){
+      setImages(newImages);
+      setNewImages([]); 
+    }       
   };
 
   console.log(images)

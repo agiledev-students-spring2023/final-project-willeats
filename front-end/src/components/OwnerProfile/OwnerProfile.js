@@ -54,12 +54,12 @@ function OwnerProfile() {
         </div>
 
         <div className="header-img-container">
-          <img src={userData.image} alt="Header" className="header-image" />
+          <img src={userData.background} alt="Header" className="header-image" />
         </div>
 
         <div className="content">
           <div className="owner-profile-image-container">
-            <img src={userData.image} alt="Profile" className="profile-image-owners" />
+            <img src={userData.avatar} alt="Profile" className="profile-image-owners" />
           </div>
           <div className="name-container">
             <div className="name">
