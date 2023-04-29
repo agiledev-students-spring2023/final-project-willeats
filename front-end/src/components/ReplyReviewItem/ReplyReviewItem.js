@@ -101,7 +101,7 @@ function ReplyReviewItem() {
                             keys={index}
                             date={element.date} 
                             star={element.rating}
-                            image={element.restImage}
+                            image={element.userId.avatar}
                             reviewImage={element.image}
                             reply={true}
                             id={element._id}

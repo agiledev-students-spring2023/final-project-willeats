@@ -5,7 +5,7 @@ import CartIcon from '../CartIcon/CartIcon';
 import './RestaurantMenu.css'
 import '../../bootstrap.css'
 import axios from 'axios';
-import TopBar_Cprofile from '../topBar/TopBar-C-profile';
+import TopBar_profile from '../topBar/TopBar-profile';
 
 function RestaurantMenu() {
   const [cartItems, setCartItems] = useState([]);
@@ -84,7 +84,7 @@ function RestaurantMenu() {
     <div className='row'>
         <div className="restaurant-menu-container">
         <div className='row d-flex justify-content-between m-1'>
-            <TopBar_Cprofile />
+            <TopBar_profile />
           </div>
           <Header
             name={restaurant.name}

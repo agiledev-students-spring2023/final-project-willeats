@@ -22,7 +22,6 @@ const RestaurantSchema = new Schema({
     createdate: { type: Date, default: Date.now },
 
     avatar:{type: String, required:false}, 
-    background:{type:String,required:false}, 
     background:{type:String,required:false},   
     deliveryFee: { type: Number, required: true, default: 2.99 }, // reasonable default delivery fee of $2.99
     taxRate: { type: Number, required: true, default: 8.825 } // nyc default tax rate of 8.825%
