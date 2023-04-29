@@ -113,7 +113,6 @@ const ManagerSignUp = () => {
       <TopBar />
       <h1 className="mb-4">Manager Sign up</h1>
       <form onSubmit={handleSubmit}>
-        <ProfileImage />
         <div>
           <div className="form-group">
             <label htmlFor="name" className="form-label">

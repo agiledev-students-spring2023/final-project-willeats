@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import '../../bootstrap.css';
 import axios from 'axios';
-import TopBar_Mprofile from '../topBar/TopBar-M-profile';
+import TopBar_profile from '../topBar/TopBar-profile';
 import './ReplyUser.css';
 import StarRatings from 'react-star-ratings'
 //the avatar has to be added so that the restImage can be set, now it is hard code
@@ -34,7 +34,7 @@ const ReplyUser = () => {
   
     return (
       <div className="review-details">
-        <TopBar_Mprofile />
+        <TopBar_profile />
   
         <div className="review-header">
           <img className="profile-image" src={'https://willeats-bucket.s3.us-east-1.amazonaws.com/1682464242588-circle.png'} alt="Reviewer profile" />
