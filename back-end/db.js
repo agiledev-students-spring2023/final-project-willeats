@@ -67,10 +67,6 @@ const DishSchema = new Schema({
       type: String,
       required: true
     },
-    review: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Review'
-    }]
   });
 
   const OrderSchema = new Schema({

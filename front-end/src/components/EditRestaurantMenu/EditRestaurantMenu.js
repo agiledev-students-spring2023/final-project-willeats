@@ -62,7 +62,8 @@ function EditRestaurantMenu() {
             imageSrc: item.photo,
             star: item.star,
             id: item._id,
-            type:item.type
+            type:item.type,
+            rating:item.rating
           });
           return acc;
         }, {})
@@ -139,7 +140,7 @@ function EditRestaurantMenu() {
                     price={item.price}
                     description={item.description}
                     image={item.imageSrc}
-                    star={item.star}
+                    rating={item.rating}
                     id={item.id}
                     type={item.type}
                     edit={true}

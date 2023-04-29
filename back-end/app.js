@@ -1059,7 +1059,6 @@ app.post('/Profile-C-ComparePassword', async (req, res) => {
                                           price: parseFloat(data.price),
                                           description: data.description,
                                           restaurant: restaurantId,
-                                          reviews: [],
                                           photo: location
                                       });
                                       //console.log(';;;l;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;')
@@ -1113,31 +1112,30 @@ app.get('/getmenu', function (req, res) {
                         } else {
                             // Find the menu items for the restaurant using the restaurant's _id as a foreign key
                             Dish.find({ restaurant: restaurant._id })
-                                .then(menu => {
-                                    // Loop through each dish in the menu and calculate its average rating
-                                    const menuWithRating = menu.map(async function (dish) {
-                                        const reviews = await Review.find({ _id: { $in: dish.review } });
-                                        let totalRating = 0;
-                                        for (let j = 0; j < reviews.length; j++) {
-                                            totalRating += reviews[j].rating;
-                                        }
-                                        const averageRating = reviews.length > 0 ? totalRating / reviews.length : 1;
-                                        return { ...dish._doc, rating: averageRating };
-                                    });
-
-                                    // Wait for all the promises in the menuWithRating array to resolve and return the updated menu
-                                    Promise.all(menuWithRating).then(updatedMenu => {
-                                        console.log(updatedMenu);
-                                        res.json(updatedMenu);
-                                    }).catch(err => {
-                                        console.error(err);
-                                        res.status(500).json({ error: 'Server error' });
-                                    });
-                                })
-                                .catch(err => {
-                                    console.error(err);
-                                    res.status(500).json({ error: 'Server error' });
-                                });
+                            .then(async function(menu) {
+                              try {
+                                const updatedMenu = await Promise.all(menu.map(async function(dish) {
+                                  const reviews = await Review.find({ dishId: dish._id });
+                                  console.log(reviews.length)
+                                  let totalRating = 0;
+                                  for (let j = 0; j < reviews.length; j++) {
+                                    totalRating += reviews[j].rating;
+                                  }
+                                  const averageRating = reviews.length > 0 ? totalRating / reviews.length : 5;
+                                  return { ...dish._doc, rating: averageRating };
+                                }));
+                                //console.log(updatedMenu);
+                                res.json(updatedMenu);
+                              } catch (err) {
+                                console.error(err);
+                                res.status(500).json({ error: 'Server error' });
+                              }
+                            })
+                            .catch(err => {
+                              console.error(err);
+                              res.status(500).json({ error: 'Server error' });
+                            });
+                          
                         }
                     })
                     .catch(err => {
@@ -1232,29 +1230,23 @@ app.get('/getMenuById/:id', async function (req, res) {
         console.log("-------------------------------", restaurantId);
         const menu = await Dish.find({ restaurant: restaurantId });
         console.log(menu);
-
-        // Create a new copy of the menu array with the rating property appended to each dish
-        const menuWithRating = menu.map(async function (dish) {
-            const reviews = await Review.find({ _id: { $in: dish.review } });
-            // console.log(reviews)
-            let totalRating = 0;
-            for (let j = 0; j < reviews.length; j++) {
-
-                totalRating += reviews[j].rating;
-            }
-            // console.log('----',totalRating)
-            const averageRating = reviews.length > 0 ? totalRating / reviews.length : 1;
-            return { ...dish._doc, rating: averageRating };
-        });
-
-        // Wait for all the promises in the menuWithRating array to resolve and return the updated menu
-        const updatedMenu = await Promise.all(menuWithRating);
-        //   console.log(updatedMenu)
-        return res.status(200).json(updatedMenu);
-    } catch (error) {
+      
+        const menuWithRating = await Promise.all(menu.map(async function(dish) {
+          const reviews = await Review.find({ dishId: dish._id });
+          let totalRating = 0;
+          for (let j = 0; j < reviews.length; j++) {
+            totalRating += reviews[j].rating;
+          }
+          const averageRating = reviews.length > 0 ? totalRating / reviews.length : 5;
+          return { ...dish._doc, rating: averageRating };
+        }));
+      
+        console.log(menuWithRating);
+        res.status(200).json(menuWithRating);
+      } catch (error) {
         console.log(error);
-        return res.status(500).json({ message: 'Internal server error' });
-    }
+        res.status(500).json({ message: 'Internal server error' });
+      }
 });
 
 

@@ -138,7 +138,7 @@ function ViewDetailMenu() {
                 
                     <div>
                     <div className='d-flex justify-content-center mt-3'>  
-                    <LoadMoreButton url={'https://my.api.mockaroo.com/pastreview1234.json?key=3c15f680'} data={reviews} setdata={setReviews} />
+                    
                     </div>
                   
                     <div className="cart-container d-flex flex-row-reverse">

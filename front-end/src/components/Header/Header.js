@@ -14,7 +14,7 @@ function Header(props) {
         
         <div className="header-rating">
         <StarRatings
-                rating={4}
+                rating={props.rating}
                 starRatedColor="yellow"
                 numberOfStars={5}
                 name='rating'
