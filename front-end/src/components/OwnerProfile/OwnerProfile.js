@@ -71,11 +71,12 @@ function OwnerProfile() {
             </div>
           </div>
           <div className="main-buttons">
+             <button className="btn btn-lg btn-outline-primary" onClick={navigateRestaurantOrder}>Restaurant's Order</button>
             <button className="btn btn-lg btn-outline-primary" onClick={navigateMenu}>Manage Menu</button>
             <button className="btn btn-lg btn-outline-primary" onClick={navigateReview}>View Reviews</button>
             <button className="btn btn-lg btn-outline-primary" onClick={navigateProfile}>Account Settings</button>
             <button className="btn btn-lg btn-outline-primary" onClick={navigateQRCode}>Access QR code</button>
-            <button className="btn btn-lg btn-outline-primary" onClick={navigateRestaurantOrder}>Restaurant's Order</button>
+            
           </div>
           <button className="btn btn-link" onClick={navigateHome}>Logout</button>
         </div>
