@@ -1266,6 +1266,18 @@ app.get('/getRestaurantInfo/:id', async function (req, res) {
     }
 });
 
+app.get('/getRestaurantOrder/:id', async function(req, res) {
+    const restaurantId = req.params.id;
+    try {
+      const orders = await Order.find({ restaurant: restaurantId });
+      console.log(orders);
+      res.status(200).json(orders);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
 
 
 module.exports = app;
