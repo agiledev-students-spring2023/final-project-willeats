@@ -113,7 +113,7 @@ function RestaurantMenu() {
                     edit={false}
                     reply = {false}
                     menu = {true}
-                    onAddToCart={() => handleAddToCart({ name: item.name, price: item.price, description: item.description })}
+                    onAddToCart={() => handleAddToCart({ id:item.id,name: item.name, price: item.price, description: item.description })}
                   />
                 ))}
               </div>

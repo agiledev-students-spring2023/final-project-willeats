@@ -324,6 +324,54 @@ app.post('/createuserreview', upload.array("image", 9), (req, resp) => {
     // resp.status(200).send({ message: 'create successfully' })
 });
 
+app.post('/checkout/:restId', (req, res) => {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    const restaurantId = req.params.restId;
+    console.log(restaurantId)
+    console.log(token)
+    
+    if(token != 'null'){
+        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+            if(err){
+                res.status(401).json({ error: "unauthorized" })
+            }else{
+                const order = new Order({
+                    user: new mongoose.Types.ObjectId(decoded.userid),
+                    restaurant: new mongoose.Types.ObjectId(restaurantId),
+                    totalPrice: req.body.totalPrice,
+                    dish: req.body.items
+                })
+                order
+                .save()
+                .then(result => {
+                    res.status(200).send({message: 'checkout successfully'})
+                })
+                .catch(err => {
+                    console.log(err)
+                    res.status(500).send({message: 'checkout failed'})
+                })
+    
+            }
+        })
+    }else{
+        const order = new Order({
+            user: new mongoose.Types.ObjectId(),
+            restaurant: new mongoose.Types.ObjectId(restaurantId),
+            totalPrice: req.body.totalPrice,
+            dish: req.body.items
+        })
+        order
+        .save()
+        .then(result => {
+            res.status(200).send({message: 'checkout successfully'})
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).send({message: 'checkout failed'})
+        })
+    }
+})
 
 // Middleware function to extract JWT token from Authorization header
 const extractToken = (req, res, next) => {
