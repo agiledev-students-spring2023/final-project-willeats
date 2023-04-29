@@ -5,7 +5,7 @@ import './EditSpecifiedItem.css';
 import '../../bootstrap.css';
 
 import axios from 'axios';
-import TopBar_Mprofile from '../topBar/TopBar-M-profile';
+import TopBar_profile from '../topBar/TopBar-profile';
 
 
 function EditSpecifiedItem() {
@@ -118,7 +118,7 @@ function EditSpecifiedItem() {
 
   return (
     <div>
-      <TopBar_Mprofile />
+      <TopBar_profile />
       <div className="edit-specified-item-container">
 
         <div className="image-slider-container">

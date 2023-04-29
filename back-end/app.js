@@ -324,6 +324,54 @@ app.post('/createuserreview', upload.array("image", 9), (req, resp) => {
     // resp.status(200).send({ message: 'create successfully' })
 });
 
+app.post('/checkout/:restId', (req, res) => {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    const restaurantId = req.params.restId;
+    console.log(restaurantId)
+    console.log(token)
+    
+    if(token != 'null'){
+        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+            if(err){
+                res.status(401).json({ error: "unauthorized" })
+            }else{
+                const order = new Order({
+                    user: new mongoose.Types.ObjectId(decoded.userid),
+                    restaurant: new mongoose.Types.ObjectId(restaurantId),
+                    totalPrice: req.body.totalPrice,
+                    dish: req.body.items
+                })
+                order
+                .save()
+                .then(result => {
+                    res.status(200).send({message: 'checkout successfully'})
+                })
+                .catch(err => {
+                    console.log(err)
+                    res.status(500).send({message: 'checkout failed'})
+                })
+    
+            }
+        })
+    }else{
+        const order = new Order({
+            user: new mongoose.Types.ObjectId(),
+            restaurant: new mongoose.Types.ObjectId(restaurantId),
+            totalPrice: req.body.totalPrice,
+            dish: req.body.items
+        })
+        order
+        .save()
+        .then(result => {
+            res.status(200).send({message: 'checkout successfully'})
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).send({message: 'checkout failed'})
+        })
+    }
+})
 
 // Middleware function to extract JWT token from Authorization header
 const extractToken = (req, res, next) => {
@@ -544,7 +592,8 @@ app.post('/Sign-C', async (req, res) => {
         const user = new User({
             name: req.body.name,
             email: req.body.email,
-            password: hashedPassword
+            password: hashedPassword,
+            avatar: "https://willeats-bucket.s3.amazonaws.com/default-avatar.png"
         });
 
         await user.save();
@@ -565,7 +614,8 @@ app.post('/Sign-M', async (req, res) => {
         const manager = new Restaurant({
             name: req.body.name,
             email: req.body.email,
-            password: hashedPassword
+            password: hashedPassword,
+            avatar: "https://willeats-bucket.s3.amazonaws.com/default-avatar.png"
         });
 
         await manager.save();
@@ -880,97 +930,128 @@ app.post('/Profile-C-ComparePassword', async (req, res) => {
     const { password } = req.body;
     const authHeader = req.headers.authorization;
     if (!authHeader) {
-      return res.sendStatus(401); // Unauthorized
+        return res.sendStatus(401); // Unauthorized
     }
     const token = authHeader.split(' ')[1];
     jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
-      if (err) {
-        return res.sendStatus(403); // Forbidden
-      }
-      try {
-        const user = await User.findById(decoded.userid);
-        if (!user) {
-          return res.status(404).json({ error: 'User not found' });
+        if (err) {
+            return res.sendStatus(403); // Forbidden
         }
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        res.json({ isValid: isPasswordValid });
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Server error' });
-      }
-    });
-  });
-  
-  app.post('/Profile-C-Password', async (req, res) => {
-    const { password } = req.body;
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-      return res.sendStatus(401); // Unauthorized
-    }
-    const token = authHeader.split(' ')[1];
-    
-    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
-      if (err) {
-        return res.sendStatus(403); // Forbidden
-      }
-      try {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        await User.findByIdAndUpdate(decoded.userid, { password: hashedPassword });
-        res.json({ message: 'Password updated successfully' });
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Server error' });
-      }
-    });
-  });
-  
-  app.post('/Profile-M-ComparePassword', async (req, res) => {
-    const { password } = req.body;
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-      return res.sendStatus(401); // Unauthorized
-    }
-    const token = authHeader.split(' ')[1];
-    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
-      if (err) {
-        return res.sendStatus(403); // Forbidden
-      }
-      try {
-        const manager = await Restaurant.findById(decoded.managerid);
-        if (!manager) {
-          return res.status(404).json({ error: 'Manager not found' });
+        try {
+            const user = await User.findById(decoded.userid);
+            if (!user) {
+                return res.status(404).json({ error: 'User not found' });
+            }
+            const isPasswordValid = await bcrypt.compare(password, user.password);
+            res.json({ isValid: isPasswordValid });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Server error' });
         }
-        const isPasswordValid = await bcrypt.compare(password, manager.password);
-        res.json({ isValid: isPasswordValid });
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Server error' });
-      }
     });
-  });
-  
-  app.post('/Profile-M-Password', async (req, res) => {
-    const { password } = req.body;
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-      return res.sendStatus(401); // Unauthorized
-    }
-    const token = authHeader.split(' ')[1];
-    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
-      if (err) {
-        return res.sendStatus(403); // Forbidden
-      }
-      try {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        await Restaurant.findByIdAndUpdate(decoded.managerid, { password: hashedPassword });
-        res.json({ message: 'Password updated successfully' });
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Server error' });
-      }
-    });
-  });
+});
 
+app.post('/Profile-C-Password', async (req, res) => {
+    const { password } = req.body;
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.sendStatus(401); // Unauthorized
+    }
+    const token = authHeader.split(' ')[1];
+
+    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+        if (err) {
+            return res.sendStatus(403); // Forbidden
+        }
+        try {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            await User.findByIdAndUpdate(decoded.userid, { password: hashedPassword });
+            res.json({ message: 'Password updated successfully' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Server error' });
+        }
+    });
+});
+
+app.post('/Profile-M-ComparePassword', async (req, res) => {
+    const { password } = req.body;
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.sendStatus(401); // Unauthorized
+    }
+    const token = authHeader.split(' ')[1];
+    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+        if (err) {
+            return res.sendStatus(403); // Forbidden
+        }
+        try {
+            const manager = await Restaurant.findById(decoded.managerid);
+            if (!manager) {
+                return res.status(404).json({ error: 'Manager not found' });
+            }
+            const isPasswordValid = await bcrypt.compare(password, manager.password);
+            res.json({ isValid: isPasswordValid });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Server error' });
+        }
+    });
+});
+
+app.post('/Profile-M-Password', async (req, res) => {
+    const { password } = req.body;
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.sendStatus(401); // Unauthorized
+    }
+    const token = authHeader.split(' ')[1];
+    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+        if (err) {
+            return res.sendStatus(403); // Forbidden
+        }
+        try {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            await Restaurant.findByIdAndUpdate(decoded.managerid, { password: hashedPassword });
+            res.json({ message: 'Password updated successfully' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Server error' });
+        }
+    });
+});
+app.get('/topbar-avatar', (req, res) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.sendStatus(401); // Unauthorized
+    }
+    console.log('11111');
+    
+    const token = authHeader.split(' ')[1];
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) {
+            return res.sendStatus(403); // Forbidden
+        }
+        const userId = decoded.userid;
+        const role = decoded.role;
+        let userModel;
+
+        if (role === 'manager') {
+            userModel = Restaurant; // Use Manager model for managers
+        } else {
+            userModel = User; // Use User model for users
+        }
+        userModel.findById(userId)
+            .then(user => {
+                const role = user.role; // Assuming role is stored in the user document
+                res.status(200).send({ role: role, avatar: user.avatar });
+            })
+            .catch(error => {
+                console.error(error);
+                res.sendStatus(500); // Internal Server Error
+            });
+    });
+});
   app.post('/api/edit-menu-items/:id', upload.single("images[0]"),
   [
       check('name').custom(value => {

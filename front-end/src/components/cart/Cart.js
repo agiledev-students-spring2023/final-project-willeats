@@ -15,7 +15,7 @@ const Cart = ({}) => {
   const [cartItems, setCartItems] = useState([]);
   const [items, setItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
-  
+  const [restaurantId, setRestaurantId]=useState('6444893a4f71daabbde15f35')
   const [rateData, setRateData] = useState([])
 
   useEffect(() => {
@@ -71,12 +71,31 @@ const Cart = ({}) => {
       });
       setItems(itemsWithQuantities);
       const total = itemsWithQuantities.reduce((acc, item) => acc + item.quantity * item.price, 0);
+      
       setTotalPrice(total);
     }
   }, []);
 
 const handleLCheckout = () => {
-  Navigate('/checkout')
+  const token = localStorage.getItem("token")
+  const configuration = {
+    method: "post",
+    headers: {Authorization: `Bearer ${token}`},
+    url: `http://localhost:3001/checkout/${restaurantId}`,
+    data: {
+        totalPrice: totalPrice,
+        items: items
+    },
+};
+  axios(configuration)
+  .then(res => {
+    Navigate('/checkout')
+  })
+  .catch((err) => {
+    console.log(err)
+    alert('check out failed')
+  })
+  
 }
 
  
