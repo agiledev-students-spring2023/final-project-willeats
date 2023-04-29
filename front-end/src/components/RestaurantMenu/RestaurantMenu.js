@@ -6,6 +6,7 @@ import './RestaurantMenu.css'
 import '../../bootstrap.css'
 import axios from 'axios';
 import TopBar_profile from '../topBar/TopBar-profile';
+import { useParams } from 'react-router-dom';
 
 function RestaurantMenu() {
   const [cartItems, setCartItems] = useState([]);
@@ -14,6 +15,7 @@ function RestaurantMenu() {
   const [restaurant, setRestaurant] = useState({})
   const [restaurantId, setRestaurantId]=useState('6444893a4f71daabbde15f35')
   const [restaurantRating, setRestaurantRating] = useState(0);
+  const {id}= useParams();
 
   const handleAddToCart = (item) => {
     setCartItems([...cartItems, item]);
@@ -120,7 +122,7 @@ function RestaurantMenu() {
             </div>
           ))}
           <div className="cart-container d-flex flex-row-reverse">
-            <CartIcon count={count} />
+            <CartIcon count={count} id = {restaurantId}/>
           </div>
         </div>
       

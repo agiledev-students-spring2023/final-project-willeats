@@ -1029,6 +1029,7 @@ app.get('/topbar-avatar', (req, res) => {
     console.log('11111');
 
     const token = authHeader.split(' ')[1];
+    console.log(token)
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
             return res.sendStatus(403); // Forbidden
@@ -1046,7 +1047,7 @@ app.get('/topbar-avatar', (req, res) => {
         }
         userModel.findById(userId)
             .then(user => {
-                const role = user.role; // Assuming role is stored in the user document
+                console.log(user)
                 res.status(200).send({ role: role, avatar: user.avatar });
             })
             .catch(error => {
@@ -1350,6 +1351,22 @@ app.get('/getRestaurantInfo/:id', async function (req, res) {
         return res.status(500).json({ message: 'Internal server error' });
     }
 });
+
+app.get('/getRestaurantOrder/:id', async function(req, res) {
+    const restaurantId = req.params.id;
+    try {
+      const orders = await Order.find({ restaurant: restaurantId })
+        .populate('user')
+        .sort({ date: -1 }); // Sort by date in descending order
+      console.log(orders);
+      res.status(200).json(orders);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+  
+  
 
 
 

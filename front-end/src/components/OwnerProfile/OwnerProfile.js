@@ -20,7 +20,7 @@ function OwnerProfile() {
   }, []);
 
   const name = userData.name;
-  const id = userData.id; // Extract the user's ID from the userData object
+  const id = userData._id; // Extract the user's ID from the userData object
   console.log(userData);
   const navigate = useNavigate();
 
@@ -41,7 +41,11 @@ function OwnerProfile() {
   }
 
   const navigateQRCode = () => {
-    navigate(`/qr-code/${userData.id}`); // navigate to the QRCodeGenerator component with the user ID as a parameter
+    navigate(`/qr-code/${id}`); // navigate to the QRCodeGenerator component with the user ID as a parameter
+  }
+
+  const navigateRestaurantOrder = ()=>{
+     navigate(`/restaurant-order/${id}`)
   }
 
   return (
@@ -67,10 +71,12 @@ function OwnerProfile() {
             </div>
           </div>
           <div className="main-buttons">
+             <button className="btn btn-lg btn-outline-primary" onClick={navigateRestaurantOrder}>Restaurant's Order</button>
             <button className="btn btn-lg btn-outline-primary" onClick={navigateMenu}>Manage Menu</button>
             <button className="btn btn-lg btn-outline-primary" onClick={navigateReview}>View Reviews</button>
             <button className="btn btn-lg btn-outline-primary" onClick={navigateProfile}>Account Settings</button>
             <button className="btn btn-lg btn-outline-primary" onClick={navigateQRCode}>Access QR code</button>
+            
           </div>
           <button className="btn btn-link" onClick={navigateHome}>Logout</button>
         </div>

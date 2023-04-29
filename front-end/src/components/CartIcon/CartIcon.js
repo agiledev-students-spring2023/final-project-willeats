@@ -4,10 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import './CartIcon.css';
 
-function CartIcon({ count }) {
+function CartIcon({ count,id}) {
   return (
     <div className="cart-icon-container">
-      <Link to="/cart" className="cart-icon-link">
+      <Link to={"/cart/"+ id} className="cart-icon-link">
         <FontAwesomeIcon icon={faShoppingCart} size="3x" />
         {count > 0 && <div className="cart-count">{count}</div>}
       </Link>
