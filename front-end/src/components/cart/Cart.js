@@ -12,7 +12,6 @@ const Cart = ({}) => {
   
   const Navigate = useNavigate()
   const [tipAmount, setTipAmount] = useState(0);
-  const [cartItems, setCartItems] = useState([]);
   const [items, setItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   // const [restaurantId, setRestaurantId]=useState('6444893a4f71daabbde15f35')
@@ -47,20 +46,21 @@ const Cart = ({}) => {
         };
       });
       setItems(itemsWithQuantities);
-      const total = itemsWithQuantities.reduce((acc, item) => acc + item.quantity * item.price, 0);
+      const total = itemsWithQuantities.reduce((acc, item) => acc + item.quantity * item.price, 0)
       
       setTotalPrice(total);
     }
   }, []);
-
+  
 const handleLCheckout = () => {
   const token = localStorage.getItem("token")
+  console.log((totalPrice+tipAmount+totalPrice*taxRate/100).toFixed(2))
   const configuration = {
     method: "post",
     headers: {Authorization: `Bearer ${token}`},
     url: `/checkout/${id}`,
     data: {
-        totalPrice: totalPrice,
+        totalPrice: (totalPrice+tipAmount+totalPrice*taxRate/100).toFixed(2),
         items: items
     },
 };
@@ -74,6 +74,12 @@ const handleLCheckout = () => {
   })
   
 }
+
+const handleTipKeyDown = (event) => {
+  if (event.key === '-' || event.key === 'e') {
+    event.preventDefault();
+  }
+};
 
  
 const subtotal=items.reduce((acc, item) => acc + item.price * item.quantity, 0)
@@ -90,7 +96,7 @@ const tipPercentages = [10, 15, 20];
         <TopBar /> 
       
       <div className="cart">
-        <h5>Your Cart</h5>
+        <h5>Your Cart</h5>  
         {items.map((item) => (
           <div class="cart-list" key={item.id}>
             <p>{item.name} x {item.quantity}</p>
@@ -117,11 +123,12 @@ const tipPercentages = [10, 15, 20];
               </div>
               <input
                 type="number"
+                inputMode="decimal"
                 className="tip-input"
                 min="0"
-                step="0.01"
-                value={tipAmount.toFixed(2)}
                 onChange={handleTipChange}
+                onKeyDown={handleTipKeyDown}
+                placeholder='0.00'
               /> 
 
             </div>
@@ -130,7 +137,7 @@ const tipPercentages = [10, 15, 20];
         
           <p>Total: ${total.toFixed(2)}</p>
         
-          <button className="button btn btn-primary btn-lg"  onClick={handleLCheckout}>Place The Order</button>
+          <button className="button btn btn-primary btn-lg"  onClick={handleLCheckout} disabled={items.length === 0}>Place The Order</button>
         
         </div>
       </div>

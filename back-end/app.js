@@ -1425,7 +1425,7 @@ app.get('/getRestaurantOrder/:id', async function(req, res) {
       const orders = await Order.find({ restaurant: restaurantId })
         .populate('user')
         .sort({ date: -1 }); // Sort by date in descending order
-      console.log(orders);
+      
       res.status(200).json(orders);
     } catch (error) {
       console.error(error);

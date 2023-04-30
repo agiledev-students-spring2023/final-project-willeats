@@ -27,8 +27,8 @@ function OwnerProfile() {
     navigate('/Profile-M');
   }
 
-  const navigateHome = () => {
-    navigate('/');
+  const navigateLogin = () => {
+    navigate('/Login');
   }
 
   const navigateMenu = () => {
@@ -48,7 +48,7 @@ function OwnerProfile() {
   }
 
   const handleLogOut = () => {
-    navigateHome();
+    navigateLogin();
     localStorage.clear();
   }
 

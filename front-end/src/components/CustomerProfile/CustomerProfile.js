@@ -45,7 +45,7 @@ function CustomerProfile() {
 
   const handleLogOut = () => {
     const restaurantId = localStorage.getItem('restId')
-    navigate(`/${restaurantId}`);
+    navigate(`/getmenu/${restaurantId}`);
     localStorage.removeItem("token");
     localStorage.removeItem("cartItems");
   }
