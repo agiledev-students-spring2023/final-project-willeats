@@ -18,7 +18,7 @@ Theme: Business owners
 2. Users will be able to upload images for the dishes.
 3. Users will be able to change the price and orders of the dishes.
 4. Users will be able to view and reply to customers’ reviews.
-5. Users will be able to create a QR code that enables customers to view the menu.
+5. Users will be given an Id to generate a QR code for the business.
 
 Theme : Customers
 
