@@ -7,7 +7,7 @@ import '../../bootstrap.css'
 // import axios from 'axios';
 import axios from '../axiosConfig';
 import TopBar_profile from '../topBar/TopBar-profile';
-import { useParams } from 'react-router-dom';
+import { redirect, useParams, useNavigate} from 'react-router-dom';
 
 function RestaurantMenu() {
   const [cartItems, setCartItems] = useState([]);
@@ -17,6 +17,8 @@ function RestaurantMenu() {
   // const [restaurantId, setRestaurantId]=useState('6444893a4f71daabbde15f35')
   const [restaurantRating, setRestaurantRating] = useState(0);
   const {id}= useParams();
+  console.log(useParams());
+  const navigate = useNavigate();
 
   const handleAddToCart = (item) => {
     setCartItems([...cartItems, item]);
@@ -66,7 +68,8 @@ function RestaurantMenu() {
 
       })
       .catch((error) => {
-        console.error(error);
+          
+          console.log(error)
       });
   }, []);
 
@@ -79,9 +82,11 @@ function RestaurantMenu() {
         setRestaurant(data);
       })
       .catch((error) => {
-        console.error(error);
+        alert('Restaurant not found');
+        navigate('/login');
       });
   }, []);
+  
 
   return (
     <div className='row'>
