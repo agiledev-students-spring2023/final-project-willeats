@@ -19,7 +19,7 @@ const Cart = ({}) => {
   const [taxRate,setTaxRate] = useState(8.875)
   const { id } = useParams();
   const handleTipChange = (event) => {
-    setTipAmount(parseFloat(event.target.value));
+    setTipAmount(parseFloat(event.target.value ? event.target.value : 0));
   };
 
   const navigate = useNavigate()
@@ -88,8 +88,55 @@ const tax = subtotal * taxRate/100;
 const total = subtotal + tax  + tipAmount;
 
 const tipPercentages = [10, 15, 20];
+const handleAdd = (e, name) => {
+  const newItems = [...items]
+  let item = {}
+  newItems.forEach((ele) => {
+    if(ele.name === name){
+      // const singlePrice = ele.price / ele.quantity 
+      // ele.price = singlePrice * (ele.quantity + 1)
+      item = {name: ele.name, price: ele.price / ele.quantity}
+      ele.quantity = ele.quantity + 1
+      
+      // console.log(singlePrice)
+      console.log(ele.price)
+    }
+    
+  })
+  const prevCart = JSON.parse(localStorage.getItem('cartItems'))
+  prevCart.push(item)
+  localStorage.setItem('cartItems', JSON.stringify(prevCart))
+  setItems(newItems)
+  console.log(name)
+}
 
- 
+const handleReduce = (e, name) => {
+  const newItems = [...items]
+  let ind = -1
+  newItems.forEach((ele, i) => {
+    if(ele.name === name){
+      ele.quantity = ele.quantity - 1
+      if(ele.quantity === 0){
+        ind = i
+      }
+    }
+    
+  })
+  if(ind !== -1){
+    newItems.splice(ind, 1)
+  }
+  const prevCart = JSON.parse(localStorage.getItem('cartItems'))
+  let index = 0;
+  prevCart.forEach((ele, i) => {
+    if(ele.name === name){
+      index = i
+    }
+  })
+  prevCart.splice(index, 1)
+  localStorage.setItem('cartItems', JSON.stringify(prevCart))
+  setItems(newItems)
+  console.log(name)
+}
   
   return (
     <div className="cart-overlay">
@@ -97,11 +144,19 @@ const tipPercentages = [10, 15, 20];
       
       <div className="cart">
         <h5>Your Cart</h5>  
-        {items.map((item) => (
-          <div class="cart-list" key={item.id}>
-            <p>{item.name} x {item.quantity}</p>
-            <p>${(item.price*item.quantity).toFixed(2)}</p>
+        {items.map((item, index) => (
+          <div key={item.name + index} className='mt-1'>
+            <div className="cart-list">
+              <p>{item.name} x {item.quantity}</p>
+              <div className='cart-list'>
+                <button type="button" className="btn btn-primary btn-sm" onClick={(e) => handleReduce(e, item.name)}>-</button>
+                <p className='m-1'>${(item.price * item.quantity).toFixed(2)}</p>
+                <button type="button" class="btn btn-primary  btn-sm" onClick={(e) => handleAdd(e, item.name)} >+</button>
+              </div>
+            </div>
+
           </div>
+          
         ))}
         <div className="subtotal">
           <p>Subtotal: ${subtotal.toFixed(2)}</p>
@@ -124,15 +179,15 @@ const tipPercentages = [10, 15, 20];
               <input
                 type="number"
                 inputMode="decimal"
-                className="tip-input"
+                className="tip-input mt-1"
                 min="0"
                 onChange={handleTipChange}
                 onKeyDown={handleTipKeyDown}
-                placeholder='0.00'
+                placeholder='customize your tips'
               /> 
 
             </div>
-            <span>{(tipAmount/subtotal*100).toFixed(1)}%</span>
+            
           
         
           <p>Total: ${total.toFixed(2)}</p>
