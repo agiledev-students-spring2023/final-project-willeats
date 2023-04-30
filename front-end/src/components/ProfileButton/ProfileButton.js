@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import '../../bootstrap.css';
 import './ProfileButton.css';
 
@@ -15,7 +15,7 @@ function ProfileButton() {
 
   const fetchAvatar = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/topbar-avatar', {
+      const response = await axios.get('/topbar-avatar', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
 

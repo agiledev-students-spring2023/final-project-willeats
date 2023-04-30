@@ -3,7 +3,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import '../../bootstrap.css'
 import TopBar from '../topBar/TopBar';
 import './cart.css';
-import axios from 'axios';
+import axios from '../axiosConfig';
 
 
 
@@ -58,7 +58,7 @@ const handleLCheckout = () => {
   const configuration = {
     method: "post",
     headers: {Authorization: `Bearer ${token}`},
-    url: `http://localhost:3001/checkout/${id}`,
+    url: `/checkout/${id}`,
     data: {
         totalPrice: totalPrice,
         items: items

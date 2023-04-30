@@ -4,7 +4,7 @@ import '../../bootstrap.css'
 import ReviewArea from '../reviewArea/reviewArea.js'
 import TopBar from '../topBar/TopBar'
 
-import axios from 'axios';
+import axios from '../axiosConfig';
 function EditReviewPage() {
     const navigate = useNavigate()
     const location = useLocation()
@@ -12,7 +12,7 @@ function EditReviewPage() {
     const [save, setSave] = useState(false)
     const configuration = {
         method: "post",
-        url: "http://localhost:3001/edituserreview",
+        url: "/edituserreview",
         data: {
             saveData : saveData
         },
@@ -34,7 +34,7 @@ function EditReviewPage() {
             returnObject.image.forEach((e) => {
                 formData.append("image", e)
             })
-            axios.post("http://localhost:3002/edituserreview", formData, {
+            axios.post("/edituserreview", formData, {
                 headers: {Authorization: `Bearer ${token}`}
             })
             .then((res) => {

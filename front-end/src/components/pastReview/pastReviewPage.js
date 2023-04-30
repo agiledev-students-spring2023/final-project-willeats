@@ -1,7 +1,7 @@
 import {React, useState, useEffect} from 'react'
 import {useNavigate, Link} from "react-router-dom";
 import ReviewCard from '../reviewCards/reviewCard.jsx'
-import axios from 'axios';
+import axios from '../axiosConfig';
 import '../../bootstrap.css'
 import LoadMoreButton from '../loadMoreButton/loadMoreButton';
 import TopBar from '../topBar/TopBar.js';
@@ -10,7 +10,7 @@ function PastReviewPage() {
     const [reviewData, setReviewData] = useState([])
     useEffect(() => {
         const token = localStorage.getItem("token")
-        axios.get('http://localhost:3001/userpastreview', {
+        axios.get('/userpastreview', {
             headers: {Authorization: `Bearer ${token}`}
         })
         .then((res) => {
@@ -25,7 +25,7 @@ function PastReviewPage() {
         const token = localStorage.getItem("token")
         const configuration = {
             method: "post",
-            url: "http://localhost:3001/deleteuserreview",
+            url: "/deleteuserreview",
             headers: {Authorization: `Bearer ${token}`},
             data: {
                 id : e.target.getAttribute('id')
@@ -65,7 +65,7 @@ function PastReviewPage() {
                                 id={element.reviewId}
                                 date={element.date} 
                                 star={element.star}
-                                image={element.restImage}
+                                image={element.avatar}
                                 reviewImage={element.reviewImage}
                                 handleDelete={handleDelete}
                                 isUser={element.isUser} />

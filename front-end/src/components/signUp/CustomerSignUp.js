@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import './CustomerSignUp.css';
 import './Input.css'
 import ProfileImage from './ProfileImage';
@@ -21,7 +21,7 @@ const CustomerSignUp = () => {
 
   const checkName = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/Sign-C?username=${name}`);
+      const response = await axios.get(`/Sign-C?username=${name}`);
       if (response.data.exists) {
         setNameValidationMessage(`${response.data.registeredName} is already registered.`);
         setShowNameValidation(true);
@@ -80,7 +80,7 @@ const CustomerSignUp = () => {
 
   const checkEmail = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/Sign-C?email=${email}`);
+      const response = await axios.get(`/Sign-C?email=${email}`);
       if (response.data.exists) {
         setEmailValidationMessage('Email is already registered. Try to log in.');
         setShowEmailValidation(true);
@@ -102,7 +102,7 @@ const CustomerSignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3001/Sign-C', { name, email, password });
+      await axios.post('/Sign-C', { name, email, password });
       navigate('/Login');
     } catch (error) {
       console.log(error);

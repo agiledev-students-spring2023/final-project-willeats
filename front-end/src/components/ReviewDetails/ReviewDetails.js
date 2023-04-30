@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../../bootstrap.css'
 import './ReviewDetails.css'
-import axios from 'axios';
+import axios from '../axiosConfig';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { ReactComponent as BackIcon } from "../../image/arrow-left.svg";
 import { ReactComponent as Star } from '../../image/star-fill.svg';
@@ -37,7 +37,7 @@ const ReviewDetails = () => {
   useEffect(() => {
 
     // Send a GET request to retrieve the review document using its ID
-    axios.get(`http://localhost:3001/getReviewById/${id}`)
+    axios.get(`/getReviewById/${id}`)
       .then(response => {
         // console.log(response.data.reply)
         setReply(response.data.reply)

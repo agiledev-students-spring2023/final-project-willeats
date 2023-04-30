@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import './Input.css';
 import '../../bootstrap.css';
 
@@ -11,7 +11,7 @@ function InputName(props) {
 
   const checkName = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/Sign-C?username=${name}`);
+      const response = await axios.get(`/Sign-C?username=${name}`);
       if (response.data.exists) {
         setNameValidationMessage(`${response.data.registeredName} is already registered.`);
         setShowNameValidation(true);

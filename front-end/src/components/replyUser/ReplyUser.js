@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import '../../bootstrap.css';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import TopBar_profile from '../topBar/TopBar-profile';
 import './ReplyUser.css';
 import StarRatings from 'react-star-ratings'
@@ -21,7 +21,7 @@ const ReplyUser = () => {
 
     const handleClick = () => {
         // Send the reply text to the backend
-        axios.post('http://localhost:3001/api/sendReply', { reviewId: id, replyText: reply })
+        axios.post('/api/sendReply', { reviewId: id, replyText: reply })
           .then(response => {
             console.log(response.data);
             // If the backend responds with a success message, navigate back to the review page

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import { useParams } from 'react-router-dom';
 import OrderCard from '../OrderCard/OrderCard';
 import TopBar_profile from '../topBar/TopBar-profile';
@@ -10,7 +10,7 @@ function RestaurantOrder() {
   
     useEffect(() => {
       function fetchData() {
-        axios.get(`http://localhost:3001/getRestaurantOrder/${id}`)
+        axios.get(`/getRestaurantOrder/${id}`)
           .then(response => {      
             setOrders(response.data);
           })
