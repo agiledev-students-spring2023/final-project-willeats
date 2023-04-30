@@ -4,7 +4,8 @@ import MenuItem from '../MenuItem/MenuItem.jsx';
 import CartIcon from '../CartIcon/CartIcon';
 import './RestaurantMenu.css'
 import '../../bootstrap.css'
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../axiosConfig';
 import TopBar_profile from '../topBar/TopBar-profile';
 import { useParams } from 'react-router-dom';
 
@@ -32,7 +33,7 @@ function RestaurantMenu() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/getMenuById/${restaurantId}`)
+      .get(`/getMenuById/${restaurantId}`)
       .then((response) => {
         let data = response.data
         let totalRating = data.map(obj => obj.rating).reduce((acc, val) => acc + val, 0);
