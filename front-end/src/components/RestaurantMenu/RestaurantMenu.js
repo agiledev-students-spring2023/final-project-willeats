@@ -7,16 +7,18 @@ import '../../bootstrap.css'
 // import axios from 'axios';
 import axios from '../axiosConfig';
 import TopBar_profile from '../topBar/TopBar-profile';
-import { useParams } from 'react-router-dom';
+import { redirect, useParams, useNavigate} from 'react-router-dom';
 
 function RestaurantMenu() {
   const [cartItems, setCartItems] = useState([]);
   const [count, setCount] = useState(0);
   const [menuItems, setMenuItems] = useState();
   const [restaurant, setRestaurant] = useState({})
-  const [restaurantId, setRestaurantId]=useState('6444893a4f71daabbde15f35')
+  // const [restaurantId, setRestaurantId]=useState('6444893a4f71daabbde15f35')
   const [restaurantRating, setRestaurantRating] = useState(0);
   const {id}= useParams();
+  console.log(useParams());
+  const navigate = useNavigate();
 
   const handleAddToCart = (item) => {
     setCartItems([...cartItems, item]);
@@ -33,7 +35,7 @@ function RestaurantMenu() {
 
   useEffect(() => {
     axios
-      .get(`/getMenuById/${restaurantId}`)
+      .get(`/getMenuById/${id}`)
       .then((response) => {
         let data = response.data
         let totalRating = data.map(obj => obj.rating).reduce((acc, val) => acc + val, 0);
@@ -66,22 +68,25 @@ function RestaurantMenu() {
 
       })
       .catch((error) => {
-        console.error(error);
+          
+          console.log(error)
       });
   }, []);
 
   useEffect(() => {
     axios
-      .get(`/getRestaurantInfo/${restaurantId}`)
+      .get(`/getRestaurantInfo/${id}`)
       .then((response) => {
         const data = response.data
         console.log(data)
         setRestaurant(data);
       })
       .catch((error) => {
-        console.error(error);
+        alert('Restaurant not found');
+        navigate('/login');
       });
   }, []);
+  
 
   return (
     <div className='row'>
@@ -123,7 +128,7 @@ function RestaurantMenu() {
             </div>
           ))}
           <div className="cart-container d-flex flex-row-reverse">
-            <CartIcon count={count} id = {restaurantId}/>
+            <CartIcon count={count} id = {id}/>
           </div>
         </div>
       
