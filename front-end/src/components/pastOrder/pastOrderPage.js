@@ -13,7 +13,7 @@ function PastOrderPage(props){
 
     useEffect(() => {
         const token = localStorage.getItem("token")
-        axios.get('http://localhost:3002/userpastorder',{
+        axios.get('http://localhost:3001/userpastorder',{
             headers: {Authorization: `Bearer ${token}`}
         })
         .then((res) => {

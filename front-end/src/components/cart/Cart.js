@@ -130,7 +130,7 @@ const tipPercentages = [10, 15, 20];
         
           <p>Total: ${total.toFixed(2)}</p>
         
-          <button className="button btn btn-primary btn-lg"  onClick={handleLCheckout}>Checkout</button>
+          <button className="button btn btn-primary btn-lg"  onClick={handleLCheckout}>Place The Order</button>
         
         </div>
       </div>

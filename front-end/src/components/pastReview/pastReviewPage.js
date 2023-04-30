@@ -10,7 +10,7 @@ function PastReviewPage() {
     const [reviewData, setReviewData] = useState([])
     useEffect(() => {
         const token = localStorage.getItem("token")
-        axios.get('http://localhost:3002/userpastreview', {
+        axios.get('http://localhost:3001/userpastreview', {
             headers: {Authorization: `Bearer ${token}`}
         })
         .then((res) => {
@@ -25,7 +25,7 @@ function PastReviewPage() {
         const token = localStorage.getItem("token")
         const configuration = {
             method: "post",
-            url: "http://localhost:3002/deleteuserreview",
+            url: "http://localhost:3001/deleteuserreview",
             headers: {Authorization: `Bearer ${token}`},
             data: {
                 id : e.target.getAttribute('id')

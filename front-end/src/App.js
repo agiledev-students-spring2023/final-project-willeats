@@ -43,7 +43,7 @@ function App() {
   return (
       <Router>
         <Routes>
-          <Route path='/' element={<Home/>}></Route>
+          <Route path='/:restId' element={<Home/>}></Route>
           <Route path='/Login' element={<Login/>}></Route>
           <Route path='/Sign-C' element={<CustomerSignUp/>}></Route>
           <Route path='/Sign-M' element={<ManagerSignUp/>}></Route>
