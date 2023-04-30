@@ -71,10 +71,10 @@ function PastReviewPage() {
                                 isUser={element.isUser} />
                         ))}
                     </div>
-                    <div className='d-flex justify-content-center mt-2'>
+                    {/* <div className='d-flex justify-content-center mt-2'>
                         
                         {reviewData.length > 0 && <LoadMoreButton url={'http://localhost:3001/userpastreview'} data={reviewData} setdata={setReviewData} />}
-                    </div>
+                    </div> */}
                 </div>
 
             </div>

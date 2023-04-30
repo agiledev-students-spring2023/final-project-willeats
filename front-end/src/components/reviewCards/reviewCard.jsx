@@ -30,17 +30,19 @@ function ReviewCard(props) {
     }
 
     const handleClick=()=>{
-        const params = new URLSearchParams()
-        params.append('review', props.review)
-        props.reviewImage.map((e) =>{
-            params.append('image', e)
-        })
-        params.append('mainName', props.mainName)
-        params.append('itemName', props.itemName)
-        params.append('star', props.star)
-        params.append('id', props.id)
-        params.append('date',props.date)
-        navigate({pathname: '/reviewDetails', search: params.toString()})
+        if (!props.order) {
+            const params = new URLSearchParams()
+            params.append('review', props.review)
+            props.reviewImage.map((e) => {
+                params.append('image', e)
+            })
+            params.append('mainName', props.mainName)
+            params.append('itemName', props.itemName)
+            params.append('star', props.star)
+            params.append('id', props.id)
+            params.append('date', props.date)
+            navigate({ pathname: '/reviewDetails', search: params.toString() })
+        }
     }
 
     const changeEdit = (e) => {
