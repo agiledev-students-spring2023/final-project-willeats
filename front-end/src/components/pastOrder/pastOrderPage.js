@@ -17,6 +17,7 @@ function PastOrderPage(props){
             headers: {Authorization: `Bearer ${token}`}
         })
         .then((res) => {
+            console.log(res.data[0])
             setReviewData(res.data)
             console.log(res.data)
         })
@@ -63,7 +64,7 @@ function PastOrderPage(props){
                                 itemList={element.itemList}
                                 date={element.date}
                                 CreateButton={CreateButton}
-                                image={element.restImage} />
+                                image={element.avatar} />
                         ))}
                     </div>
 

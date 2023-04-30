@@ -192,8 +192,10 @@ app.get('/userpastorder', (req, resp) => {
                         const result = []
                         order.forEach((e) => {
                             const res = {}
+                            console.log(e.restaurant.avatar)
                             res.name = e.restaurant.name
                             res.id = e._id
+                            res.avatar = e.restaurant.avatar
                             res.date = e.date.getMonth().toString() + '/' + e.date.getDate().toString() + '/' + e.date.getFullYear().toString()
                             res.itemList = []
                             e.dish.forEach(ele => {
