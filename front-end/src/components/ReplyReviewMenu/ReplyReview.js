@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReplyMenuItem from '../ReplyMenuItem/ReplyMenuItem';
 import '../../bootstrap.css'
-import axios from 'axios'
+import axios from '../axiosConfig'
 import MenuItem from '../MenuItem/MenuItem.jsx';
 import HomeButton from '../profile/HomeButton';
 import PageBackButton from '../pagebackButton/PageBackButton';
@@ -15,7 +15,7 @@ function ReplyReviews() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     axios
-      .get("http://localhost:3001/getmenu",{params: {
+      .get("/getmenu",{params: {
         token: token
       }})
       .then((response) => {

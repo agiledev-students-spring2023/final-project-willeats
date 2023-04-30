@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 // import './EditRestaurantMenu.css';
 import '../../bootstrap.css'
 import swal from 'sweetalert';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import MenuItem from '../MenuItem/MenuItem.jsx';
 import HomeButton from '../profile/HomeButton';
 import PageBackButton from '../pagebackButton/PageBackButton';
@@ -39,7 +39,7 @@ function EditRestaurantMenu() {
     const token = localStorage.getItem('token');
 
     // Make a request to the backend API to fetch the menu items
-    axios.get('http://localhost:3001/getmenu', {
+    axios.get('/getmenu', {
       params: {
         token: token
       }
@@ -91,7 +91,7 @@ function EditRestaurantMenu() {
       .then((willDelete) => {
         if (willDelete) {
           const token = localStorage.getItem('token')
-          axios.post(`http://localhost:3001/api/delete-menu-category`, { category: menuItems[categoryIndex].category }, {
+          axios.post(`/api/delete-menu-category`, {category:menuItems[categoryIndex].category}, {
             headers: { Authorization: `Bearer ${token}` }
           })
             .then(response => {

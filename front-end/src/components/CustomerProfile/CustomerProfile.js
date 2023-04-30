@@ -3,14 +3,14 @@ import '../../bootstrap.css';
 import './CustomerProfile.css'
 import { useNavigate } from 'react-router-dom';
 import TopBar from '../topBar/TopBar';
-import axios from 'axios';
+import axios from '../axiosConfig';
 
 function CustomerProfile() {
   const navigate = useNavigate()
 
   const [userData, setUserData] = useState([])
   useEffect(() => {
-      axios.get('http://localhost:3001/getuser')
+      axios.get('/getuser')
       .then((res) => {
         setUserData(res.data)
       })

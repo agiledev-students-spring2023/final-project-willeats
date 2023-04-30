@@ -137,6 +137,7 @@ app.get('/userpastreview', (req, resp) => {
                         res.itemName = e.dishId.name
                         res.review = e.review
                         res.star = e.rating
+                        res.avatar = e.userId.avatar
                         res.date = e.date.getMonth().toString() + '/' + e.date.getDate().toString() + '/' + e.date.getFullYear().toString()
                         res.reviewImage = e.image
                         res.reviewId = e.id

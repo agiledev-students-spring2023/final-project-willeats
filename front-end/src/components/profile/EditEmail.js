@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import axios from 'axios'
+import axios from '../axiosConfig'
 import '../../bootstrap.css';
 
 function EditEmail(props) {
@@ -9,7 +9,7 @@ function EditEmail(props) {
     useEffect(() => {
         const fetchEmail = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/Profile-${props.business ? 'M' : 'C'}-Email`);
+                const response = await axios.get(`/Profile-${props.business ? 'M' : 'C'}-Email`);
                 setEmail(response.data.email);
             } catch (error) {
                 console.error(error);
@@ -24,7 +24,7 @@ function EditEmail(props) {
 
     const saveEmail = async () => {
         try {
-            const response = await axios.post(`http://localhost:3001/Profile-${props.business ? 'M' : 'C'}-Email`, { email });
+            const response = await axios.post(`/Profile-${props.business ? 'M' : 'C'}-Email`, { email });
             console.log(response.data);
             setIsEmailEditable(false);
         } catch (error) {

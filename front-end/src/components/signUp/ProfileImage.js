@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import "./ProfileImage.css"
 
 function ProfileImage(props) {
@@ -9,7 +9,7 @@ function ProfileImage(props) {
     // Fetch user's avatar from the database here and set it as the default profile image
     const fetchProfileImage = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/profile-image-${props.business ? 'M' : 'C'}`);
+        const response = await axios.get(`/profile-image-${props.business ? 'M' : 'C'}`);
         setProfileImage(response.data.imageUrl);
       } catch (error) {
         console.error(error);
@@ -24,7 +24,7 @@ function ProfileImage(props) {
     const formData = new FormData();
     formData.append('image', file);
     try {
-      const response = await axios.post(`http://localhost:3001/profile-image-${props.business ? 'M' : 'C'}`, formData, {
+      const response = await axios.post(`/profile-image-${props.business ? 'M' : 'C'}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

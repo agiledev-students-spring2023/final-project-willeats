@@ -3,7 +3,7 @@ import {useNavigate } from "react-router-dom";
 import '../../bootstrap.css'
 import ReviewCard from '../reviewCards/reviewCard';
 import './pastOrderPage.css'
-import axios from 'axios';
+import axios from '../axiosConfig';
 import LoadMoreButton from '../loadMoreButton/loadMoreButton';
 import PageBackButton from '../pagebackButton/PageBackButton';
 import HomeButton from '../profile/HomeButton';
@@ -13,7 +13,7 @@ function PastOrderPage(props){
 
     useEffect(() => {
         const token = localStorage.getItem("token")
-        axios.get('http://localhost:3001/userpastorder',{
+        axios.get('/userpastorder',{
             headers: {Authorization: `Bearer ${token}`}
         })
         .then((res) => {

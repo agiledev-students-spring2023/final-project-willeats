@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import './CustomerSignUp.css';
 import ProfileImage from './ProfileImage';
 import { useNavigate } from 'react-router-dom';
@@ -20,7 +20,7 @@ const ManagerSignUp = () => {
 
   const checkName = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/check-name-m?managername=${name}`);
+      const response = await axios.get(`/check-name-m?managername=${name}`);
       if (response.data.exists) {
         setNameValidationMessage(`${response.data.registeredName} is already registered.`);
         setShowNameValidation(true);
@@ -79,7 +79,7 @@ const ManagerSignUp = () => {
 
   const checkEmail = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/check-email-m?email=${email}`);
+      const response = await axios.get(`/check-email-m?email=${email}`);
       if (response.data.exists) {
         setEmailValidationMessage('Email is already registered. Try to log in.');
         setShowEmailValidation(true);
@@ -101,7 +101,7 @@ const ManagerSignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3001/Sign-M', { name, email, password });
+      await axios.post('/Sign-M', { name, email, password });
       navigate('/Login');
     } catch (error) {
       console.log(error);

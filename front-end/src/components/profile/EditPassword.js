@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import '../../bootstrap.css';
 import './EditPassword.css';
 
@@ -12,7 +12,7 @@ function EditPassword({ business }) {
 
   const handleCheckPassword = async () => {
     try {
-      const response = await axios.post(`http://localhost:3001/Profile-${business ? 'M' : 'C'}-ComparePassword`, {
+      const response = await axios.post(`/Profile-${business ? 'M' : 'C'}-ComparePassword`, {
         password: inputPassword,
       });
 
@@ -32,7 +32,7 @@ function EditPassword({ business }) {
 
   const handleSavePassword = async () => {
     try {
-      await axios.post(`http://localhost:3001/Profile-${business ? 'M' : 'C'}-Password`, {
+      await axios.post(`/Profile-${business ? 'M' : 'C'}-Password`, {
         password: password,
       });
       // Password saved to the database
