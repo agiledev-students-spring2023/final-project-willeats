@@ -40,12 +40,14 @@ function CustomerProfile() {
   }
   
   const navigateHome = () => {
-    navigate('/')
+  
   }
 
   const handleLogOut = () => {
-    navigateHome();
-    localStorage.clear();
+    const restaurantId = localStorage.getItem('restId')
+    navigate(`/${restaurantId}`);
+    localStorage.removeItem("token");
+    localStorage.removeItem("cartItems");
   }
 
   return (
