@@ -46,7 +46,7 @@
     margin-bottom: 1rem;
     text-align: left;
     border-bottom: 4px solid black;
-    margin-top: 20px;
+    margin-top: 10px;
   }
   
   .name-container h1 {
@@ -62,9 +62,10 @@
 .custom-name-input {
   width: 90%;
   height: 2rem;
-  margin-top: 0.5rem;
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
   border: none;
-  border-bottom: 2px solid #000;
+  /* border-bottom: 2px solid #000; */
   text-align: center;
   font-weight: bold;
   font-size: 1.5rem; /* Adjust the font size as needed */
@@ -95,7 +96,7 @@
     display: flex;
     flex-direction: column;
     align-items: left;
-    margin-top: 1rem;
+    /* margin-top: 1rem; */
     width: 80%;
   }
   
@@ -118,7 +119,7 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-top: 1rem;
+    /* margin-top: 1rem; */
   }
   
   .save-button-edit-specify {

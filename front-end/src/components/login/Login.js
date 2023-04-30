@@ -18,7 +18,7 @@ axios.interceptors.request.use(
     }
 );
 
-const Login = () => {
+const Login = ({setIsLogged, setRole}) => {
     const [selected, setSelected] = useState('user')
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -53,7 +53,16 @@ const Login = () => {
         try {
             const response = await axios.post(`/login-${selected === 'user' ? 'C' : 'M'}`, { email, password });
             const token = response.data.token;
+            setIsLogged(true)
+            if(selected==='manager'){
+                setRole(selected+'sbjjh')
+                localStorage.setItem('role', selected+'sbjjh');
+            }else{
+                setRole(selected+'sbljr')
+                localStorage.setItem('role', selected+'sbljr');
+            }
             localStorage.setItem('token', token);
+            
             Navigate(loginPath);
         } catch (error) {
             alert('Incorrect email or password. Please try again.');

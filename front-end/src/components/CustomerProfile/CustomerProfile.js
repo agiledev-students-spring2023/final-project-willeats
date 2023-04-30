@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import TopBar from '../topBar/TopBar';
 import axios from '../axiosConfig';
 
-function CustomerProfile() {
+function CustomerProfile({setIsLogged, setRole}) {
   const navigate = useNavigate()
 
   const [userData, setUserData] = useState([])
@@ -44,10 +44,14 @@ function CustomerProfile() {
   }
 
   const handleLogOut = () => {
+    localStorage.removeItem('role')
+    setIsLogged(false)
+    setRole(null)
     const restaurantId = localStorage.getItem('restId')
     navigate(`/getmenu/${restaurantId}`);
     localStorage.removeItem("token");
     localStorage.removeItem("cartItems");
+    
   }
 
   return (
