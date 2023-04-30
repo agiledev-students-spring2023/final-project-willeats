@@ -8,6 +8,8 @@ import axios from '../axiosConfig';
 function OwnerProfile({setIsLogged, setRole}) {
 
   const [userData, setUserData] = useState([]);
+  const [showRestaurantIdButton, setShowRestaurantIdButton] = useState(false);
+
   useEffect(() => {
     axios.get('/getbuisness')
       .then((res) => {
@@ -47,6 +49,10 @@ function OwnerProfile({setIsLogged, setRole}) {
      navigate(`/restaurant-order/${id}`)
   }
 
+  const toggleShowRestaurantId = () => {
+    setShowRestaurantIdButton(!showRestaurantIdButton);
+  };
+
   const handleLogOut = () => {
     setRole(null)
     setIsLogged(false)
@@ -80,6 +86,13 @@ function OwnerProfile({setIsLogged, setRole}) {
             <button className="btn btn-lg btn-outline-primary" onClick={navigateMenu}>Manage Menu</button>
             <button className="btn btn-lg btn-outline-primary" onClick={navigateReview}>View Reviews</button>
             <button className="btn btn-lg btn-outline-primary" onClick={navigateProfile}>Account Settings</button>
+              {showRestaurantIdButton ? (
+      <button className="btn btn-lg btn-outline-primary" onClick={toggleShowRestaurantId}>{id}</button>
+    ) : (
+      <div>
+        <button className="btn btn-lg btn-outline-primary" onClick={toggleShowRestaurantId}>See Your Restaurant ID</button>
+      </div>
+    )}
             {/* <button className="btn btn-lg btn-outline-primary" onClick={navigateQRCode}>Access QR code</button> */}
             
           </div>
