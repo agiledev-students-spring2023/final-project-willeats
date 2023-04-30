@@ -2,7 +2,6 @@ import { React, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import QRCode from 'react-qr-code'; // Import the QRCode component
 import '../../bootstrap.css';
-import TopBar from '../topBar/TopBar';
 import './OwnerProfile.css';
 import axios from '../axiosConfig';
 
@@ -48,9 +47,13 @@ function OwnerProfile() {
      navigate(`/restaurant-order/${id}`)
   }
 
+  const handleLogOut = () => {
+    navigateHome();
+    localStorage.clear();
+  }
+
   return (
     <div>
-      <TopBar />
       <div className="owner-profile-container">
 
         <div className="greeting-bar">
@@ -78,7 +81,7 @@ function OwnerProfile() {
             <button className="btn btn-lg btn-outline-primary" onClick={navigateQRCode}>Access QR code</button>
             
           </div>
-          <button className="btn btn-link" onClick={navigateHome}>Logout</button>
+          <button className="btn btn-link" onClick={handleLogOut}>Logout</button>
         </div>
         
       </div>

@@ -60,6 +60,12 @@ const Login = () => {
             console.error(error);
         }
     }
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+          handleLogin();
+        }
+      };
     
     return (
         <div className='login-page'>
@@ -97,6 +103,7 @@ const Login = () => {
                         placeholder="Password"
                         value={password}
                         onChange={handlePasswordChange}
+                        onKeyDown={handleKeyPress}
                     />
                     <button type="button" className="btn btn-link" onClick={handleSignUp}>
                         {signUpText}

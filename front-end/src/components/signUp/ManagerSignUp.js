@@ -20,7 +20,7 @@ const ManagerSignUp = () => {
 
   const checkName = async () => {
     try {
-      const response = await axios.get(`/Sign-M?username=${name}`);
+      const response = await axios.get(`/check-name-m?managername=${name}`);
       if (response.data.exists) {
         setNameValidationMessage(`${response.data.registeredName} is already registered.`);
         setShowNameValidation(true);
@@ -79,7 +79,7 @@ const ManagerSignUp = () => {
 
   const checkEmail = async () => {
     try {
-      const response = await axios.get(`/Sign-M?email=${email}`);
+      const response = await axios.get(`/check-email-m?email=${email}`);
       if (response.data.exists) {
         setEmailValidationMessage('Email is already registered. Try to log in.');
         setShowEmailValidation(true);
