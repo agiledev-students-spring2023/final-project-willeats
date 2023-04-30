@@ -72,7 +72,7 @@ function RestaurantMenu() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/getRestaurantInfo/${restaurantId}`)
+      .get(`/getRestaurantInfo/${restaurantId}`)
       .then((response) => {
         const data = response.data
         console.log(data)

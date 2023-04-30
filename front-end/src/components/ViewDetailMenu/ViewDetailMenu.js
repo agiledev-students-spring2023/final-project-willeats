@@ -8,7 +8,7 @@ import StarRatings from 'react-star-ratings';
 import ReviewCard from '../reviewCards/reviewCard';
 import './ViewDetailMenu.css';
 import CartIcon from '../CartIcon/CartIcon';
-import axios from 'axios'
+import axios from '../axiosConfig'
 import PageBackButton from '../pagebackButton/PageBackButton';
 import LoadMoreButton from '../loadMoreButton/loadMoreButton';
 import { el } from 'date-fns/locale';
@@ -37,7 +37,7 @@ function ViewDetailMenu() {
 
       useEffect(() => {
         const token = localStorage.getItem('token');
-        axios.get(`http://localhost:3001/getReview/${id}`,{
+        axios.get(`/getReview/${id}`,{
             headers: { Authorization: `Bearer ${token}` }
         })
         .then((response)=>{

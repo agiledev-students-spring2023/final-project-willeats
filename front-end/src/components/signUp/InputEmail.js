@@ -24,7 +24,7 @@ function InputEmail() {
 
   const checkEmail = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/Sign-C?email=${email}`);
+      const response = await axios.get(`/Sign-C?email=${email}`);
       if (response.data.exists) {
         setEmailValidationMessage('Email is already registered. Try to log in.');
         setShowEmailValidation(true);

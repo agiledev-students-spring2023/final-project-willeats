@@ -4,13 +4,13 @@ import QRCode from 'react-qr-code'; // Import the QRCode component
 import '../../bootstrap.css';
 import TopBar from '../topBar/TopBar';
 import './OwnerProfile.css';
-import axios from 'axios';
+import axios from '../axiosConfig';
 
 function OwnerProfile() {
 
   const [userData, setUserData] = useState([]);
   useEffect(() => {
-    axios.get('http://localhost:3001/getbuisness')
+    axios.get('/getbuisness')
       .then((res) => {
         setUserData(res.data)
       })

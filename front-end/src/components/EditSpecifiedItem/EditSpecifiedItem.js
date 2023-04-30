@@ -4,7 +4,7 @@ import SimpleImageSlider from "react-simple-image-slider";
 import './EditSpecifiedItem.css';
 import '../../bootstrap.css';
 
-import axios from 'axios';
+import axios from '../axiosConfig';
 import TopBar_profile from '../topBar/TopBar-profile';
 
 
@@ -86,7 +86,7 @@ function EditSpecifiedItem() {
   
     const token = localStorage.getItem('token');
     
-    axios.post(`http://localhost:3001/api/edit-menu-items/${id}`, data, {
+    axios.post(`/api/edit-menu-items/${id}`, data, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(response => {

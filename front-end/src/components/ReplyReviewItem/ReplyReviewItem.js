@@ -6,7 +6,7 @@ import { parse, format } from 'date-fns';
 import StarRatings from 'react-star-ratings';
 import ReviewCard from '../reviewCards/reviewCard';
 import './ReplyReviewItem.css'
-import axios from 'axios'
+import axios from '../axiosConfig'
 import PageBackButton from '../pagebackButton/PageBackButton';
 
 
@@ -26,7 +26,7 @@ function ReplyReviewItem() {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        axios.get(`http://localhost:3001/getReview/${id}`)
+        axios.get(`/getReview/${id}`)
         .then((response)=>{
             const data = response.data
             console.log(data)

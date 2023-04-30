@@ -9,7 +9,7 @@ function EditName(props) {
   useEffect(() => {
     const fetchName = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/Profile-${props.business ? 'M' : 'C'}-Name`);
+        const response = await axios.get(`/Profile-${props.business ? 'M' : 'C'}-Name`);
         setName(response.data.name);
       } catch (error) {
         console.error(error);
@@ -24,7 +24,7 @@ function EditName(props) {
 
   const handleNameSave = async () => {
     try {
-        const response = await axios.post(`http://localhost:3001/Profile-${props.business ? 'M' : 'C'}-Name`, { name });
+        const response = await axios.post(`/Profile-${props.business ? 'M' : 'C'}-Name`, { name });
         console.log(response.data);
         setIsNameEditable(false);
     } catch (error) {
