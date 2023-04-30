@@ -48,7 +48,7 @@ function CustomerProfile({setIsLogged, setRole}) {
     setIsLogged(false)
     setRole(null)
     const restaurantId = localStorage.getItem('restId')
-    navigate(`/${restaurantId}`);
+    navigate(`/getmenu/${restaurantId}`);
     localStorage.removeItem("token");
     localStorage.removeItem("cartItems");
     

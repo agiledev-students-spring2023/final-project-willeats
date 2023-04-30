@@ -41,16 +41,6 @@ function ProfileButton() {
     }
   };
 
-  const getProfilePath = () => {
-    console.log(role)
-    // Determine profile path based on user role
-    if (role === 'manager') {
-      setPath('/ownerprofile');
-    } else {
-      setPath('/customerprofile');
-    }
-  };
-
   const navigateProfile = () => {
     if (token) {
       console.log(token)
