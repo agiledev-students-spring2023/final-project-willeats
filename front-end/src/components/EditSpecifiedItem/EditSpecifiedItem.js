@@ -35,24 +35,18 @@ function EditSpecifiedItem() {
     input.addEventListener('change', (event) => {
       const files = event.target.files;
       const urls = [];
-
+    
       for (let i = 0; i < files.length; i++) {
         const url = URL.createObjectURL(files[i]);
         urls.push(url);
       }
       console.log(urls)
-      setNewImages(urls);
+      setImages(urls);
       setImageFiles(files);
     });
-    console.log(images)
     input.click();
+    
   }
-
-  const handleImageSave = () => {
-    console.log("newImages:",newImages)
-    setImages(newImages);
-    setNewImages([]);    
-  };
 
   console.log(images)
 
@@ -133,8 +127,7 @@ function EditSpecifiedItem() {
             onClickNav={(index) => console.log(`Clicked nav button: ${index}`)}
             onClick={handleImageUpload}
           />
-          {/* <button className="edit-images-button">Edit the Images</button> */}
-          <button className="edit-images-button" onClick={handleImageSave}>Save Images</button>
+         
         </div>
 
         <div className="name-container">
