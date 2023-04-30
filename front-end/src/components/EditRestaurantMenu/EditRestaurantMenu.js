@@ -7,7 +7,7 @@ import MenuItem from '../MenuItem/MenuItem.jsx';
 import HomeButton from '../profile/HomeButton';
 import PageBackButton from '../pagebackButton/PageBackButton';
 import { useNavigate } from 'react-router-dom';
-
+import TopBar_profile from '../topBar/TopBar-profile';
 function EditRestaurantMenu() {
 
   const [menuItems, setMenuItems] = useState([]);
@@ -117,8 +117,9 @@ function EditRestaurantMenu() {
     <div className='row'>
       <div className="restaurant-menu-container col">
         <div className='row d-flex justify-content-between m-1'>
-          <PageBackButton />
-          <HomeButton />
+          {/* <PageBackButton />
+          <HomeButton /> */}
+          <TopBar_profile/>
         </div>
         <div className="head">
           <h1>Your Menus</h1>

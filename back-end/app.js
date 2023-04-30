@@ -680,7 +680,8 @@ app.post('/Sign-M', async (req, res) => {
             name: req.body.name,
             email: req.body.email,
             password: hashedPassword,
-            avatar: "https://willeats-bucket.s3.amazonaws.com/default-avatar.png"
+            avatar: "https://willeats-bucket.s3.amazonaws.com/default-avatar.png",
+            background:'https://willeats-bucket.s3.us-east-1.amazonaws.com/1682790021072-food-image.jpg'
         });
 
         await manager.save();

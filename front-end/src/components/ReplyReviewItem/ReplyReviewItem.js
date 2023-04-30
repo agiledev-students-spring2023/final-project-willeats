@@ -73,7 +73,7 @@ function ReplyReviewItem() {
                             onClickNav={(index) => console.log(`Clicked nav button: ${index}`)}
                         />
                     </div>
-                    <div className="card border-0">
+                    <div className="card border-0 m-1">
                         <div className="card-body">
                             <h5 className="card-title">{name}</h5>
                             <StarRatings
@@ -90,8 +90,8 @@ function ReplyReviewItem() {
                     <div className='sort-btn'>
                     <button type="button" className="btn btn-link" onClick={()=>sortReviewsByDate('MM/dd/yyyy')}>Sort by Date</button>
                     </div>
-                    <div className='row d-flex justify-content-center'>
-                    { reviews && reviews.length===0? <h3>No reviews was post for this item..</h3>
+                    <div className='row d-flex justify-content-center m-1'>
+                    { reviews && reviews.length===0? <h5>No reviews was post for this item..</h5> 
                     :reviews && reviews.map((element, index) => (
                         <ReviewCard 
                             mainName={element.name} 

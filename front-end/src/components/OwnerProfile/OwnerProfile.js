@@ -5,7 +5,7 @@ import '../../bootstrap.css';
 import './OwnerProfile.css';
 import axios from '../axiosConfig';
 
-function OwnerProfile() {
+function OwnerProfile({setIsLogged, setRole}) {
 
   const [userData, setUserData] = useState([]);
   useEffect(() => {
@@ -27,8 +27,8 @@ function OwnerProfile() {
     navigate('/Profile-M');
   }
 
-  const navigateHome = () => {
-    navigate('/');
+  const navigateLogin_H = () => {
+    navigate('/Login');
   }
 
   const navigateMenu = () => {
@@ -48,7 +48,9 @@ function OwnerProfile() {
   }
 
   const handleLogOut = () => {
-    navigateHome();
+    setRole(null)
+    setIsLogged(false)
+    navigateLogin_H();
     localStorage.clear();
   }
 
@@ -78,7 +80,7 @@ function OwnerProfile() {
             <button className="btn btn-lg btn-outline-primary" onClick={navigateMenu}>Manage Menu</button>
             <button className="btn btn-lg btn-outline-primary" onClick={navigateReview}>View Reviews</button>
             <button className="btn btn-lg btn-outline-primary" onClick={navigateProfile}>Account Settings</button>
-            <button className="btn btn-lg btn-outline-primary" onClick={navigateQRCode}>Access QR code</button>
+            {/* <button className="btn btn-lg btn-outline-primary" onClick={navigateQRCode}>Access QR code</button> */}
             
           </div>
           <button className="btn btn-link" onClick={handleLogOut}>Logout</button>

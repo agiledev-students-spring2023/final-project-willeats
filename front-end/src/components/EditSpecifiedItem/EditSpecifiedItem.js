@@ -121,7 +121,7 @@ function EditSpecifiedItem() {
 
         <div className="image-slider-container">
           <SimpleImageSlider
-          key={images.join("")}
+            key={images.join("")}
             width={'90%'}
             height={200}
             images={images.map(image => ({ url: image }))}
@@ -140,13 +140,13 @@ function EditSpecifiedItem() {
         <div className="name-container">
           {/* <h1 id="name" onClick={handleNameClick}>{name}</h1> */}
           <input
-  id="name-editor"
-  type="text"
-  value={name}
-  onChange={handleNameChange}
-  placeholder="Name"
-  className="custom-name-input" // Add the custom class here
-/>
+            id="name-editor"
+            type="text"
+            value={name}
+            onChange={handleNameChange}
+            placeholder="Name"
+            className="custom-name-input" // Add the custom class here
+          />
 
         </div>
 

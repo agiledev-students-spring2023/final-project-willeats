@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes,Link, Navigate, Outlet, } from 'react-router-dom';
 import './index.css';
 import Home from './components/Home/Home';
 import './App.css';
@@ -40,35 +40,73 @@ import RestaurantOrder from './components/Restaurant-Order/Restaurant-Order';
 
 
 function App() {
+  const [isLogged, setIsLogged] = React.useState(localStorage.getItem('token'));
+  const [role, setRole] = React.useState(localStorage.getItem('role'))
+  const ProtectedRouteUser = ({
+    isAllowed,
+    redirectPath = '/Login',
+    role,
+    
+  }) => {
+    if (!isAllowed && role !== 'usersbljr') {
+      alert('not logging')
+      return <Navigate to={redirectPath} replace />;
+    }
+    
+    return <Outlet />;
+  };
+  const ProtectedRouteManager = ({
+    isAllowed,
+    redirectPath = '/Login',
+    role,
+    
+  }) => {
+    if (!isAllowed && role !== 'managersbjjh') {
+      alert('not logging')
+      return <Navigate to={redirectPath} replace />;
+    }
+    
+    return <Outlet />;
+  };
   return (
       <Router>
         <Routes>
           <Route path='/:restId' element={<Home/>}></Route>
-          <Route path='/Login' element={<Login/>}></Route>
+          <Route path='/Login' element={<Login setIsLogged={setIsLogged} setRole={setRole} />}></Route>
           <Route path='/Sign-C' element={<CustomerSignUp/>}></Route>
           <Route path='/Sign-M' element={<ManagerSignUp/>}></Route>
-          <Route path='/Profile-C' element={<EditCustomerProfile/>}></Route>
-          <Route path='/Profile-M' element={<ManagerProfile/>}></Route>
+          
+          
           <Route path="/getmenu/:id" element={<RestaurantMenu />} />
-          <Route path="/editmenu" element={<EditRestaurantMenu />} />
-          <Route path="/editmenu/:id" element={<EditSpecifiedItem />} />
-          <Route path="/replymenu" element={<ReplyReviews />} />
-          <Route path="/replymenu/:id" element={<ReplyReviewItem />} />
+          
           <Route path="/menu/:id" element={<ViewDetailMenu />} />
-          <Route path='/userpastreview' element={<PastReviewPage/>} />
-          <Route path='/usereditreview' element={<EditReviewPage/>}/>
-          <Route path='/usercreatereview' element={<CreateReviewPage/>} />
-          <Route path='/userpastorder' element={<PastOrderPage/>} />
-          <Route path="/customerprofile" element={<CustomerProfile/>}></Route>
+          <Route element={<ProtectedRouteUser isAllowed={isLogged} role={role}/>}>
+            <Route path='/Profile-C' element={<EditCustomerProfile/>}/>
+            <Route path='/userpastreview' element={<PastReviewPage />} />
+            <Route path='/usereditreview' element={<EditReviewPage />} />
+            <Route path='/usercreatereview' element={<CreateReviewPage />} />
+            <Route path='/userpastorder' element={<PastOrderPage />} />
+            <Route path="/customerprofile" element={<CustomerProfile setRole={setRole} setIsLogged={setIsLogged}/>} />
+          </Route>
+          <Route element={<ProtectedRouteManager isAllowed={isLogged} role={role}/>}>
+            <Route path="/editmenu" element={<EditRestaurantMenu />} />
+            <Route path="/editmenu/:id" element={<EditSpecifiedItem />} />
+            <Route path="/replymenu" element={<ReplyReviews />} />
+            <Route path="/replymenu/:id" element={<ReplyReviewItem />} />
+            <Route path='/Profile-M' element={<ManagerProfile/>}></Route>
+            <Route path='/ownerReviewDetail' element={<OwnersideReviewDetails review={review} user={user} owner={owner} />} />
+            <Route path='/ownerprofile' element={<OwnerProfile setRole={setRole} setIsLogged={setIsLogged}/>} />
+            <Route path='/replyUser' element={<ReplyUser/>} />
+            <Route path="/restaurant-order/:id" element={<RestaurantOrder />} />
+          </Route>
           <Route path='/cart/:id' element={<Cart />} />
-          <Route path='/ownerReviewDetail' element={<OwnersideReviewDetails review={review} user={user} owner={owner} />} />
-          <Route path='/ownerprofile' element={<OwnerProfile/>} />
+          
           <Route path='/checkout' element={<OrderFinished/>} />
           <Route path='/reviewDetails' element={<ReviewDetails/>} />
-          <Route path='/replyUser' element={<ReplyUser/>} />
+          
           <Route path="/qr-scanner" element={<QRScanner />} />
           <Route path="/qr-code/:id" element={<QRCodeGenerator />} />
-          <Route path="/restaurant-order/:id" element={<RestaurantOrder />} />
+          
         </Routes>
       </Router>
 
