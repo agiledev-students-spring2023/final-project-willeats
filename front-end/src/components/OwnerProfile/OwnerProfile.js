@@ -87,10 +87,10 @@ function OwnerProfile({setIsLogged, setRole}) {
             <button className="btn btn-lg btn-outline-primary" onClick={navigateReview}>View Reviews</button>
             <button className="btn btn-lg btn-outline-primary" onClick={navigateProfile}>Account Settings</button>
               {showRestaurantIdButton ? (
-      <button className="btn btn-lg btn-outline-primary" onClick={toggleShowRestaurantId}>{id}</button>
+      <p  onClick={toggleShowRestaurantId}>{"/getmenu/"+id}</p>
     ) : (
       <div>
-        <button className="btn btn-lg btn-outline-primary" onClick={toggleShowRestaurantId}>See Your Restaurant ID</button>
+        <button className="btn btn-lg btn-outline-primary" onClick={toggleShowRestaurantId}>See Your Restaurant Url</button>
       </div>
     )}
             {/* <button className="btn btn-lg btn-outline-primary" onClick={navigateQRCode}>Access QR code</button> */}
