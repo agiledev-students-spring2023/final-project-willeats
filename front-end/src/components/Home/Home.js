@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate,useParams } from "react-router-dom";
 import './Home.css'
 import '../../bootstrap.css'
 import logo from "../../image/circle.png";
@@ -7,18 +7,27 @@ import backgroundImage from "../../image/food-image.jpg";
 import mockProfileImg from "../../image/random-profile.jpg";
 import defaultProfileImg from "../../image/default-profile-image.svg";
 
+
 function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [restaurantId,setRestaurantId] = useState( useParams() )
   const profileImage = isLoggedIn ? mockProfileImg : defaultProfileImg;
   const Navigate = useNavigate();
+  const {restId} = useParams();
+  localStorage.setItem('restId', restId)
 
   const navigateLogin = () => {
     Navigate('/Login');
   }
 
   const navigateMenu = () => {
-    Navigate('/qr-scanner');
+    const restaurantId = localStorage.getItem('restId')
+    Navigate(`/getmenu/${restaurantId}`);
   }
+
+  useEffect(() => {
+    
+  }, []);
 
   return (
     <div className="container"> 
@@ -34,7 +43,7 @@ function Home() {
         </div>
       
         <div className="button-container">
-            <button className="button btn btn-primary btn-lg" onClick={navigateMenu}>Scan Now</button>
+            <button className="button btn btn-primary btn-lg" onClick={navigateMenu}>Enter Menu</button>
         </div>
         <div className="login-container">
           <button className="btn btn-link" onClick={navigateLogin}>Login</button>

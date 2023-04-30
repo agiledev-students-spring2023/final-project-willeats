@@ -35,6 +35,7 @@ import OrderFinished from './components/OrderFinished/OrderFinished';
 import ReplyUser from './components/replyUser/ReplyUser';
 import QRScanner from "./components/QRScanner/QRScanner";
 import QRCodeGenerator from './components/QRCodeGenerator/QRCodeGenerator';
+import RestaurantOrder from './components/Restaurant-Order/Restaurant-Order';
 
 
 
@@ -42,13 +43,13 @@ function App() {
   return (
       <Router>
         <Routes>
-          <Route path='/' element={<Home/>}></Route>
+          <Route path='/:restId' element={<Home/>}></Route>
           <Route path='/Login' element={<Login/>}></Route>
           <Route path='/Sign-C' element={<CustomerSignUp/>}></Route>
           <Route path='/Sign-M' element={<ManagerSignUp/>}></Route>
           <Route path='/Profile-C' element={<EditCustomerProfile/>}></Route>
           <Route path='/Profile-M' element={<ManagerProfile/>}></Route>
-          <Route path="/menu" element={<RestaurantMenu />} />
+          <Route path="/getmenu/:id" element={<RestaurantMenu />} />
           <Route path="/editmenu" element={<EditRestaurantMenu />} />
           <Route path="/editmenu/:id" element={<EditSpecifiedItem />} />
           <Route path="/replymenu" element={<ReplyReviews />} />
@@ -59,7 +60,7 @@ function App() {
           <Route path='/usercreatereview' element={<CreateReviewPage/>} />
           <Route path='/userpastorder' element={<PastOrderPage/>} />
           <Route path="/customerprofile" element={<CustomerProfile/>}></Route>
-          <Route path='/cart' element={<Cart />} />
+          <Route path='/cart/:id' element={<Cart />} />
           <Route path='/ownerReviewDetail' element={<OwnersideReviewDetails review={review} user={user} owner={owner} />} />
           <Route path='/ownerprofile' element={<OwnerProfile/>} />
           <Route path='/checkout' element={<OrderFinished/>} />
@@ -67,6 +68,7 @@ function App() {
           <Route path='/replyUser' element={<ReplyUser/>} />
           <Route path="/qr-scanner" element={<QRScanner />} />
           <Route path="/qr-code/:id" element={<QRCodeGenerator />} />
+          <Route path="/restaurant-order/:id" element={<RestaurantOrder />} />
         </Routes>
       </Router>
 

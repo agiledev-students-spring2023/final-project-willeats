@@ -15,38 +15,15 @@ const Cart = ({}) => {
   const [cartItems, setCartItems] = useState([]);
   const [items, setItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [restaurantId, setRestaurantId]=useState('6444893a4f71daabbde15f35')
+  // const [restaurantId, setRestaurantId]=useState('6444893a4f71daabbde15f35')
   const [rateData, setRateData] = useState([])
-
-  useEffect(() => {
-    axios.get('http://localhost:3001/getrate')
-    .then((res) => {
-      console.log(res.data)
-
-      setRateData(res.data)
-    })
-    .catch((err) => (
-        console.log(err)
-    ))
-  }, []);
- 
-  const deliveryFee = parseFloat(rateData.deliveryFee);
-  const taxRate = parseFloat(rateData.taxrate);
-
-
-
-
-
+  const [taxRate,setTaxRate] = useState(8.875)
+  const { id } = useParams();
   const handleTipChange = (event) => {
     setTipAmount(parseFloat(event.target.value));
   };
 
   const navigate = useNavigate()
-
-  const navigateHome = () => {
-    navigate('/')
-  }
-
 
   useEffect(() => {
     const cartItems = JSON.parse(localStorage.getItem('cartItems'));
@@ -81,7 +58,7 @@ const handleLCheckout = () => {
   const configuration = {
     method: "post",
     headers: {Authorization: `Bearer ${token}`},
-    url: `http://localhost:3001/checkout/${restaurantId}`,
+    url: `http://localhost:3001/checkout/${id}`,
     data: {
         totalPrice: totalPrice,
         items: items
@@ -102,9 +79,9 @@ const handleLCheckout = () => {
 const subtotal=items.reduce((acc, item) => acc + item.price * item.quantity, 0)
 
 const tax = subtotal * taxRate/100;
-const total = subtotal + tax + deliveryFee + tipAmount;
+const total = subtotal + tax  + tipAmount;
 
-  const tipPercentages = [10, 15, 20];
+const tipPercentages = [10, 15, 20];
 
  
   
@@ -123,7 +100,6 @@ const total = subtotal + tax + deliveryFee + tipAmount;
         <div className="subtotal">
           <p>Subtotal: ${subtotal.toFixed(2)}</p>
           <p>Tax: ${tax.toFixed(2)}</p>
-          <p>Delivery Fee: ${deliveryFee.toFixed(2)}</p>
 
           <span>Tip</span>
 
@@ -154,7 +130,7 @@ const total = subtotal + tax + deliveryFee + tipAmount;
         
           <p>Total: ${total.toFixed(2)}</p>
         
-          <button className="button btn btn-primary btn-lg"  onClick={handleLCheckout}>Checkout</button>
+          <button className="button btn btn-primary btn-lg"  onClick={handleLCheckout}>Place The Order</button>
         
         </div>
       </div>

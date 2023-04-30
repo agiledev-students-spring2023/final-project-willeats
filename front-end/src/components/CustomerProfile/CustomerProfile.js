@@ -34,7 +34,9 @@ function CustomerProfile() {
   }
   
   const navigateScan = () => {
-    navigate('/menu')
+    
+    const restaurantId = localStorage.getItem('restId')
+    navigate(`/getmenu/${restaurantId}`);
   }
   
   const navigateHome = () => {
@@ -51,7 +53,7 @@ function CustomerProfile() {
       <TopBar/>
       <div className="main">
         <div className="profile-image">
-          <img src={userData.image} alt="Profile pic" />
+          <img src={userData.avatar} alt="Profile pic" />
           
           
         </div>
@@ -60,7 +62,7 @@ function CustomerProfile() {
           <button type="button" className="btn btn-lg btn-outline-primary" onClick={navigateOrder}>My Orders</button>
           <button type="button" className="btn btn-lg btn-outline-primary" onClick={navigateReview}>My Reviews</button>
           <button type="button" className="btn btn-lg btn-outline-primary" onClick={navigateAccount}>Account Settings</button>
-          <button type="button" className="btn btn-lg btn-primary btn-lg" onClick={navigateScan}>Scan Now</button>
+          <button type="button" className="btn btn-lg btn-primary btn-lg" onClick={navigateScan}>Enter Menu</button>
         </div>
         <button className="btn btn-link logout" onClick={handleLogOut}>Logout</button>
       </div>

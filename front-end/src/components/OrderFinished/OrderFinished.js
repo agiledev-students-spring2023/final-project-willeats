@@ -14,7 +14,9 @@ function OrderFinished() {
     const profileImage = isLoggedIn ? mockProfileImg : defaultProfileImg;
     
     const handleOrderMore = () => {
-        navigate('/menu')
+        localStorage.removeItem("cartItems");
+        const restaurantId = localStorage.getItem('restId')
+        navigate(`/getmenu/${restaurantId}`);
     }
     
     const handleWriteReview = () => {
