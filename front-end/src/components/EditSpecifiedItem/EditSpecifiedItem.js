@@ -20,7 +20,7 @@ function EditSpecifiedItem() {
   const [images, setImages] = useState(
     new URLSearchParams(location.search).get('image')
       ? new URLSearchParams(location.search).get('image').split(',')
-      : ["https://willeats-bucket.s3.us-east-1.amazonaws.com/1682550700197-WIN_20211217_12_34_23_Pro.jpg"]
+      : ["https://willeats-bucket.s3.us-east-1.amazonaws.com/1682783282361-07127035755.0.jpg"]
   );
   // console.log(id)
   //fetch menu item data from the server using the id
