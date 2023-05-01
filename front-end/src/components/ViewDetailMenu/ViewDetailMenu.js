@@ -27,6 +27,7 @@ function ViewDetailMenu() {
     const [count,setCount]=useState(JSON.parse(localStorage.getItem('cartItems')).length);
     const [reviews, setReviews] = useState()
     const [id, setId] = useState(new URLSearchParams(location.search).get('id'));
+    const [restaurantId,setRestaurantId] = useState(localStorage.getItem('restId'))
     console.log(rating)
     useEffect(() => {
         const cartItems = JSON.parse(localStorage.getItem('cartItems'));
@@ -142,7 +143,7 @@ function ViewDetailMenu() {
                     </div>
                   
                     <div className="cart-container d-flex flex-row-reverse">
-                        <CartIcon count={count} />
+                        <CartIcon count={count} id = {restaurantId} />
                     </div>
                     </div>
                 </div>
