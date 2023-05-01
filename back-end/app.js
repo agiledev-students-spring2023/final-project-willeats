@@ -339,8 +339,6 @@ app.post('/createuserreview', check('review').notEmpty().withMessage('review sho
             }
         })
     }
-    
-    // resp.status(200).send({ message: 'create successfully' })
 });
 
 app.post('/checkout/:restId', (req, res) => {
@@ -364,7 +362,7 @@ app.post('/checkout/:restId', (req, res) => {
                 order
                     .save()
                     .then(result => {
-                        res.status(200).send({ message: 'checkout successfully' })
+                        res.status(200).send(result)
                     })
                     .catch(err => {
                         console.log(err)

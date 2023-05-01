@@ -18,6 +18,7 @@ function OrderCard(props) {
                     <div className="card-body">
                         <h5 className="card-title m-b-40">{dateString}</h5>
                         <h6>{props.order.user?props.order.user.name+" Order Dishes":"Annoymous Guest "+"Order Dishes"}</h6>
+                        <h6>{"Order Id: "+props.order._id.slice(-4)}</h6>
                         <div className='col m-0'>
                             {props.order.dish && (
                                 <h7>

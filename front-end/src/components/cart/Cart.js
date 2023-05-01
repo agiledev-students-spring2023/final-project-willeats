@@ -66,7 +66,8 @@ const handleLCheckout = () => {
 };
   axios(configuration)
   .then(res => {
-    Navigate('/checkout')
+    const orderId = res.data._id.slice(-4)
+    Navigate(`/checkout/${orderId}`)
   })
   .catch((err) => {
     console.log(err)
