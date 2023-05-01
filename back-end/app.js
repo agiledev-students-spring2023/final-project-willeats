@@ -235,8 +235,13 @@ app.get('/userpastorder', (req, resp) => {
 
 // });
 
-app.post('/edituserreview',check('review').notEmpty().withMessage('review should not be null'), upload.array("image", 9), (req, resp) => {
-    var err = validationResult(req.body);
+app.post('/edituserreview', upload.array("image", 9), check('review').custom(value => {
+    if (value === undefined || value.trim() === '' || value === 'undefined') {
+        throw new Error('review cannot be empty');
+    }
+    return true;
+}), (req, resp) => {
+    var err = validationResult(req);
     if(!err.isEmpty()){
         console.log(err.mapped())
         resp.status(400).send(err.mapped().review.msg)
@@ -287,18 +292,25 @@ app.post('/edituserreview',check('review').notEmpty().withMessage('review should
 });
 
 
-app.post('/createuserreview', check('review').notEmpty().withMessage('review should not be null'), upload.array("image", 9), (req, resp) => {
-    console.log(req.body.review)
-    var err = validationResult(req.body);
+app.post('/createuserreview',  upload.array("image", 9), check('review').custom(value => {
+    if (value === undefined || value.trim() === '' || value === 'undefined') {
+        throw new Error('review cannot be empty');
+    }
+    return true;
+}),  (req, resp) => {
+    console.log(req.body)
+    var err = validationResult(req);
     if(!err.isEmpty()){
-        console.log(err.mapped())
+        console.log(req.body)
+        console.log('haha123')
+        // console.log(err.mapped())
         resp.status(400).send(err.mapped().review.msg)
     }else{
         const authHeader = req.headers['authorization']
         const token = authHeader && authHeader.split(' ')[1]
         if (token == null) return resp.sendStatus(401)
-        console.log(req.files)
-        console.log(req.body)
+        // console.log(req.files)
+        // console.log(req.body)
         jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
             if (err) {
                 resp.status(401).json({ error: "unauthorized" })
@@ -310,7 +322,7 @@ app.post('/createuserreview', check('review').notEmpty().withMessage('review sho
                             req.files.forEach((e) => {
                                 img.push(e.location)
                             })
-                            console.log(img)
+                            // console.log(img)
                             const review = new Review({
 
                                 itemName: req.body.itemName,
