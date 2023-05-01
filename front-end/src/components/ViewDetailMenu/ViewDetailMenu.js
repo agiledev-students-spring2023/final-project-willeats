@@ -130,7 +130,7 @@ function ViewDetailMenu() {
                             keys={index}
                             date={element.date} 
                             star={element.rating}
-                            image={element.restImage}
+                            image={element.userId.avatar}
                             reviewImage={element.image}
                             isUser={element.isUser}
                         />
