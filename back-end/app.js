@@ -279,51 +279,58 @@ app.post('/edituserreview', upload.array("image", 9), (req, resp) => {
 });
 
 
-app.post('/createuserreview', upload.array("image", 9), (req, resp) => {
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
-    if (token == null) return resp.sendStatus(401)
-    console.log(req.files)
-    console.log(req.body)
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-        if (err) {
-            resp.status(401).json({ error: "unauthorized" })
-        } else {
-            if (decoded.role === 'customer') {
-                Dish.findOne({ name: req.body.itemName })
-                    .then((dish) => {
-                        const img = []
-                        req.files.forEach((e) => {
-                            img.push(e.location)
-                        })
-                        console.log(img)
-                        const review = new Review({
-
-                            itemName: req.body.itemName,
-                            review: req.body.review,
-                            dishId: dish.id,
-                            userId: new mongoose.Types.ObjectId(decoded.userid),
-                            image: [...img],
-                            rating: parseInt(req.body.rating)
-                        })
-                        review.save()
-                            .then((result) => {
-                                resp.status(200).send({ success: "save database success" })
-                            })
-                            .catch(err => {
-                                console.log(err)
-                                resp.status(500).json({ error: "save database error" })
-                            })
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                        resp.status(500).json({ error: "no such dish" })
-                    })
+app.post('/createuserreview', check('review').notEmpty().withMessage('review should not be null'), upload.array("image", 9), (req, resp) => {
+    var err = validationResult(req);
+    if(!err.isEmpty()){
+        console.log(err.mapped())
+        resp.status(400).send(err.mapped().review.msg)
+    }else{
+        const authHeader = req.headers['authorization']
+        const token = authHeader && authHeader.split(' ')[1]
+        if (token == null) return resp.sendStatus(401)
+        console.log(req.files)
+        console.log(req.body)
+        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+            if (err) {
+                resp.status(401).json({ error: "unauthorized" })
             } else {
-                resp.redirect('/')
+                if (decoded.role === 'customer') {
+                    Dish.findOne({ name: req.body.itemName })
+                        .then((dish) => {
+                            const img = []
+                            req.files.forEach((e) => {
+                                img.push(e.location)
+                            })
+                            console.log(img)
+                            const review = new Review({
+
+                                itemName: req.body.itemName,
+                                review: req.body.review,
+                                dishId: dish.id,
+                                userId: new mongoose.Types.ObjectId(decoded.userid),
+                                image: [...img],
+                                rating: parseInt(req.body.rating)
+                            })
+                            review.save()
+                                .then((result) => {
+                                    resp.status(200).send({ success: "save database success" })
+                                })
+                                .catch(err => {
+                                    console.log(err)
+                                    resp.status(500).json({ error: "save database error" })
+                                })
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                            resp.status(500).json({ error: "no such dish" })
+                        })
+                } else {
+                    resp.redirect('/')
+                }
             }
-        }
-    })
+        })
+    }
+    
     // resp.status(200).send({ message: 'create successfully' })
 });
 
