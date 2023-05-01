@@ -39,10 +39,11 @@ function ReviewArea(props){
       //   .catch((err) => {
       //     console.log(err)
       //   })
-
+      console.log(props.saveData)
       props.setSaveData((prevSaveData) => [...prevSaveData, editData])
     }
     if(props.save && !review){
+      props.setSaveData([])
       props.setSave(false)
       alert('review not null')
     }

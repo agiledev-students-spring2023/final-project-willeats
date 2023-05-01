@@ -22,6 +22,7 @@ function CreateReviewPage(){
     }
 
     useEffect(() => {
+        console.log(saveData)
         if(save && saveData.length === reviewed.length){
             const token = localStorage.getItem("token")
             console.log(saveData)
@@ -51,7 +52,7 @@ function CreateReviewPage(){
             .catch(err => {
                 console.log(err)
                 setSave(false)
-                alert(`${err.response.data}`)
+                alert(`${err.response.data.error}`)
                 
             })
             // axios.post("http://localhost:3001/createuserreview", formData)
@@ -153,6 +154,7 @@ function CreateReviewPage(){
                                     total={total}
                                     setTotal={setTotal}
                                     setSaveData={setSaveData}
+                                    saveData={saveData}
                                     setSave={setSave} />
                             </div>
                         ))}
