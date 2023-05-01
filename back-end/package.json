@@ -4,7 +4,7 @@
   "description": "The back-end of your project will live in this directory.",
   "main": "index.js",
   "scripts": {
-    "build:digitalocean": "npm install --production=false && npm run build && npm ci",
+    "build:digitalocean": "npm install --production=false && npm ci",
     "test": "nyc --reporter=text --reporter=html mocha app.test.js"
   },
   "author": "",
