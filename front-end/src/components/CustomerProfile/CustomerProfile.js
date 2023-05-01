@@ -5,9 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import TopBar from '../topBar/TopBar';
 import axios from '../axiosConfig';
 
+
 function CustomerProfile({setIsLogged, setRole}) {
   const navigate = useNavigate()
-
+  const [menuExist,setMenuExist] = useState(true)
   const [userData, setUserData] = useState([])
   useEffect(() => {
       axios.get('/getuser')
@@ -36,11 +37,11 @@ function CustomerProfile({setIsLogged, setRole}) {
   const navigateScan = () => {
     
     const restaurantId = localStorage.getItem('restId')
-    navigate(`/getmenu/${restaurantId}`);
-  }
-  
-  const navigateHome = () => {
-  
+    if(restaurantId===null){
+      setMenuExist(false)
+    }else{
+      navigate(`/getmenu/${restaurantId}`);
+    }
   }
 
   const handleLogOut = () => {
@@ -68,7 +69,11 @@ function CustomerProfile({setIsLogged, setRole}) {
           <button type="button" className="btn btn-lg btn-outline-primary" onClick={navigateOrder}>My Orders</button>
           <button type="button" className="btn btn-lg btn-outline-primary" onClick={navigateReview}>My Reviews</button>
           <button type="button" className="btn btn-lg btn-outline-primary" onClick={navigateAccount}>Account Settings</button>
-          <button type="button" className="btn btn-lg btn-primary btn-lg" onClick={navigateScan}>Enter Menu</button>
+          {menuExist ? (
+            <button type="button" className="btn btn-lg btn-primary btn-lg" onClick={navigateScan}>Enter Menu</button>
+          ) : (
+            <p onClick={()=>{setMenuExist(true)}}>Please scan the QR code with your camera</p>
+          )}
         </div>
         <button className="btn btn-link logout" onClick={handleLogOut}>Logout</button>
       </div>
