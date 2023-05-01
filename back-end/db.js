@@ -1,6 +1,7 @@
 // import mongoose, { Schema } from 'mongoose';
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+require("dotenv").config({ silent: true })
 
 
 const UserSchema = new Schema({
@@ -92,7 +93,7 @@ const DishSchema = new Schema({
   const User = mongoose.model('User', UserSchema);
   const Review = mongoose.model('Review', ReviewSchema);
   const Order = mongoose.model('Order', OrderSchema)
-  mongoose.connect("mongodb+srv://ljr:123123123@cluster0.tmtz8nv.mongodb.net/?retryWrites=true&w=majority",{
+  mongoose.connect(process.env.MONGODB_URI,{
     useNewUrlParser: true,
 });
 
