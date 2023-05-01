@@ -233,8 +233,13 @@ app.get('/userpastorder', async (req, res) => {
 
 });
 
-app.post('/edituserreview', upload.array("image", 9), (req, resp) => {
-    console.log(req.body)
+app.post('/edituserreview',check('review').notEmpty().withMessage('review should not be null'), upload.array("image", 9), (req, resp) => {
+    var err = validationResult(req);
+    if(!err.isEmpty()){
+        console.log(err.mapped())
+        resp.status(400).send(err.mapped().review.msg)
+    }else{
+        console.log(req.body)
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
     if (token == null) return resp.sendStatus(401)
@@ -276,6 +281,7 @@ app.post('/edituserreview', upload.array("image", 9), (req, resp) => {
             }
         }
     })
+    }
 });
 
 
