@@ -4,6 +4,7 @@
   "description": "The back-end of your project will live in this directory.",
   "main": "index.js",
   "scripts": {
+    "build:digitalocean": "npm install --production=false && npm run build && npm ci",
     "test": "nyc --reporter=text --reporter=html mocha app.test.js"
   },
   "author": "",
@@ -32,5 +33,9 @@
     "mocha": "^10.2.0",
     "nodemon": "^2.0.22",
     "nyc": "^15.1.0"
+  },
+  "engines": {
+    "node": "16.x",
+    "npm": "~1.0.20"
   }
 }

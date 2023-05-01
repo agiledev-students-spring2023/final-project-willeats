@@ -31,17 +31,24 @@
     "sweetalert": "^2.1.2",
     "web-vitals": "^2.1.4"
   },
+  
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build:digitalocean": "npm install --production=false && npm run build && npm ci"
+    
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
     ]
+  },
+  "engines": {
+    "node": "16.x",
+    "npm": "~1.0.20"
   },
   "browserslist": {
     "production": [
@@ -58,4 +65,6 @@
   "devDependencies": {
     "eslint-config-react-app": "^7.0.1"
   }
+  
+  
 }
