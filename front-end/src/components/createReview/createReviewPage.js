@@ -113,6 +113,7 @@ function CreateReviewPage(){
     }
 
     const handleDelete = () => {
+        setSaveData([])
         const newReviewed = [...reviewed]
         const newItemList = [...itemList, reviewed[reviewed.length - 1]]
         newReviewed.splice(newReviewed.length - 1, 1)
