@@ -87,7 +87,7 @@ function OwnerProfile({setIsLogged, setRole}) {
             <button className="btn btn-lg btn-outline-primary" onClick={navigateReview}>View Reviews</button>
             <button className="btn btn-lg btn-outline-primary" onClick={navigateProfile}>Account Settings</button>
               {showRestaurantIdButton ? (
-      <p  onClick={toggleShowRestaurantId}>{"/getmenu/"+id}</p>
+      <p  onClick={toggleShowRestaurantId}>{" /"+id}</p>
     ) : (
       <div>
         <button className="btn btn-lg btn-outline-primary" onClick={toggleShowRestaurantId}>See Your Restaurant Url</button>
