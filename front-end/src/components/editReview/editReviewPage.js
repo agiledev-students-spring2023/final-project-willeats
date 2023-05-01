@@ -70,7 +70,8 @@ function EditReviewPage() {
                                 image={new URLSearchParams(location.search).getAll('image')} 
                                 save={save}
                                 setSaveData={setSaveData}
-                                saveData={saveData} />
+                                saveData={saveData}
+                                setSave={setSave} />
                     <div className='d-grid gap-2 col-5 mx-auto mt-3'>
                         {/* handle save */}
                         <button type="button" className="btn btn-primary" onClick={handlesave} disabled={save} >Save</button> 
