@@ -120,8 +120,9 @@ function ViewDetailMenu() {
                     <div className='sort-btn'>
                     <button type="button" className="btn btn-link" onClick={()=>sortReviewsByDate('MM/dd/yyyy')}>Sort by Date</button>
                     </div>
-                    <div className='row d-flex justify-content-center'>
-                    { reviews && reviews.length > 0 && reviews.map((element, index) => (
+                    <div className='row d-flex justify-content-center m-1'>
+                    { reviews && reviews.length===0? <h5>No reviews was post for this item..</h5> 
+                    :reviews && reviews.map((element, index) => (
                         <ReviewCard 
                             mainName={element.name} 
                             itemName={element.itemName} 
@@ -132,8 +133,9 @@ function ViewDetailMenu() {
                             star={element.rating}
                             image={element.userId.avatar}
                             reviewImage={element.image}
-                            isUser={element.isUser}
-                        />
+                            reply={true}
+                            id={element._id}
+                           />
                     ))}
                 </div>
                 
