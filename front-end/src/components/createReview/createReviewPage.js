@@ -16,6 +16,7 @@ function CreateReviewPage(){
     const [saveData, setSaveData] = useState([])
     const [save, setSave] = useState(false)
     const [total,setTotal] = useState(0);
+
     const handlesave = () => {
         setSave(true)
     }
@@ -151,7 +152,8 @@ function CreateReviewPage(){
                                     save={save}
                                     total={total}
                                     setTotal={setTotal}
-                                    setSaveData={setSaveData} />
+                                    setSaveData={setSaveData}
+                                    setSave={setSave} />
                             </div>
                         ))}
                        
