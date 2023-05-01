@@ -5,7 +5,8 @@ import ReviewArea from '../reviewArea/reviewArea';
 import './createReviewPage.css'
 import PageBackButton from '../pagebackButton/PageBackButton'; 
 // import axios from '../axiosConfig'
-import axios from 'axios';
+
+import axios from 'axios'
 
 function CreateReviewPage(){
     const navigate = useNavigate()

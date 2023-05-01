@@ -20,7 +20,7 @@ const QRCode = require('qrcode');
 const bodyParser = require('body-parser');
 
 const { S3Client } = require('@aws-sdk/client-s3');
-const { log } = require('console');
+const { log, Console } = require('console');
 
 /**
  * Typically, all middlewares would be included before routes
@@ -196,7 +196,9 @@ app.get('/userpastorder', (req, resp) => {
                             res.name = e.restaurant.name
                             res.id = e._id
                             res.avatar = e.restaurant.avatar
-                            res.date = e.date.getMonth().toString() + '/' + e.date.getDate().toString() + '/' + e.date.getFullYear().toString()
+            
+                            res.date = e.date.toLocaleDateString("en-US", { month: '2-digit', day: '2-digit', year: 'numeric' });
+                            console.log(res.date)
                             res.itemList = []
                             e.dish.forEach(ele => {
                                 res.itemList.push(ele.name)
@@ -217,24 +219,24 @@ app.get('/userpastorder', (req, resp) => {
     })
 })
 
-app.get('/userpastorder', async (req, res) => {
-    const { userId } = req.params;
-    try {
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(404).send('User not found');
-        }
-        const orders = await Order.find({ user: userId });
-        res.status(200).send(orders);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('An error occurred');
-    }
+// app.get('/userpastorder', async (req, res) => {
+//     const { userId } = req.params;
+//     try {
+//         const user = await User.findById(userId);
+//         if (!user) {
+//             return res.status(404).send('User not found');
+//         }
+//         const orders = await Order.find({ user: userId });
+//         res.status(200).send(orders);
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).send('An error occurred');
+//     }
 
-});
+// });
 
 app.post('/edituserreview',check('review').notEmpty().withMessage('review should not be null'), upload.array("image", 9), (req, resp) => {
-    var err = validationResult(req);
+    var err = validationResult(req.body);
     if(!err.isEmpty()){
         console.log(err.mapped())
         resp.status(400).send(err.mapped().review.msg)
@@ -286,7 +288,8 @@ app.post('/edituserreview',check('review').notEmpty().withMessage('review should
 
 
 app.post('/createuserreview', check('review').notEmpty().withMessage('review should not be null'), upload.array("image", 9), (req, resp) => {
-    var err = validationResult(req);
+    console.log(req.body.review)
+    var err = validationResult(req.body);
     if(!err.isEmpty()){
         console.log(err.mapped())
         resp.status(400).send(err.mapped().review.msg)
@@ -456,17 +459,16 @@ app.post('/deleteuserreview', (req, resp) => {
         if (err) {
             resp.status(401).json({ error: "unauthorized" })
         } else {
-            Review.findOneAndDelete({ _id: req.body.id, userId: mongoose.Types.ObjectId(decoded.userid) })
-                .exec(function (err, result) {
-                    if (err) {
-                        resp.status(500).send({ message: "delete review failed" })
-                    } else {
-                        resp.status(200).send({ message: "delete review successfully" })
-                    }
+            console.log(req.body)
+            Review.findByIdAndDelete(req.body.id)
+                .then((result) => {
+                    resp.status(200).send({ message: "delete review successfully" })
+                })
+                .catch((err) => {
+                    resp.status(500).send({ message: "delete review failed" })
                 })
         }
     })
-    resp.status(200).send({ message: 'delete successfully' })
 })
 
 app.get('/getrate', async (req, res) => {
