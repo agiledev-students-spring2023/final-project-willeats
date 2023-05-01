@@ -101,7 +101,7 @@ function App() {
           </Route>
           <Route path='/cart/:id' element={<Cart />} />
           
-          <Route path='/checkout' element={<OrderFinished/>} />
+          <Route path='/checkout/:orderId' element={<OrderFinished/>} />
           <Route path='/reviewDetails' element={<ReviewDetails/>} />
           
           <Route path="/qr-scanner" element={<QRScanner />} />
