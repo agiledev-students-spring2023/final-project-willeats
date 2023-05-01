@@ -12,12 +12,14 @@ function ReviewArea(props){
   const [image, setImage] = useState([])
   const [preimageLength, setPreimageLength] = useState(new URLSearchParams(location.search).getAll('image').length)
   useEffect(() => {
-    if(props.save){
+    if(props.save && review){
+      console.log(review)
       const editData = {}
       editData.rating = rating ? rating: 1
       editData.review = review
       editData.preimage = [...preimage]
       editData.image = [...image]
+      
       // const current = new Date();
       // const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`
       // editData.date = date
@@ -37,8 +39,13 @@ function ReviewArea(props){
       //   .catch((err) => {
       //     console.log(err)
       //   })
-
+      console.log(props.saveData)
       props.setSaveData((prevSaveData) => [...prevSaveData, editData])
+    }
+    if(props.save && !review){
+      props.setSaveData([])
+      props.setSave(false)
+      alert('review not null')
     }
   },[props.save]);
   const handleChange = (event) => {

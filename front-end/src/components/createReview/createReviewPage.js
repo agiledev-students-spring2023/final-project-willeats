@@ -16,11 +16,13 @@ function CreateReviewPage(){
     const [saveData, setSaveData] = useState([])
     const [save, setSave] = useState(false)
     const [total,setTotal] = useState(0);
+
     const handlesave = () => {
         setSave(true)
     }
 
     useEffect(() => {
+        console.log(saveData)
         if(save && saveData.length === reviewed.length){
             const token = localStorage.getItem("token")
             console.log(saveData)
@@ -37,7 +39,7 @@ function CreateReviewPage(){
                 saveData[i].image.forEach((e) => {
                     formData.append("image", e)
                 })
-                const newRequest = axios.post("http://localhost:3001/createuserreview", formData, {
+                const newRequest = axios.post("https://orca-app-p3any.ondigitalocean.app/final-project-willeats-back-end/createuserreview", formData, {
                     headers: {Authorization: `Bearer ${token}`}  
                 })
                 request.push(newRequest)
@@ -50,7 +52,7 @@ function CreateReviewPage(){
             .catch(err => {
                 console.log(err)
                 setSave(false)
-                alert(`${err.response.data}`)
+                alert(`${err.response.data.error}`)
                 
             })
             // axios.post("http://localhost:3001/createuserreview", formData)
@@ -111,6 +113,7 @@ function CreateReviewPage(){
     }
 
     const handleDelete = () => {
+        setSaveData([])
         const newReviewed = [...reviewed]
         const newItemList = [...itemList, reviewed[reviewed.length - 1]]
         newReviewed.splice(newReviewed.length - 1, 1)
@@ -151,7 +154,9 @@ function CreateReviewPage(){
                                     save={save}
                                     total={total}
                                     setTotal={setTotal}
-                                    setSaveData={setSaveData} />
+                                    setSaveData={setSaveData}
+                                    saveData={saveData}
+                                    setSave={setSave} />
                             </div>
                         ))}
                        

@@ -27,6 +27,7 @@ function ViewDetailMenu() {
     const [count,setCount]=useState(JSON.parse(localStorage.getItem('cartItems')).length);
     const [reviews, setReviews] = useState()
     const [id, setId] = useState(new URLSearchParams(location.search).get('id'));
+    const [restaurantId,setRestaurantId] = useState(localStorage.getItem('restId'))
     console.log(rating)
     useEffect(() => {
         const cartItems = JSON.parse(localStorage.getItem('cartItems'));
@@ -119,8 +120,9 @@ function ViewDetailMenu() {
                     <div className='sort-btn'>
                     <button type="button" className="btn btn-link" onClick={()=>sortReviewsByDate('MM/dd/yyyy')}>Sort by Date</button>
                     </div>
-                    <div className='row d-flex justify-content-center'>
-                    { reviews && reviews.length > 0 && reviews.map((element, index) => (
+                    <div className='row d-flex justify-content-center m-1'>
+                    { reviews && reviews.length===0? <h5>No reviews was post for this item..</h5> 
+                    :reviews && reviews.map((element, index) => (
                         <ReviewCard 
                             mainName={element.name} 
                             itemName={element.itemName} 
@@ -129,10 +131,11 @@ function ViewDetailMenu() {
                             keys={index}
                             date={element.date} 
                             star={element.rating}
-                            image={element.restImage}
+                            image={element.userId.avatar}
                             reviewImage={element.image}
-                            isUser={element.isUser}
-                        />
+                            reply={false}
+                            id={element._id}
+                           />
                     ))}
                 </div>
                 
@@ -142,7 +145,7 @@ function ViewDetailMenu() {
                     </div>
                   
                     <div className="cart-container d-flex flex-row-reverse">
-                        <CartIcon count={count} />
+                        <CartIcon count={count} id = {restaurantId} />
                     </div>
                     </div>
                 </div>

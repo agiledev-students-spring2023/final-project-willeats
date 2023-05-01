@@ -3,7 +3,7 @@
 const server = require("./app")
 
 // which port to listen for HTTP(S) requests
-const port = 3001
+const port = process.env.PORT || 3001;
 
 // call a function to start listening to the port
 const listener = server.listen(port, function () {
