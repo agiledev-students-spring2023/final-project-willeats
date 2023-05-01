@@ -103,6 +103,8 @@ function ReviewCard(props) {
                     {props.itemName && <p className='card-subtitle text-muted mb-1 '>{props.itemName}</p>}
                     {props.order && <p className='card-subtitle text-muted mb-1 '>{props.itemList[0]}
                     {props.itemList.length > 1 && <span className='card-subtitle text-muted mb-1'> and {props.itemList.length - 1} others</span>}  </p> }
+                    {props.order && <p className='card-subtitle text-muted mb-1 '>{"Total Price: "+props.totalPrice}</p>}
+                    {props.order && <p className='card-subtitle text-muted mb-1 '>{"Order ID: "+props.id}</p>}
                     <div className='row d-flex justidy-content-between'>
                         {props.star && <div className='col'>
                             <StarRatings 
