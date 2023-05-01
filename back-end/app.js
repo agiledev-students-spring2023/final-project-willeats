@@ -343,7 +343,7 @@ app.post('/createuserreview',  upload.array("image", 9), check('review').custom(
                         })
                         .catch((err) => {
                             console.log(err)
-                            resp.status(500).json({ error: "no such dish" })
+                            resp.status(500).json({ error: `no such dish: ${req.body.itemName}` })
                         })
                 } else {
                     resp.redirect('/')
