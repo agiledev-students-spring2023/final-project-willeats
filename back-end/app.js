@@ -393,7 +393,7 @@ app.post('/checkout/:restId', (req, res) => {
         order
             .save()
             .then(result => {
-                res.status(200).send({ message: 'checkout successfully' })
+                res.status(200).send(result)
             })
             .catch(err => {
                 console.log(err)
