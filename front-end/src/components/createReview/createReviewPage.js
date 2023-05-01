@@ -4,8 +4,8 @@ import '../../bootstrap.css'
 import ReviewArea from '../reviewArea/reviewArea';
 import './createReviewPage.css'
 import PageBackButton from '../pagebackButton/PageBackButton'; 
-import axios from '../axiosConfig'
-
+// import axios from '../axiosConfig'
+import axios from 'axios'
 function CreateReviewPage(){
     const navigate = useNavigate()
     const location = useLocation()
@@ -35,7 +35,7 @@ function CreateReviewPage(){
                 saveData[i].image.forEach((e) => {
                     formData.append("image", e)
                 })
-                const newRequest = axios.post("/createuserreview", formData, {
+                const newRequest = axios.post("http://localhost:3001/createuserreview", formData, {
                     headers: {Authorization: `Bearer ${token}`}  
                 })
                 request.push(newRequest)

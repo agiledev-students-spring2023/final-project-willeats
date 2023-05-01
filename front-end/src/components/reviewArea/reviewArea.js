@@ -14,7 +14,7 @@ function ReviewArea(props){
   useEffect(() => {
     if(props.save){
       const editData = {}
-      editData.rating = rating ? rating: 0
+      editData.rating = rating ? rating: 1
       editData.review = review
       editData.preimage = [...preimage]
       editData.image = [...image]

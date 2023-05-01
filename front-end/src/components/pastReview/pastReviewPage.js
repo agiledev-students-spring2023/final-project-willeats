@@ -14,13 +14,15 @@ function PastReviewPage() {
             headers: {Authorization: `Bearer ${token}`}
         })
         .then((res) => {
+            console.log(res.data)
             setReviewData(res.data)
         })
         .catch((err) => (
             console.log(err)
         ))
     }, []);
-    const handleDelete = (e) => {
+    const handleDelete = (e, reId) => {
+        console.log(reId)
         e.stopPropagation()
         const token = localStorage.getItem("token")
         const configuration = {
@@ -28,7 +30,7 @@ function PastReviewPage() {
             url: "/deleteuserreview",
             headers: {Authorization: `Bearer ${token}`},
             data: {
-                id : e.target.getAttribute('id')
+                id : reId
             }
         };
         axios(configuration)

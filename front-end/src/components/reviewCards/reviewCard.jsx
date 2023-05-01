@@ -87,7 +87,7 @@ function ReviewCard(props) {
                 {!props.order && <div className="col-3 d-flex flex-row-reverse">
 
                     {/* add handle event, justify if the review is user's */}
-                    {props.isUser ?  <button type="button" className="btn btn-link float-right" onClick={props.handleDelete} >Delete</button> : <></>}
+                    {props.isUser ?  <button type="button" className="btn btn-link float-right" onClick={(e) => props.handleDelete(e, props.id)} >Delete</button> : <></>}
                     {props.isUser ? <button type="button" className="btn btn-link float-right" onClick={changeEdit}>Edit</button> : <></>}
                     {props.reply && <button type="button" className="btn btn-link float-right" onClick={handleReply}>Reply</button>}
 
