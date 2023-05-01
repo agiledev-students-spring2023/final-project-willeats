@@ -133,7 +133,7 @@ function ViewDetailMenu() {
                             star={element.rating}
                             image={element.userId.avatar}
                             reviewImage={element.image}
-                            reply={true}
+                            reply={false}
                             id={element._id}
                            />
                     ))}

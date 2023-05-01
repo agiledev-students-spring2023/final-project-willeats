@@ -63,6 +63,8 @@ function PastOrderPage(props){
                                 key={element.id + element.name}
                                 itemList={element.itemList}
                                 date={element.date}
+                                totalPrice = {element.totalPrice}
+                                id = {element.id.slice(-4)}
                                 CreateButton={CreateButton}
                                 image={element.avatar} />
                         ))}

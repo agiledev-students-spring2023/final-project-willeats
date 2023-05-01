@@ -194,9 +194,9 @@ app.get('/userpastorder', (req, resp) => {
                             const res = {}
                             console.log(e.restaurant.avatar)
                             res.name = e.restaurant.name
-                            res.id = e._id
+                            res.id = e.id
                             res.avatar = e.restaurant.avatar
-            
+                            res.totalPrice = e.totalPrice                            
                             res.date = e.date.toLocaleDateString("en-US", { month: '2-digit', day: '2-digit', year: 'numeric' });
                             console.log(res.date)
                             res.itemList = []
