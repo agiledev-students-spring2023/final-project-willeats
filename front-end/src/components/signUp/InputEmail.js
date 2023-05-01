@@ -57,7 +57,7 @@ function InputEmail() {
                 : showEmailValidation && !EmailValidationMessage
                 ? 'is-valid'
                 : ''
-            }`}
+            }`} 
             value={email}
             onChange={handleEmailChange}
             onBlur = {handleEmailBlur}
