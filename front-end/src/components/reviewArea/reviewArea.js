@@ -13,6 +13,7 @@ function ReviewArea(props){
   const [preimageLength, setPreimageLength] = useState(new URLSearchParams(location.search).getAll('image').length)
   useEffect(() => {
     if(props.save){
+      console.log(review)
       const editData = {}
       editData.rating = rating ? rating: 1
       editData.review = review
