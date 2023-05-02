@@ -36,7 +36,10 @@ const s3 = new S3Client({
         secretAccessKey: process.env.AWS_SECRET_KEY
     }
 })
-
+const corsConfig={
+    origin: process.env.CLIENT_URL,
+    credentials: true
+}
 
 
 // Connect to MongoDB database
@@ -55,12 +58,13 @@ db.once('open', function () {
 
 // use the morgan middleware to log all incoming http requests
 app.use(morgan("dev")) // morgan has a few logging default styles - dev is a nice concise color-coded style
-app.use(cors())
+app.use(cors(corsConfig))
 // use express's builtin body-parser middleware to parse any data included in a request
 app.use(express.json()) // decode JSON-formatted incoming POST data
 app.use(express.urlencoded({ extended: true }))
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/static", express.static("public"))
+app.set("trust proxy",1);
 const imagePlaceHolder = "https://willeats-bucket.s3.us-east-1.amazonaws.com/1682783282361-07127035755.0.jpg"
 
 const upload = multer({
