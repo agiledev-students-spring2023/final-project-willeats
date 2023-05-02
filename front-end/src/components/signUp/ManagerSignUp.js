@@ -179,10 +179,14 @@ const ManagerSignUp = () => {
                     : ''
                   }`}
                 value={password}
-                onChange={handlePasswordChange}
+                onChange={(e) => {
+                  handlePasswordChange(e);
+                  validatePasswords(e.target.value, confirmPassword);
+                }}
               />
             </div>
           </div>
+
           <div className="form-group">
             <label htmlFor="confirm-password">Confirm Password</label>
             <div className="input-row">
