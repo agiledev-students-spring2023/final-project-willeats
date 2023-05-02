@@ -30,6 +30,7 @@ function RestaurantOrder() {
     if (orders.length === 0) {
       return (
         <div>
+        <TopBar_profile></TopBar_profile>
           <h3>No orders yet</h3>
         </div>
       );

@@ -110,7 +110,7 @@ const ReviewDetails = () => {
               </ul>
               
             ) : (
-              <p>Loading...</p>
+              <p>The customer has not submit images</p>
             )}
             <div className='reply'>
             <h4>Reply from the Restaurant:</h4>

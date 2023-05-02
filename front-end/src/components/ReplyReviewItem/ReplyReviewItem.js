@@ -65,7 +65,6 @@ function ReplyReviewItem() {
                             height={200}
                             images={images.map(image => ({ url: image }))}
                             navStyle={1}
-                            showNavs={true}
                             useGPURender={true}
                             slideDuration={0.5}
                             navWidth={60}
