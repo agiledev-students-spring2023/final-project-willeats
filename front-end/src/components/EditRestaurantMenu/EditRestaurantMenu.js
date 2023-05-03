@@ -116,7 +116,7 @@ function EditRestaurantMenu() {
   return (
     <div className='row'>
       <div className="restaurant-menu-container col">
-        <div className='row d-flex justify-content-between m-1'>
+        <div className='row d-flex justify-content-between'>
           {/* <PageBackButton />
           <HomeButton /> */}
           <TopBar_profile/>

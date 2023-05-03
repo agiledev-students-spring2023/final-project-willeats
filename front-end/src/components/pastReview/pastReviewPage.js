@@ -3,6 +3,7 @@ import {useNavigate, Link} from "react-router-dom";
 import ReviewCard from '../reviewCards/reviewCard.jsx'
 import axios from '../axiosConfig';
 import '../../bootstrap.css'
+
 import LoadMoreButton from '../loadMoreButton/loadMoreButton';
 import TopBar from '../topBar/TopBar.js';
 function PastReviewPage() {
@@ -22,27 +23,31 @@ function PastReviewPage() {
         ))
     }, []);
     const handleDelete = (e, reId) => {
-        console.log(reId)
         e.stopPropagation()
-        const token = localStorage.getItem("token")
-        const configuration = {
-            method: "post",
-            url: "/deleteuserreview",
-            headers: {Authorization: `Bearer ${token}`},
-            data: {
-                id : reId
-            }
-        };
-        axios(configuration)
-        .then((res) => {
-            const index = e.target.getAttribute('keys')
-            const newData = [...reviewData]
-            newData.splice(index, 1)
-            setReviewData(newData)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+        if (window.confirm('Are you sure you want to delete this review?')) {
+            console.log(reId)
+            
+            const token = localStorage.getItem("token")
+            const configuration = {
+                method: "post",
+                url: "/deleteuserreview",
+                headers: { Authorization: `Bearer ${token}` },
+                data: {
+                    id: reId
+                }
+            };
+            axios(configuration)
+                .then((res) => {
+                    const index = e.target.getAttribute('keys')
+                    const newData = [...reviewData]
+                    newData.splice(index, 1)
+                    setReviewData(newData)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
+        
         
     }
     return(
@@ -50,7 +55,7 @@ function PastReviewPage() {
             <div className='row'>
 
                 <div className='col'>
-                    <TopBar />
+                    <TopBar/>
                     <div className='col'>
                         <h1 className='m-1'>My Reviews</h1>
                         

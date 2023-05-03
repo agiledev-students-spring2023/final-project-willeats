@@ -47,20 +47,21 @@ const Cart = ({}) => {
       });
       setItems(itemsWithQuantities);
       const total = itemsWithQuantities.reduce((acc, item) => acc + item.quantity * item.price, 0)
-      
+      console.log(total+ '  hahahah')
       setTotalPrice(total);
     }
   }, []);
   
 const handleLCheckout = () => {
   const token = localStorage.getItem("token")
-  console.log((totalPrice+tipAmount+totalPrice*taxRate/100).toFixed(2))
+  console.log('total' + total)
+  console.log((total).toFixed(2))
   const configuration = {
     method: "post",
     headers: {Authorization: `Bearer ${token}`},
     url: `/checkout/${id}`,
     data: {
-        totalPrice: (totalPrice+tipAmount+totalPrice*taxRate/100).toFixed(2),
+        totalPrice: (total).toFixed(2),
         items: items
     },
 };
@@ -92,18 +93,23 @@ const tipPercentages = [10, 15, 20];
 const handleAdd = (e, name) => {
   const newItems = [...items]
   let item = {}
+  console.log(newItems)
   newItems.forEach((ele) => {
     if(ele.name === name){
       // const singlePrice = ele.price / ele.quantity 
       // ele.price = singlePrice * (ele.quantity + 1)
-      item = {name: ele.name, price: ele.price / ele.quantity}
-      ele.quantity = ele.quantity + 1
-      
-      // console.log(singlePrice)
       console.log(ele.price)
+      item = {name: ele.name, price: ele.price}
+      ele.quantity = ele.quantity + 1
+      console.log(ele.price)
+      // console.log(singlePrice)
+      
     }
     
   })
+  console.log('total' + total)
+  console.log('total price',totalPrice)
+  console.log(item)
   const prevCart = JSON.parse(localStorage.getItem('cartItems'))
   prevCart.push(item)
   localStorage.setItem('cartItems', JSON.stringify(prevCart))

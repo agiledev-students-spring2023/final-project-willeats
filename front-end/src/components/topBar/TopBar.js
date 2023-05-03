@@ -4,7 +4,7 @@ import PageBackButton from '../pagebackButton/PageBackButton';
 
 function TopBar() {
     return (
-        <div className='row d-flex justify-content-between'>
+        <div className='d-flex justify-content-between'>
             <PageBackButton/>
             <HomeButton/>
       </div>

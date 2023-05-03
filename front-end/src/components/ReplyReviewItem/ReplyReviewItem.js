@@ -8,7 +8,7 @@ import ReviewCard from '../reviewCards/reviewCard';
 import './ReplyReviewItem.css'
 import axios from '../axiosConfig'
 import PageBackButton from '../pagebackButton/PageBackButton';
-
+import TopBar_profile from '../topBar/TopBar-profile';
 
 function ReplyReviewItem() {
     const navigate = useNavigate();
@@ -58,10 +58,10 @@ function ReplyReviewItem() {
         <div className='row'>
                         
             <div className='ReplyReview-Container'>
-            <PageBackButton></PageBackButton>
+            <TopBar_profile/>
                     <div className="image-slider-container">
                         <SimpleImageSlider
-                            width={500}
+                            width={390}
                             height={200}
                             images={images.map(image => ({ url: image }))}
                             navStyle={1}

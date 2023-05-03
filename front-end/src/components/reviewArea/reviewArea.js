@@ -66,19 +66,21 @@ function ReviewArea(props){
   }
 
   const handleImageClick = (e, index) => {
-    
-    let newImage = [...image]
-    let newPreimage = [...preimage]
-    console.log(index)
-    if(index > preimageLength){
-      newImage.splice(index - preimageLength, 1)
-      newPreimage.splice(index, 1)
-    }else{
-      setPreimageLength(preimageLength - 1)
-      newPreimage.splice(index, 1)
+    if(window.confirm('Are you sure you want to delete this image?')){
+      let newImage = [...image]
+      let newPreimage = [...preimage]
+      console.log(index)
+      if(index > preimageLength){
+        newImage.splice(index - preimageLength, 1)
+        newPreimage.splice(index, 1)
+      }else{
+        setPreimageLength(preimageLength - 1)
+        newPreimage.splice(index, 1)
+      }
+      setImage(newImage)
+      setPreimage(newPreimage)
     }
-    setImage(newImage)
-    setPreimage(newPreimage)
+    
   }
 
   

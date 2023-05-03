@@ -128,6 +128,7 @@ function ReviewCard(props) {
             <div className="row rounded mt-1" ref={refContainer}>
                 {dimensions.width !== 0 && !props.order &&
                 <SimpleImageSlider
+                    useGPURender={true}
                     width={dimensions.width}
                     height={200}
                     images={[...props.reviewImage]}

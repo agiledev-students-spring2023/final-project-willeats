@@ -81,7 +81,7 @@ const ReviewDetails = () => {
             <img className="profile-image" src={'https://willeats-bucket.s3.us-east-1.amazonaws.com/1682464242588-circle.png'} alt="Reviewer profile" />
             <div className="review-info">
               <h5>{mainName}</h5>
-
+              <p className='mb-0 mt-1'>{itemName}</p>
               <div className="rating">
               <StarRatings 
               rating={parseFloat(star)}
@@ -92,19 +92,19 @@ const ReviewDetails = () => {
               <p className="date">{date}</p>
             </div>
           </div>
-          
+          <p className='fw-bold fs-5 mb-0 review-content'>review:</p>
           <p className="review-content">{review}</p>
          
           <div className="review-images-container">
             {reviewImages && reviewImages.length > 0 ? (
-              <ul>
+              <ul className='p-0'>
                 {reviewImages.map((image, index) => (
                   <img
                     key={index}
                     src={image}
                     alt={image.altText}
                     onClick={() => handleImageClick(image)}
-                    className="thumbnail"
+                    className="thumbnail mt-1"
                   />
                 ))}
               </ul>
