@@ -39,12 +39,12 @@ function CreateReviewPage(){
                 saveData[i].image.forEach((e) => {
                     formData.append("image", e)
                 })
-                // const newRequest = axios.post("https://orca-app-p3any.ondigitalocean.app/final-project-willeats-back-end/createuserreview", formData, {
-                //     headers: {Authorization: `Bearer ${token}`}  
-                // })
-                const newRequest = axios.post("http://localhost:3001/createuserreview", formData, {
+                const newRequest = axios.post("https://orca-app-p3any.ondigitalocean.app/final-project-willeats-back-end/createuserreview", formData, {
                     headers: {Authorization: `Bearer ${token}`}  
                 })
+                // const newRequest = axios.post("http://localhost:3001/createuserreview", formData, {
+                //     headers: {Authorization: `Bearer ${token}`}  
+                // })
                 request.push(newRequest)
             })
             axios.all(request)
