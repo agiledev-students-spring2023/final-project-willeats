@@ -196,7 +196,7 @@ app.get('/userpastorder', (req, resp) => {
                             res.name = e.restaurant.name
                             res.id = e.id
                             res.avatar = e.restaurant.avatar
-                            res.totalPrice = e.totalPrice                            
+                            res.totalPrice = e.totalPrice
                             res.date = e.date.toLocaleDateString("en-US", { month: '2-digit', day: '2-digit', year: 'numeric' });
                             console.log(res.date)
                             res.itemList = []
@@ -242,70 +242,70 @@ app.post('/edituserreview', upload.array("image", 9), check('review').custom(val
     return true;
 }), (req, resp) => {
     var err = validationResult(req);
-    if(!err.isEmpty()){
+    if (!err.isEmpty()) {
         console.log(err.mapped())
         resp.status(400).send(err.mapped().review.msg)
-    }else{
+    } else {
         console.log(req.body)
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
-    if (token == null) return resp.sendStatus(401)
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-        if (err) {
-            resp.status(401).json({ message: "unauthorized" })
-        } else {
-            if (decoded.role === 'customer') {
-                let img = JSON.parse(req.body.preimage)
-                const regex = new RegExp('blob');
-                const newImg = []
-                img.forEach((e) => {
-                    if (!regex.test(e)) {
-                        newImg.push(e)
-                    }
-                })
-                console.log(newImg)
-                if (req.files) {
-                    req.files.forEach((e) => {
-                        newImg.push(e.location)
-                    })
-                }
-                console.log(newImg)
-                Review.findByIdAndUpdate(req.body.id,
-                    {
-                        rating: parseInt(req.body.rating),
-                        review: req.body.review,
-                        image: newImg
-                    })
-                    .then((result) => {
-                        resp.status(200).json({ message: "successfully edit review" })
-                    })
-                    .catch(err => {
-                        resp.status(500).json({ message: "edit review failed" })
-                    })
-
+        const authHeader = req.headers['authorization']
+        const token = authHeader && authHeader.split(' ')[1]
+        if (token == null) return resp.sendStatus(401)
+        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+            if (err) {
+                resp.status(401).json({ message: "unauthorized" })
             } else {
-                resp.redirect('/')
+                if (decoded.role === 'customer') {
+                    let img = JSON.parse(req.body.preimage)
+                    const regex = new RegExp('blob');
+                    const newImg = []
+                    img.forEach((e) => {
+                        if (!regex.test(e)) {
+                            newImg.push(e)
+                        }
+                    })
+                    console.log(newImg)
+                    if (req.files) {
+                        req.files.forEach((e) => {
+                            newImg.push(e.location)
+                        })
+                    }
+                    console.log(newImg)
+                    Review.findByIdAndUpdate(req.body.id,
+                        {
+                            rating: parseInt(req.body.rating),
+                            review: req.body.review,
+                            image: newImg
+                        })
+                        .then((result) => {
+                            resp.status(200).json({ message: "successfully edit review" })
+                        })
+                        .catch(err => {
+                            resp.status(500).json({ message: "edit review failed" })
+                        })
+
+                } else {
+                    resp.redirect('/')
+                }
             }
-        }
-    })
+        })
     }
 });
 
 
-app.post('/createuserreview',  upload.array("image", 9), check('review').custom(value => {
+app.post('/createuserreview', upload.array("image", 9), check('review').custom(value => {
     if (value === undefined || value.trim() === '' || value === 'undefined') {
         throw new Error('review cannot be empty');
     }
     return true;
-}),  (req, resp) => {
+}), (req, resp) => {
     console.log(req.body)
     var err = validationResult(req);
-    if(!err.isEmpty()){
+    if (!err.isEmpty()) {
         console.log(req.body)
         console.log('haha123')
         // console.log(err.mapped())
         resp.status(400).send(err.mapped().review.msg)
-    }else{
+    } else {
         const authHeader = req.headers['authorization']
         const token = authHeader && authHeader.split(' ')[1]
         if (token == null) return resp.sendStatus(401)
@@ -578,7 +578,14 @@ app.get('/reviewDetails/:id', async (req, res) => {
 
 
 
-app.post('/Login-C', async (req, res) => {
+app.post('/Login-C', [
+    body('email').isEmail().withMessage('Invalid email'),
+    body('password').notEmpty().withMessage('Password is required')
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
@@ -595,7 +602,14 @@ app.post('/Login-C', async (req, res) => {
     res.json({ token });
 })
 
-app.post('/Login-M', async (req, res) => {
+app.post('/Login-M', [
+    body('email').isEmail().withMessage('Invalid email'),
+    body('password').notEmpty().withMessage('Password is required')
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     const { email, password } = req.body;
     const manager = await Restaurant.findOne({ email });
     if (!manager) {
@@ -614,70 +628,78 @@ app.post('/Login-M', async (req, res) => {
 
 app.get('/check-name-c', async (req, res) => {
     const name = req.query.username;
-    
+
     try {
-      const existingUser = await User.findOne({ name });
-      if (existingUser) {
-        res.json({ exists: true, registeredName: existingUser.name });
-      } else {
-        res.json({ exists: false });
-      }
+        const existingUser = await User.findOne({ name });
+        if (existingUser) {
+            res.json({ exists: true, registeredName: existingUser.name });
+        } else {
+            res.json({ exists: false });
+        }
     } catch (error) {
-      console.log(error);
-      res.status(500).json({ success: false, message: 'An error occurred while checking the name availability.' });
+        console.log(error);
+        res.status(500).json({ success: false, message: 'An error occurred while checking the name availability.' });
     }
-  });
-  
-  app.get('/check-email-c', async (req, res) => {
+});
+
+app.get('/check-email-c', async (req, res) => {
     const email = req.query.email;
-  
+
     try {
-      const existingUser = await User.findOne({ email });
-      if (existingUser) {
-        res.json({ exists: true });
-      } else {
-        res.json({ exists: false });
-      }
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            res.json({ exists: true });
+        } else {
+            res.json({ exists: false });
+        }
     } catch (error) {
-      console.log(error);
-      res.status(500).json({ success: false, message: 'An error occurred while checking the email availability.' });
+        console.log(error);
+        res.status(500).json({ success: false, message: 'An error occurred while checking the email availability.' });
     }
-  });
+});
 
 app.get('/check-name-m', async (req, res) => {
     const name = req.query.managername;
-    
+
     try {
-      const existingUser = await Restaurant.findOne({ name });
-      if (existingUser) {
-        res.json({ exists: true, registeredName: existingUser.name });
-      } else {
-        res.json({ exists: false });
-      }
+        const existingUser = await Restaurant.findOne({ name });
+        if (existingUser) {
+            res.json({ exists: true, registeredName: existingUser.name });
+        } else {
+            res.json({ exists: false });
+        }
     } catch (error) {
-      console.log(error);
-      res.status(500).json({ success: false, message: 'An error occurred while checking the name availability.' });
+        console.log(error);
+        res.status(500).json({ success: false, message: 'An error occurred while checking the name availability.' });
     }
-  });
-  
-  app.get('/check-email-m', async (req, res) => {
+});
+
+app.get('/check-email-m', async (req, res) => {
     const email = req.query.email;
-  
+
     try {
-      const existingUser = await Restaurant.findOne({ email });
-      if (existingUser) {
-        res.json({ exists: true });
-      } else {
-        res.json({ exists: false });
-      }
+        const existingUser = await Restaurant.findOne({ email });
+        if (existingUser) {
+            res.json({ exists: true });
+        } else {
+            res.json({ exists: false });
+        }
     } catch (error) {
-      console.log(error);
-      res.status(500).json({ success: false, message: 'An error occurred while checking the email availability.' });
+        console.log(error);
+        res.status(500).json({ success: false, message: 'An error occurred while checking the email availability.' });
     }
-  });
+});
 
 
-app.post('/Sign-C', async (req, res) => {
+app.post('/Sign-C', [
+    body('name').notEmpty().withMessage('Name is required'),
+    body('email').isEmail().withMessage('Invalid email'),
+    body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters long')
+  ], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
 
@@ -699,7 +721,15 @@ app.post('/Sign-C', async (req, res) => {
 
 
 
-app.post('/Sign-M', async (req, res) => {
+app.post('/Sign-M', [
+    body('name').notEmpty().withMessage('Name is required'),
+    body('email').isEmail().withMessage('Invalid email'),
+    body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters long')
+  ], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
 
@@ -708,7 +738,7 @@ app.post('/Sign-M', async (req, res) => {
             email: req.body.email,
             password: hashedPassword,
             avatar: "https://willeats-bucket.s3.amazonaws.com/default-avatar.png",
-            background:'https://willeats-bucket.s3.us-east-1.amazonaws.com/1682790021072-food-image.jpg'
+            background: 'https://willeats-bucket.s3.us-east-1.amazonaws.com/1682790021072-food-image.jpg'
         });
 
         await manager.save();
@@ -740,7 +770,9 @@ app.get('/Profile-C-Email', (req, res) => {
     });
 });
 
-app.post('/Profile-C-Email', (req, res) => {
+app.post('/Profile-C-Email', [
+    body('email').isEmail().withMessage('Invalid email')
+  ], (req, res) => {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
         return res.sendStatus(401); // Unauthorized
@@ -789,7 +821,9 @@ app.get('/Profile-M-Email', (req, res) => {
     });
 });
 
-app.post('/Profile-M-Email', (req, res) => {
+app.post('/Profile-M-Email', [
+    body('email').isEmail().withMessage('Invalid email')
+  ], (req, res) => {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
         return res.sendStatus(401); // Unauthorized
@@ -865,7 +899,15 @@ app.get('/profile-image-M', (req, res) => {
     });
 });
 
-app.post('/profile-image-C', upload.single('image'), (req, res) => {
+app.post('/profile-image-C', [
+    upload.single('image'), // File upload middleware
+    body('image').custom((value, { req }) => {
+      if (!req.file) {
+        throw new Error('Image is required');
+      }
+      return true;
+    })
+  ], (req, res) => {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
         return res.sendStatus(401); // Unauthorized
@@ -894,7 +936,15 @@ app.post('/profile-image-C', upload.single('image'), (req, res) => {
     });
 });
 
-app.post('/profile-image-M', upload.single('image'), (req, res) => {
+app.post('/profile-image-M', [
+    upload.single('image'), // File upload middleware
+    body('image').custom((value, { req }) => {
+      if (!req.file) {
+        throw new Error('Image is required');
+      }
+      return true;
+    })
+  ], (req, res) => {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
         return res.sendStatus(401); // Unauthorized
@@ -940,7 +990,9 @@ app.get('/Profile-C-Name', (req, res) => {
     });
 });
 
-app.post('/Profile-C-Name', (req, res) => {
+app.post('/Profile-C-Name', [
+    body('name').notEmpty().withMessage('Name is required')
+  ], (req, res) => {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
         return res.sendStatus(401); // Unauthorized
@@ -989,7 +1041,9 @@ app.get('/Profile-M-Name', (req, res) => {
     });
 });
 
-app.post('/Profile-M-Name', (req, res) => {
+app.post('/Profile-M-Name', [
+    body('name').notEmpty().withMessage('Name is required')
+  ], (req, res) => {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
         return res.sendStatus(401); // Unauthorized
@@ -1019,7 +1073,9 @@ app.post('/Profile-M-Name', (req, res) => {
 });
 
 
-app.post('/Profile-C-ComparePassword', async (req, res) => {
+app.post('/Profile-C-ComparePassword', [
+    body('password').notEmpty().withMessage('Password is required')
+  ], async (req, res) => {
     const { password } = req.body;
     const authHeader = req.headers.authorization;
     if (!authHeader) {
@@ -1044,7 +1100,9 @@ app.post('/Profile-C-ComparePassword', async (req, res) => {
     });
 });
 
-app.post('/Profile-C-Password', async (req, res) => {
+app.post('/Profile-C-Password', [
+    body('password').notEmpty().withMessage('Password is required')
+  ], async (req, res) => {
     const { password } = req.body;
     const authHeader = req.headers.authorization;
     if (!authHeader) {
@@ -1067,7 +1125,9 @@ app.post('/Profile-C-Password', async (req, res) => {
     });
 });
 
-app.post('/Profile-M-ComparePassword', async (req, res) => {
+app.post('/Profile-M-ComparePassword', [
+    body('password').notEmpty().withMessage('Password is required')
+  ], async (req, res) => {
     const { password } = req.body;
     const authHeader = req.headers.authorization;
     if (!authHeader) {
@@ -1092,7 +1152,9 @@ app.post('/Profile-M-ComparePassword', async (req, res) => {
     });
 });
 
-app.post('/Profile-M-Password', async (req, res) => {
+app.post('/Profile-M-Password', [
+    body('password').notEmpty().withMessage('Password is required')
+  ], async (req, res) => {
     const { password } = req.body;
     const authHeader = req.headers.authorization;
     if (!authHeader) {
@@ -1140,8 +1202,8 @@ app.get('/topbar-avatar', (req, res) => {
         }
         userModel.findById(userId)
             .then(user => {
-                
-                console.log(role+ 'haha-----------------------------') // Assuming role is stored in the user document
+
+                console.log(role + 'haha-----------------------------') // Assuming role is stored in the user document
                 console.log(user)
                 res.status(200).send({ role: role, avatar: user.avatar });
             })
@@ -1447,21 +1509,21 @@ app.get('/getRestaurantInfo/:id', async function (req, res) {
     }
 });
 
-app.get('/getRestaurantOrder/:id', async function(req, res) {
+app.get('/getRestaurantOrder/:id', async function (req, res) {
     const restaurantId = req.params.id;
     try {
-      const orders = await Order.find({ restaurant: restaurantId })
-        .populate('user')
-        .sort({ date: -1 }); // Sort by date in descending order
-      
-      res.status(200).json(orders);
+        const orders = await Order.find({ restaurant: restaurantId })
+            .populate('user')
+            .sort({ date: -1 }); // Sort by date in descending order
+
+        res.status(200).json(orders);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Internal server error' });
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
     }
-  });
-  
-  
+});
+
+
 
 
 
