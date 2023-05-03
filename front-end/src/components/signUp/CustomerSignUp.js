@@ -58,11 +58,35 @@ const CustomerSignUp = () => {
       setPasswordValidationMessage('');
     }
     setShowPasswordValidation(true);
-  };
+  }
 
   const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    console.log(newPassword.length)
+    if (newPassword.length < 8) {
+      console.log('hahahah')
+      setPasswordValidationMessage('Password must have at least 8 characters.');
+      setShowPasswordValidation(true);
+      return false
+    } else {
+      setPasswordValidationMessage('');
+      console.log('1111')
+      
+      console.log('1111')
+      setShowPasswordValidation(true);
+      console.log(PasswordValidationMessage)
+      return true
+    }
+
   };
+
+  const passwordChange = (e) => {
+    if (handlePasswordChange(e)) {
+      validatePasswords(e.target.value, confirmPassword);
+    }
+
+  }
 
   const validateEmail = (email) => {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -148,10 +172,10 @@ const CustomerSignUp = () => {
                 type="email"
                 id="email"
                 className={`form-control ${showEmailValidation && EmailValidationMessage
-                    ? 'is-invalid'
-                    : showEmailValidation && !EmailValidationMessage
-                      ? 'is-valid'
-                      : ''
+                  ? 'is-invalid'
+                  : showEmailValidation && !EmailValidationMessage
+                    ? 'is-valid'
+                    : ''
                   }`}
                 value={email}
                 onChange={handleEmailChange}
@@ -172,15 +196,15 @@ const CustomerSignUp = () => {
                 type="password"
                 id="password"
                 className={`form-control ${showPasswordValidation && PasswordValidationMessage
-                    ? password === ''
-                      ? ''
-                      : 'is-invalid'
-                    : showPasswordValidation && !PasswordValidationMessage
-                      ? 'is-valid'
-                      : ''
+                  ? password === ''
+                    ? ''
+                    : 'is-invalid'
+                  : showPasswordValidation && !PasswordValidationMessage
+                    ? 'is-valid'
+                    : ''
                   }`}
                 value={password}
-                onChange={handlePasswordChange}
+                onChange={passwordChange}
               />
             </div>
           </div>
@@ -191,18 +215,19 @@ const CustomerSignUp = () => {
                 type="password"
                 id="confirm-password"
                 className={`form-control ${showPasswordValidation && PasswordValidationMessage
-                    ? confirmPassword === ''
-                      ? ''
-                      : 'is-invalid'
-                    : showPasswordValidation && !PasswordValidationMessage
-                      ? 'is-valid'
-                      : ''
+                  ? confirmPassword === ''
+                    ? ''
+                    : 'is-invalid'
+                  : showPasswordValidation && !PasswordValidationMessage
+                    ? 'is-valid'
+                    : ''
                   }`}
                 value={confirmPassword}
                 onChange={(e) => {
                   setConfirmPassword(e.target.value);
                   validatePasswords(password, e.target.value);
                 }}
+                disabled={PasswordValidationMessage === 'Password must have at least 8 characters.'}
               />
             </div>
             {showPasswordValidation && PasswordValidationMessage && (
@@ -214,7 +239,7 @@ const CustomerSignUp = () => {
         <button
           type="submit"
           className="btn btn-primary"
-          disabled = {NameValidationMessage !== '' || EmailValidationMessage !== '' || PasswordValidationMessage !== ''}
+          disabled={NameValidationMessage !== '' || EmailValidationMessage !== '' || PasswordValidationMessage !== ''}
         >
           Sign Up
         </button>

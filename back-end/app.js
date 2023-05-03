@@ -694,7 +694,7 @@ app.get('/check-email-m', async (req, res) => {
 app.post('/Sign-C', [
     body('name').notEmpty().withMessage('Name is required'),
     body('email').isEmail().withMessage('Invalid email'),
-    body('password').isLength({ min: 1 }).withMessage('Password must be at least 1 characters long')
+    body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters long')
   ], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -724,7 +724,7 @@ app.post('/Sign-C', [
 app.post('/Sign-M', [
     body('name').notEmpty().withMessage('Name is required'),
     body('email').isEmail().withMessage('Invalid email'),
-    body('password').isLength({ min: 1 }).withMessage('Password must be at least 1 characters long')
+    body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters long')
   ], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
