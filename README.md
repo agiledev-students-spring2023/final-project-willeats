@@ -3,7 +3,19 @@
 
 Willeats is an online ordering platform that makes ordering easier both for the business owners and customers. For each dish on the menu, users can first see the reviews and write a review after their order. Restaurants can create and modify their menu and reply to the customers’ reviews.
 
-> Note that due to lack of authentification, the delete, edit, and reply function in reviews pages will be accomplished in Sprint 4.
+# Instructions for Business Owners
+
+To enable users to access your restaurant, please follow these steps:
+
+1. Log in to your account on the platform.
+
+2. Locate the button labeled "See Your Restaurant URL" and click on it.
+
+3. You will now be able to view your unique restaurant ID. Append this ID to the following URL: ``https://orca-app-p3any.ondigitalocean.app``. This will create a unique URL for your restaurant's page.
+
+4. If you'd like to make it even more convenient for your customers, you can convert this URL into a QR code using any online URL-to-QR code generator of your choice. This will allow your customers to access your restaurant's page and place orders simply by scanning the QR code.
+
+By following these instructions, you'll create an accessible and user-friendly way for your customers to order from your restaurant through the platform!
 
 # Product Vision Statement
 
