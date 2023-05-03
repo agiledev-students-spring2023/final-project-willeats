@@ -4,7 +4,7 @@ import '../../bootstrap.css';
 import './EditPassword.css';
 
 function EditPassword({ business }) {
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState('88888888');
   const [isPasswordEditable, setIsPasswordEditable] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [inputPassword, setInputPassword] = useState('');
@@ -37,6 +37,7 @@ function EditPassword({ business }) {
       });
       // Password saved to the database
       setIsPasswordEditable(false);
+      setPassword('88888888')
     } catch (error) {
       console.error('Password update failed:', error);
     }
