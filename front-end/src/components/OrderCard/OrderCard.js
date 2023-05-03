@@ -20,19 +20,16 @@ function OrderCard(props) {
                         <h6>{props.order.user?props.order.user.name+" Order Dishes":"Annoymous Guest "+"Order Dishes"}</h6>
                         <h6>{"Order Id: "+props.order._id.slice(-4)}</h6>
                         <div className='col m-0'>
-                            {props.order.dish && (
-                                <h7>
-                                    {Object.values(props.order.dish.reduce((acc, curr) => {
-                                        acc[curr.name] = (acc[curr.name] || 0) + 1;
-                                        return acc;
-                                    }, {})).map((count, index) => (
-                                        <h6 key={index}>{Object.keys(props.order.dish.reduce((acc, curr) => {
-                                            acc[curr.name] = (acc[curr.name] || 0) + 1;
-                                            return acc;
-                                        }, {}))[index]} x {count}</h6>
-                                    ))}
-                                </h7>
-                            )}
+                        {props.order.dish && props.order.dish.map(ele => (
+                            <div key={ele.name}>
+                            <h7>
+                              {ele.name} x {ele.quantity}
+                            </h7>
+                            <br />
+                          </div>
+                            
+                          ))}
+                          
                         </div>
                         <h5>{"Total Price: $" + props.order.totalPrice}</h5>
 
