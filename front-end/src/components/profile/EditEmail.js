@@ -71,8 +71,9 @@ function EditEmail(props) {
       <label htmlFor="editemail" className="mb-2">
         Email
       </label>
-      <div className="d-flex">
-        <input
+      <div className="">
+        <h2 className='text-center fw-bold'>{email}</h2>
+        {/* <input
           type="email"
           id="editemail"
           className="form-control input-border"
@@ -85,11 +86,11 @@ function EditEmail(props) {
           onClick={isEmailEditable ? saveEmail : toggleEmailEditable}
         >
           {isEmailEditable ? 'Save' : 'Update'}
-        </button>
+        </button> */}
       </div>
-      {showEmailValidation && (
+      {/* {showEmailValidation && (
         <p className="text-danger">{emailValidationMessage}</p>
-      )}
+      )} */}
     </div>
   );
 }
