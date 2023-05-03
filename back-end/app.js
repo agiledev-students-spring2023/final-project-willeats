@@ -137,7 +137,7 @@ app.get('/userpastreview', (req, resp) => {
                         if(e.dishId){
                             const res = {}
                         res.name = e.dishId.restaurant.name
-                        res.name='hah'
+                        // res.name='hah'
                         res.itemName = e.dishId.name
                         res.review = e.review
                         res.star = e.rating
