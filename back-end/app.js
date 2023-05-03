@@ -121,6 +121,7 @@ app.get('/userpastreview', (req, resp) => {
             console.log(err)
             resp.status(401).json({ error: "unauthorized" })
         } else {
+            console.log(decoded.userid)
             Review.find({ userId: new mongoose.Types.ObjectId(decoded.userid) })
                 .populate('userId')
                 .populate({
@@ -129,11 +130,14 @@ app.get('/userpastreview', (req, resp) => {
                 })
                 .sort({ date: -1 })
                 .then((result) => {
-
+                    
                     const returnReview = []
                     result.forEach((e) => {
-                        const res = {}
+                        console.log(e.dishId)
+                        if(e.dishId){
+                            const res = {}
                         res.name = e.dishId.restaurant.name
+                        // res.name='hah'
                         res.itemName = e.dishId.name
                         res.review = e.review
                         res.star = e.rating
@@ -148,6 +152,7 @@ app.get('/userpastreview', (req, resp) => {
                             res.isUser = false
                         }
                         returnReview.push(res)
+                        }
                         //restaurant image
                     })
                     resp.status(200).json(returnReview)
