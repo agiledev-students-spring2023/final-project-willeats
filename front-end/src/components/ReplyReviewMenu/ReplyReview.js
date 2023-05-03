@@ -5,7 +5,7 @@ import axios from '../axiosConfig'
 import MenuItem from '../MenuItem/MenuItem.jsx';
 import HomeButton from '../profile/HomeButton';
 import PageBackButton from '../pagebackButton/PageBackButton';
-
+import TopBar_profile from '../topBar/TopBar-profile';
 
 function ReplyReviews() {
 
@@ -53,40 +53,41 @@ function ReplyReviews() {
   return (
     <div className='row'>
 
-      
+
       <div className="restaurant-menu-container">
-      <div className='row d-flex justify-content-between m-1'>
+        {/* <div className='row d-flex justify-content-between m-1'>
             <PageBackButton />
             <HomeButton />
-          </div>
-    <div className="head">
-        <h1>View Reviews For...</h1>
-    </div>
-    
-      {menuItems.map((category, categoryIndex) => (
-        <div key={categoryIndex}>
-        <div className="category">
-            <h1>{category.category}</h1>
+          </div> */}
+        <TopBar_profile />
+        <div className="head">
+          <h1>View Reviews For...</h1>
         </div>
-          <div className="menu-items-container">
-            {category.items.map((item, itemIndex) => (
-              <MenuItem
-                key={itemIndex}
-                name={item.name}
-                price={item.price}
-                description={item.description}
-                image={item.imageSrc}
-                rating = {item.rating}
-                id={item.id}
-                toCart={false}
-                reply = {true}
-              />
-            ))}
+
+        {menuItems.map((category, categoryIndex) => (
+          <div key={categoryIndex}>
+            <div className="category">
+              <h1>{category.category}</h1>
+            </div>
+            <div className="menu-items-container">
+              {category.items.map((item, itemIndex) => (
+                <MenuItem
+                  key={itemIndex}
+                  name={item.name}
+                  price={item.price}
+                  description={item.description}
+                  image={item.imageSrc}
+                  rating={item.rating}
+                  id={item.id}
+                  toCart={false}
+                  reply={true}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
-    </div>
-      
+        ))}
+      </div>
+
 
     </div>
     

@@ -124,6 +124,7 @@ function EditSpecifiedItem() {
             slideDuration={0.5}
             navWidth={60}
             navHeight={10}
+            bgColor={'fff'}
             onClickNav={(index) => console.log(`Clicked nav button: ${index}`)}
             onClick={handleImageUpload}
           />

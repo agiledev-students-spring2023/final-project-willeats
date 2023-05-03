@@ -12,7 +12,7 @@ import axios from '../axiosConfig'
 import PageBackButton from '../pagebackButton/PageBackButton';
 import LoadMoreButton from '../loadMoreButton/loadMoreButton';
 import { el } from 'date-fns/locale';
-
+import TopBar from '../topBar/TopBar.js';
 
 function ViewDetailMenu() {
     const navigate = useNavigate();
@@ -84,10 +84,10 @@ function ViewDetailMenu() {
     return (
         <div className='row'>            
             <div className='ReplyReview-Container'>
-            <PageBackButton></PageBackButton>
-                    <div className="image-slider-container">
+            <TopBar/>
+                    <div className="image-slider-container mt-1">
                         <SimpleImageSlider
-                            width={500}
+                            width={400}
                             height={200}
                             images={images.map(image => ({ url: image }))}
                             navStyle={1}
@@ -103,7 +103,7 @@ function ViewDetailMenu() {
                             <h5 className="card-title">{new URLSearchParams(location.search).get('name')}</h5>
                             <StarRatings
                                 rating={parseFloat(rating)}
-                                starRatedColor="yellow"
+                                
                                 numberOfStars={5}
                                 name='rating'
                                 starDimension="20px"
@@ -111,7 +111,7 @@ function ViewDetailMenu() {
                             />
                             <p className="card-text">{new URLSearchParams(location.search).get('description')}</p>
                             <div className='d-flex justify-content-between'>
-                                <h3 className="card-text">{new URLSearchParams(location.search).get('price')}</h3>
+                                <h3 className="card-text">US$ {new URLSearchParams(location.search).get('price')}</h3>
                                 <button className="btn btn-primary" onClick={() =>handleAddToCart({ name: new URLSearchParams(location.search).get('name'), price: new URLSearchParams(location.search).get('price'), description: new URLSearchParams(location.search).get('description')})}>add to cart</button>
                             </div>
                             
@@ -120,7 +120,7 @@ function ViewDetailMenu() {
                     <div className='sort-btn'>
                     <button type="button" className="btn btn-link" onClick={()=>sortReviewsByDate('MM/dd/yyyy')}>Sort by Date</button>
                     </div>
-                    <div className='row d-flex justify-content-center m-1'>
+                    <div className='row d-flex justify-content-center'>
                     { reviews && reviews.length===0? <h5>No reviews was post for this item..</h5> 
                     :reviews && reviews.map((element, index) => (
                         <ReviewCard 

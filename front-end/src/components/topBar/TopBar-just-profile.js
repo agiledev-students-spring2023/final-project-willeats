@@ -3,7 +3,7 @@ import ProfileButton from '../ProfileButton/ProfileButton';
 
 function TopBar() {
     return (
-        <div className='row d-flex justify-content-between'>
+        <div className='d-flex justify-content-between'>
             <ProfileButton/>
       </div>
     );

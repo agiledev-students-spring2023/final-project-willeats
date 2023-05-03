@@ -68,13 +68,34 @@ function App() {
     
     return <Outlet />;
   };
+  const ProtectedRouteLogging = ({
+    isAllowed,
+    redirectPath1 = '/customerprofile',
+    redirectPath2 = '/ownerprofile',
+    role,
+    
+  }) => {
+    if (isAllowed && role === 'usersbljr') {
+      alert('Already logged')
+      return <Navigate to={redirectPath1} replace />;
+    }
+    if (isAllowed && role === 'managersbjjh') {
+      alert('Already logged')
+      return <Navigate to={redirectPath2} replace />;
+    }
+    
+    return <Outlet />;
+  };
   return (
       <Router>
         <Routes>
           <Route path='/:restId' element={<Home/>}></Route>
-          <Route path='/Login' element={<Login setIsLogged={setIsLogged} setRole={setRole} />}></Route>
-          <Route path='/Sign-C' element={<CustomerSignUp/>}></Route>
-          <Route path='/Sign-M' element={<ManagerSignUp/>}></Route>
+          <Route element={<ProtectedRouteLogging isAllowed={isLogged} role={role} />}>
+            <Route path='/Login' element={<Login setIsLogged={setIsLogged} setRole={setRole} />}></Route>
+            <Route path='/Sign-C' element={<CustomerSignUp />}></Route>
+            <Route path='/Sign-M' element={<ManagerSignUp />}></Route>
+          </Route>
+          
           
           
           <Route path="/getmenu/:id" element={<RestaurantMenu />} />

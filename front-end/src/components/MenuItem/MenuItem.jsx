@@ -101,11 +101,11 @@ function MenuItem(props) {
     }
   }, []);
   return (
-    <div className="card  bg-light mw-100 mt-2 align-self-center" onClick={handleMenuItemClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <div className="card  bg-light mw-100 m-2 align-self-center" onClick={handleMenuItemClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div className="row">
-      <div className="col-3 m-1 pl-2">
-      <img src={props.image} alt = 'logo' className="img-fluid"/> 
-  </div>
+        <div className="col-3 m-1 pl-2">
+          <img src={props.image} alt='logo' className="img-fluid" />
+        </div>
         <div className="col">
           <p className='fw-bold fs-4 mb-0'>{props.name}</p>
           <div className='row'>
@@ -118,7 +118,7 @@ function MenuItem(props) {
             <div className='row'>
               <p className='fs-5'>{props.description}</p>
             </div>
-            {props.edit && showButtons &&(
+            {props.edit && showButtons && (
               <div className="menu-item-buttons d-flex flex-row-reverse">
                 <button className="btn btn-dark" onClick={handleEdit}>
                   Edit
@@ -129,8 +129,8 @@ function MenuItem(props) {
               </div>
             )}
             <div className='d-flex justify-content-between'>
-                <h3 className="card-text">{"US$"+props.price}</h3>
-                {props.toCart&&<button className="btn btn-dark" onClick={handleAddToCartClick}>add to cart</button>}
+              <h3 className="card-text">{"US$" + props.price}</h3>
+              {props.toCart && <button className="btn btn-primary m-1" onClick={handleAddToCartClick}>add to cart</button>}
             </div>
 
 
