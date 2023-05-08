@@ -1,0 +1,22 @@
+.cart-overlay{
+    margin:20px;
+}
+
+h5{
+    font-weight: 600;
+}
+
+.cart-list{
+    display: flex;
+    justify-content: space-between;
+}
+
+.percentages{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.tip-button{
+    width: calc(100% / 3);
+}

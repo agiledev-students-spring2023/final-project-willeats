@@ -1,0 +1,30 @@
+/* .back{
+    
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.back:hover{
+    background-color: #e95420;
+    color:#ffffff;
+} */
+
+.pageBackButton {
+  position: relative;
+  border-radius: 30px;
+  width: 50px;
+  padding: 4px 10px;
+  font-size: 0.9rem;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.pageBackButton:hover {
+  background-color: #e95420;
+  color: #ffffff;
+}
+
+.pageBackButton svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

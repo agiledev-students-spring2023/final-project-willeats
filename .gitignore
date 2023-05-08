@@ -39,6 +39,9 @@ Thumbs.db
 # Typical Node.js artifacts #
 #############################
 
+#ignore lock file to reduce git log stats bloat 
+
+
 # Logs
 logs
 *.log
@@ -88,10 +91,11 @@ build/
 .pnp.js
 
 # dotconfig artifacts
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# disabled temporarily
+# .env.local
+# .env.development.local
+# .env.test.local
+# .env.production.local
 
 # TypeScript v1 declaration files
 typings/
@@ -112,6 +116,7 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
+# disabled temporarily
 .env
 
 # next.js build output

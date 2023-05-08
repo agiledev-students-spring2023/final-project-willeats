@@ -1,0 +1,69 @@
+.orderfinished-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .background-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    filter: blur(5px);
+  }
+
+  .background-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .content-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    text-align: center;
+  }
+
+  .confirm-text{
+    color: rgb(255, 251, 251);
+    text-shadow: 0px 0px 5px rgb(3, 3, 3);
+    line-height: 40px;
+  }
+
+  .profile-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+
+  .profile {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+
+  }
+
+  .button-container {
+    margin-top: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+  }
+
+  .button {
+    padding: 10px 20px;
+    width:200px;
+    box-shadow: 0px 0px 15px black;
+  }

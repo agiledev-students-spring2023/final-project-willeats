@@ -1,0 +1,35 @@
+.cart-icon-container {
+    position: fixed;
+    bottom: 20px;
+    margin-right: 40px;
+    float: right;
+    z-index: 9999;
+    
+
+  }
+  
+  .cart-icon-link {
+    display: flex;
+    flex-direction: row;
+    margin-right:170px ;
+    align-items: center;
+  }
+  
+
+  
+  .cart-count {
+    position: relative;
+    top: -15px; 
+    background-color: rgb(43, 78, 113);
+    color: white;
+    border-radius: 50%;
+    font-size: 12px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  
+  
